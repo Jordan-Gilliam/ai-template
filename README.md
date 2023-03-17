@@ -3,8 +3,6 @@
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
 </h1>
 
-<h4 align="center">mercury</h4>
-
 <h2 align="center">
   <br>
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc2.png" alt=""></a>
@@ -15,7 +13,9 @@
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc3.png" alt=""></a>
 </h2>
 
-A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
+# Mercury
+
+A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)
 
 ## Features
 
@@ -34,57 +34,89 @@ A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
 - Variants with `class-variance-authority`
 - Automatic class sorting with `eslint-plugin-tailwindcss`
 
-## Import Sort
+## Getting Started
 
-The starter comes with `@ianvs/prettier-plugin-sort-imports` for automatically sort your imports.
+The following set-up guide assumes at least basic familiarity developing web apps with React and Nextjs. Experience with OpenAI APIs and Supabase is helpful but not required to get things working.
 
-### Input
+### Set-up Supabase
 
-```tsx
-import * as React from "react"
-import Link from "next/link"
-import { buttonVariants } from "@/components/ui/button"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import "@/styles/globals.css"
-import { NavItem } from "@/types/nav"
-import { twMerge } from "tailwind-merge"
+- Create a Supabase account and project at https://app.supabase.com/sign-in. NOTE: Supabase support for pgvector is relatively new (02/2023), so it's important to create a new project if your project was created before then.
+- First we'll enable the Vector extension. In Supabase, this can be done from the web portal through `Database` → `Extensions`. You can also do this in SQL by running:
+
+```
+create extension vector;
 ```
 
-### Output
+- Next let's create a table to store our documents and their embeddings. Head over to the SQL Editor and run the following query:
 
-```tsx
-import * as React from "react"
-// React is always first.
-import Link from "next/link"
-// lib
-import { buttonVariants } from "@/components/ui/button"
-// types
-import { siteConfig } from "@/config/site"
-// config
-import { cn } from "@/lib/utils"
-// Followed by third-party modules
-// Space
-import "@/styles/globals.css"
-// styles
-import { NavItem } from "@/types/nav"
-// Followed by next modules.
-import { twMerge } from "tailwind-merge"
-
-// components
+```sql
+create table documents (
+  id bigserial primary key,
+  content text,
+  url text,
+  embedding vector (1536)
+);
 ```
 
-### Class Merging
+- Finally, we'll create a function that will be used to perform similarity searches. Head over to the SQL Editor and run the following query:
 
-The `cn` util handles conditional classes and class merging.
-
-### Input
-
-```ts
-cn("px-2 bg-zinc-100 py-2 bg-zinc-200")
-// Outputs `p-2 bg-zinc-200`
+```sql
+create or replace function match_documents (
+  query_embedding vector(1536),
+  similarity_threshold float,
+  match_count int
+)
+returns table (
+  id bigint,
+  content text,
+  url text,
+  similarity float
+)
+language plpgsql
+as $$
+begin
+  return query
+  select
+    documents.id,
+    documents.content,
+    documents.url,
+    1 - (documents.embedding <=> query_embedding) as similarity
+  from documents
+  where 1 - (documents.embedding <=> query_embedding) > similarity_threshold
+  order by documents.embedding <=> query_embedding
+  limit match_count;
+end;
+$$;
 ```
 
-## License
+### Set-up local environment
 
-Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
+- clone the repo: `gh repo clone gannonh/gpt3.5-turbo-pgvector`
+- unzip and open in your favorite editor (the following assumes VS Code on a Mac)
+
+```bash
+cd gpt3.5-turbo-pgvector
+code .
+```
+
+- install dependencies
+
+```bash
+npm install
+```
+
+- create a .env.local file in the root directory to store environment variables:
+
+```bash
+cp .env.local.example .env.local
+```
+
+- open the .env.local file and add your Supabase project URL and API key. You can find these in the Supabase web portal under `Project` → `API`. The API key should be stored in the `SUPABASE_ANON_KEY` variable and project URL should be stored under `NEXT_PUBLIC_SUPABASE_URL`.
+- Add your OPENAI PI key to .env.local. You can find this in the OpenAI web portal under `API Keys`. The API key should be stored in the `OPENAI_API_KEY` variable.
+- Start the app
+
+```bash
+npm run dev
+```
+
+- Open http://localhost:3000 in your browser to view the app.
