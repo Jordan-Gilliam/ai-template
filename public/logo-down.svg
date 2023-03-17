@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33" height="23" viewBox="0 0 462 398">
+  <defs>
+    <filter id="b" width="105.7%" height="105.9%" x="-4.7%" y="-4.8%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic"/>
+    </filter>
+    <filter id="c" width="108.7%" height="109.4%" x="-6.2%" y="-6.5%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="4.5" result="shadowSpreadOuter1"/>
+      <feOffset dx="-13" dy="-9" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0.949019608 0 0 0 0 0.494117647 0 0 0 0 0.388235294 0 0 0 1 0"/>
+    </filter>
+    <filter id="f" width="109.8%" height="110.7%" x="-6.7%" y="-7.1%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" radius="3" result="shadowSpreadInner1"/>
+      <feGaussianBlur in="shadowSpreadInner1" result="shadowBlurInner1" stdDeviation="3"/>
+      <feOffset dx="8" dy="9" in="shadowBlurInner1" result="shadowOffsetInner1"/>
+      <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+      <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
+    </filter>
+    <pattern id="e" width="100%" height="108.223%" y="-8.223%" patternUnits="objectBoundingBox">
+      <use xlink:href="#a" transform="scale(.85742)"/>
+    </pattern>
+    <path id="d" d="m207.267 6.592-205.4 377 439-1.899-233.6-375.1Zm.452 84L354.868 331.99l-283 5.603 135.85-247Z"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd" stroke-linejoin="round" filter="url(#b)" transform="rotate(-179 221.368 195.092)">
+    <use xlink:href="#d" fill="#000" filter="url(#c)"/>
+    <use xlink:href="#d" fill="url(#e)"/>
+    <use xlink:href="#d" fill="#000" filter="url(#f)"/>
+    <use xlink:href="#d" stroke="#000" stroke-width="9"/>
+  </g>
+</svg>

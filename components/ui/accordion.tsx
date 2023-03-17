@@ -1,10 +1,9 @@
 "use client"
 
 import * as React from "react"
+import { cn } from "@/lib/utils"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
-
-import { cn } from "@/lib/utils"
 
 const Accordion = AccordionPrimitive.Root
 
@@ -15,7 +14,7 @@ const AccordionItem = React.forwardRef<
   <AccordionPrimitive.Item
     ref={ref}
     className={cn(
-      "border-b border-b-slate-200 dark:border-b-slate-700",
+      "border-b border-b-zinc-200 dark:border-b-zinc-700",
       className
     )}
     {...props}

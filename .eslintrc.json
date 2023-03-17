@@ -10,7 +10,8 @@
   "rules": {
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
-    "tailwindcss/no-custom-classname": "off"
+    "tailwindcss/no-custom-classname": "off",
+    "react/jsx-no-target-blank": "warn"
   },
   "settings": {
     "tailwindcss": {

@@ -1,12 +1,15 @@
 import { Head, Html, Main, NextScript } from "next/document"
+import { FancyBackground } from "@/components/FancyBackgrounnd"
 
 export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body className="min-h-screen bg-white font-sans text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50">
-        <Main />
-        <NextScript />
+      <body className="min-h-screen  font-sans text-zinc-900 antialiased  dark:text-zinc-50">
+        <FancyBackground>
+          <Main />
+          <NextScript />
+        </FancyBackground>
       </body>
     </Html>
   )

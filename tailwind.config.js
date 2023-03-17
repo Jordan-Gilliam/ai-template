@@ -32,5 +32,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("windy-radix-palette"), require("tailwindcss-animate")],
+  presets: [require("windy-radix-palette")],
 }

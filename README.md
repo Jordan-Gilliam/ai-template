@@ -1,4 +1,19 @@
-# next-template
+<h1 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
+</h1>
+
+<h4 align="center">mercury</h4>
+
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc2.png" alt=""></a>
+</h2>
+
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc3.png" alt=""></a>
+</h2>
 
 A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
 
@@ -28,14 +43,12 @@ The starter comes with `@ianvs/prettier-plugin-sort-imports` for automatically s
 ```tsx
 import * as React from "react"
 import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
-import "@/styles/globals.css"
-import { twMerge } from "tailwind-merge"
-
-import { NavItem } from "@/types/nav"
+import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
+import "@/styles/globals.css"
+import { NavItem } from "@/types/nav"
+import { twMerge } from "tailwind-merge"
 ```
 
 ### Output
@@ -44,20 +57,19 @@ import { cn } from "@/lib/utils"
 import * as React from "react"
 // React is always first.
 import Link from "next/link"
-// Followed by next modules.
-import { twMerge } from "tailwind-merge"
-
+// lib
+import { buttonVariants } from "@/components/ui/button"
+// types
+import { siteConfig } from "@/config/site"
+// config
+import { cn } from "@/lib/utils"
 // Followed by third-party modules
 // Space
 import "@/styles/globals.css"
 // styles
 import { NavItem } from "@/types/nav"
-// types
-import { siteConfig } from "@/config/site"
-// config
-import { cn } from "@/lib/utils"
-// lib
-import { buttonVariants } from "@/components/ui/button"
+// Followed by next modules.
+import { twMerge } from "tailwind-merge"
 
 // components
 ```
@@ -69,8 +81,8 @@ The `cn` util handles conditional classes and class merging.
 ### Input
 
 ```ts
-cn("px-2 bg-slate-100 py-2 bg-slate-200")
-// Outputs `p-2 bg-slate-200`
+cn("px-2 bg-zinc-100 py-2 bg-zinc-200")
+// Outputs `p-2 bg-zinc-200`
 ```
 
 ## License
