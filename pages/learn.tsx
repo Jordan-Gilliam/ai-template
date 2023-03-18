@@ -40,7 +40,7 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
 
     setAanswer("")
     setLoading(true)
-    const response = await fetch("/api/docs", {
+    const response = await fetch("/api/learn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,6 +82,9 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
           <h1 className="mb-6 max-w-xl text-2xl font-bold sm:text-4xl">
             Ask me anything
           </h1>
+          <p className="mb-6 -mt-4 max-w-xl text-lg text-mauve-11">
+            This chat leverages the embedded knowledge provided by you
+          </p>
           <div className="w-full max-w-4xl">
             <Textarea
               className=" h-[150px] w-full border-2 border-mauve-9 shadow-sm placeholder:text-mauve-11"

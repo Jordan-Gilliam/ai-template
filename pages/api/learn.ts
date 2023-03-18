@@ -99,7 +99,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   console.log("contextText: ", contextText)
 
-  const systemContent = `You are a the Ally Tech Blog GPT. When given CONTEXT you answer questions using only that information,
+  const systemContent = `You are a helpful assistant. When given CONTEXT you answer questions using only that information,
   and you always format your output in markdown. You include code snippets if relevant. If you are unsure and the answer
   is not explicitly written in the CONTEXT provided, you say
   "Sorry, I don't know how to help with that."  If the CONTEXT includes 
@@ -107,18 +107,25 @@ const handler = async (req: Request): Promise<Response> => {
   from the CONTEXT, but never list a URL more than once (ignore trailing forward slashes when comparing for uniqueness). Never include URLs that are not in the CONTEXT sections. Never make up URLs`
 
   const userContent = `CONTEXT:
-  the Ally Tech Labs team utilizes foundational enterprise technologies and frameworks to ensure speed, quality, security, and risk are effectively managed. 
-  SOURCE: ally.tech/innovating-at-the-speed-of-marketing-and-moving-at-the-speed-of-consumers-c150e7dcb3f7
+  Next.js is a React framework for creating production-ready web applications. It provides a variety of methods for fetching data, a built-in router, and a Next.js Compiler for transforming and minifying JavaScript code. It also includes a built-in Image Component and Automatic Image Optimization for resizing, optimizing, and serving images in modern formats.
+  SOURCE: nextjs.org/docs/faq
   
   QUESTION: 
-  What are some recent ally engineering innovations?    
+  what is nextjs?    
   `
 
-  const assistantContent = `Innovating at the Speed of Marketing and Moving at the Speed of Consumers
-
+  const assistantContent = `Next.js is a framework for building production-ready web applications using React. It offers various data fetching options, comes equipped with an integrated router, and features a Next.js compiler for transforming and minifying JavaScript. Additionally, it has an inbuilt Image Component and Automatic Image Optimization that helps resize, optimize, and deliver images in modern formats.
+  
+  \`\`\`js
+  function HomePage() {
+    return <div>Welcome to Next.js!</div>
+  }
+  
+  export default HomePage
+  \`\`\`
   
   SOURCES:
-  https://ally.tech/innovating-at-the-speed-of-marketing-and-moving-at-the-speed-of-consumers-c150e7dcb3f7`
+  https://nextjs.org/docs/faq`
 
   const userMessage = `CONTEXT:
   ${contextText}
