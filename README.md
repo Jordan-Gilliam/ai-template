@@ -3,15 +3,6 @@
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
 </h1>
 
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc2.png" alt=""></a>
-</h2>
-
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc3.png" alt=""></a>
-</h2>
 
 # Mercury
 
@@ -91,11 +82,10 @@ $$;
 
 ### Set-up local environment
 
-- clone the repo: `gh repo clone gannonh/gpt3.5-turbo-pgvector`
-- unzip and open in your favorite editor (the following assumes VS Code on a Mac)
+- clone the repo: `gh repo clone Jordan-Gilliam/ai-template`
 
 ```bash
-cd gpt3.5-turbo-pgvector
+cd ai-template
 code .
 ```
 
@@ -111,7 +101,8 @@ npm install
 cp .env.local.example .env.local
 ```
 
-- open the .env.local file and add your Supabase project URL and API key. You can find these in the Supabase web portal under `Project` → `API`. The API key should be stored in the `SUPABASE_ANON_KEY` variable and project URL should be stored under `NEXT_PUBLIC_SUPABASE_URL`.
+- open the .env.local file and add your Supabase project URL and API key. 
+  > You can find these in the Supabase web portal under `Project` → `API`. The API key should be stored in the `SUPABASE_ANON_KEY` variable and project URL should be stored under `NEXT_PUBLIC_SUPABASE_URL`.
 - Add your OPENAI PI key to .env.local. You can find this in the OpenAI web portal under `API Keys`. The API key should be stored in the `OPENAI_API_KEY` variable.
 - Start the app
 
@@ -120,3 +111,14 @@ npm run dev
 ```
 
 - Open http://localhost:3000 in your browser to view the app.
+
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc2.png" alt=""></a>
+</h2>
+
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc3.png" alt=""></a>
+</h2>
+
