@@ -1,12 +1,11 @@
 <h1 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
-</h1>
 
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="300" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-og.svg" alt=""></a>
+</h1>
 
 # Mercury
 
-A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)
+> A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)
 
 ## Features
 
@@ -24,6 +23,11 @@ A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh
 - Conditional classes with `clsx`
 - Variants with `class-variance-authority`
 - Automatic class sorting with `eslint-plugin-tailwindcss`
+
+<h1 align="center">
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
+</h1>
+
 
 ## Getting Started
 
