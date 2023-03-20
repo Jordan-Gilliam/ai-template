@@ -7,7 +7,7 @@
 
  <i>A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)</i>
 
-### This template gives you two ways to leverage [openAI's api](https://platform.openai.com/docs/guides/chat):
+> ## This template gives you two ways to leverage [openAI's api](https://platform.openai.com/docs/guides/chat):
 ### 1. Domain-Specific ChatGTP 
 ChatGPT style app trained on specific websites that you define 
 
