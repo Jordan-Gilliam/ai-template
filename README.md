@@ -7,14 +7,14 @@
 
  <i>A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)</i>
 
-### This template gives you a decent starting point to leverage [openAI's api](https://platform.openai.com/docs/guides/chat) in two unique ways:
-### 1. Domain-specific ChatGTP 
+### This template gives you two ways to leverage [openAI's api](https://platform.openai.com/docs/guides/chat):
+### 1. Domain-Specific ChatGTP 
 ChatGPT style app trained on specific websites that you define 
 
-### 2. Conversational chatGPT 
+### 2. Conversational ChatGPT 
  Conversational chatGPT clone using the chat api 
 
-## Domain-specific What
+## Domain-Specific What
 
 ChatGPT is a great tool for answering general questions, but it falls short when it comes to answering domain-specific questions as it often makes up answers to fill its knowledge gaps and doesn't cite sources. To solve this issue, this starter app uses embeddings coupled with vector search. This app shows how OpenAI's GPT-3 API can be used to create conversational interfaces for domain-specific knowledge.
 
@@ -23,7 +23,7 @@ ChatGPT is a great tool for answering general questions, but it falls short when
 This app uses embeddings to generate a vector representation of a document and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which generates a response. The response is then streamed back to the user. For more background, check out the Supabase blog posts on pgvector and OpenAI embeddings.
 
 
-## Domain-specific How
+## Domain-Specific How
 > `[model gpt-3.5-turbo]`
  #### 1. Creating and storing the embeddings: `/api/generate-embeddings`
 - Web pages are scraped using [cheerio](https://github.com/cheeriojs/cheerio), cleaned to plain text, and split into 1000-character documents.
@@ -36,10 +36,10 @@ This app uses embeddings to generate a vector representation of a document and t
 - The results of the similarity search are used to construct a prompt for GPT-3.
 - The GTP-3 response is then streamed back to the user.
 
-## Conversational chatGPT What
+## Conversational What
 The OpenAI API chat feature uses a machine learning model to generate responses to user input. It can be fine-tuned on specific datasets and scenarios to create chatbots that provide contextually-relevant and effective responses.
 
-## Conversational chatGPT How
+## Conversational How
 > `[model gpt-3.5-turbo]`
 - OpenAI API (ChatGPT) - streaming `/api/chat`
 
