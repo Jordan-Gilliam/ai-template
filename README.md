@@ -5,24 +5,57 @@
 
 # Mercury
 
-> A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)
+ <i>A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)</i>
+
+### This template gives you a decent starting point to leverage [openAI's api](https://platform.openai.com/docs/guides/chat) in two unique ways:
+### 1. Domain-specific ChatGTP 
+ChatGPT style app trained on specific websites that you define 
+
+### 2. Conversational chatGPT 
+ Conversational chatGPT clone using the chat api 
+
+## Domain-specific What
+
+ChatGPT is a great tool for answering general questions, but it falls short when it comes to answering domain-specific questions as it often makes up answers to fill its knowledge gaps and doesn't cite sources. To solve this issue, this starter app uses embeddings coupled with vector search. This app shows how OpenAI's GPT-3 API can be used to create conversational interfaces for domain-specific knowledge.
+
+<b>Embeddings</b> are vectors of floating-point numbers that represent the "relatedness" of text strings. They are very useful for tasks like ranking search results, clustering, and classification. In text embeddings, a high cosine similarity between two embedding vectors indicates that the corresponding text strings are highly related.
+
+This app uses embeddings to generate a vector representation of a document and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which generates a response. The response is then streamed back to the user. For more background, check out the Supabase blog posts on pgvector and OpenAI embeddings.
+
+
+## Domain-specific How
+> `[model gpt-3.5-turbo]`
+ #### 1. Creating and storing the embeddings: `/api/generate-embeddings`
+- Web pages are scraped using [cheerio](https://github.com/cheeriojs/cheerio), cleaned to plain text, and split into 1000-character documents.
+- OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
+- The embeddings are stored in a Supabase postgres table using pgvector. The table has three columns: the document text, the source URL, and the embedding vectors returned from the OpenAI API.
+
+#### 2. Responding to queries: `/api/learn`
+- A single embedding is generated from the user prompt.
+- The embedding is used to perform a similarity search against the vector database.
+- The results of the similarity search are used to construct a prompt for GPT-3.
+- The GTP-3 response is then streamed back to the user.
+
+## Conversational chatGPT What
+The OpenAI API chat feature uses a machine learning model to generate responses to user input. It can be fine-tuned on specific datasets and scenarios to create chatbots that provide contextually-relevant and effective responses.
+
+## Conversational chatGPT How
+> `[model gpt-3.5-turbo]`
+- OpenAI API (ChatGPT) - streaming `/api/chat`
+
 
 ## Features
 
-- Radix UI Primitives
+- OpenAI API (for generating embeddings and GPT-3 responses)
+- Supabase (using their pgvector implementation as the vector database)
+- Nextjs API Routes (Edge runtime) - streaming
 - Tailwind CSS
 - Fonts with `@next/font`
 - Icons from [Lucide](https://lucide.dev)
 - Dark mode with `next-themes`
+- Radix UI Primitives
 - Automatic import sorting with `@ianvs/prettier-plugin-sort-imports`
 
-## Tailwind CSS Features
-
-- Class merging with `taiwind-merge`
-- Animation with `tailwindcss-animate`
-- Conditional classes with `clsx`
-- Variants with `class-variance-authority`
-- Automatic class sorting with `eslint-plugin-tailwindcss`
 
 <h1 align="center">
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
@@ -31,11 +64,9 @@
 
 ## Getting Started
 
-The following set-up guide assumes at least basic familiarity developing web apps with React and Nextjs. Experience with OpenAI APIs and Supabase is helpful but not required to get things working.
-
 ### Set-up Supabase
 
-- Create a Supabase account and project at https://app.supabase.com/sign-in. NOTE: Supabase support for pgvector is relatively new (02/2023), so it's important to create a new project if your project was created before then.
+- Create a Supabase account and project at https://app.supabase.com/sign-in. 
 - First we'll enable the Vector extension. In Supabase, this can be done from the web portal through `Database` → `Extensions`. You can also do this in SQL by running:
 
 ```
