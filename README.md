@@ -6,15 +6,21 @@
 # Mercury
 
  <i>A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)</i>
+ 
+ <h1 align="center">
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
+</h1>
 
-> ## This template gives you two ways to leverage [openAI's api](https://platform.openai.com/docs/guides/chat):
+> ### This template gives you two ways to leverage [openAI's api](https://platform.openai.com/docs/guides/chat):
 ### 1. Domain-Specific ChatGTP 
 ChatGPT style app trained on specific websites that you define 
 
 ### 2. Conversational ChatGPT 
  Conversational chatGPT clone using the chat api 
+ 
+ 
 
-## Domain-Specific What
+## Domain-Specific What: `/pages/learn`
 
 ChatGPT is a great tool for answering general questions, but it falls short when it comes to answering domain-specific questions as it often makes up answers to fill its knowledge gaps and doesn't cite sources. To solve this issue, this starter app uses embeddings coupled with vector search. This app shows how OpenAI's GPT-3 API can be used to create conversational interfaces for domain-specific knowledge.
 
@@ -22,8 +28,13 @@ ChatGPT is a great tool for answering general questions, but it falls short when
 
 This app uses embeddings to generate a vector representation of a document and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which generates a response. The response is then streamed back to the user. For more background, check out the Supabase blog posts on pgvector and OpenAI embeddings.
 
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn.png" alt=""></a>
+</h2>
 
-## Domain-Specific How
+
+## Domain-Specific How: `/pages/embed`
 > `[model gpt-3.5-turbo]`
  #### 1. Creating and storing the embeddings: `/api/generate-embeddings`
 - Web pages are scraped using [cheerio](https://github.com/cheeriojs/cheerio), cleaned to plain text, and split into 1000-character documents.
@@ -36,8 +47,14 @@ This app uses embeddings to generate a vector representation of a document and t
 - The results of the similarity search are used to construct a prompt for GPT-3.
 - The GTP-3 response is then streamed back to the user.
 
-## Conversational What
+## Conversational What: `/pages/chat`
 The OpenAI API chat feature uses a machine learning model to generate responses to user input. It can be fine-tuned on specific datasets and scenarios to create chatbots that provide contextually-relevant and effective responses.
+
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-chat.png" alt=""></a>
+</h2>
+
 
 ## Conversational How
 > `[model gpt-3.5-turbo]`
@@ -56,10 +73,6 @@ The OpenAI API chat feature uses a machine learning model to generate responses 
 - Radix UI Primitives
 - Automatic import sorting with `@ianvs/prettier-plugin-sort-imports`
 
-
-<h1 align="center">
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
-</h1>
 
 
 ## Getting Started
@@ -151,13 +164,6 @@ npm run dev
 
 - Open http://localhost:3000 in your browser to view the app.
 
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn.png" alt=""></a>
-</h2>
 
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-chat.png" alt=""></a>
-</h2>
+
 
