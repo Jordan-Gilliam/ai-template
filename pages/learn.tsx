@@ -1,61 +1,21 @@
 import { useState } from "react"
-import { ReactNode } from "react"
-import type { NextPage } from "next"
 import Image from "next/image"
-// import LoadingDots from "@/components/LoadingDots"
+import { Icons } from "@/components/Icons"
+import { Layout } from "@/components/Layout"
+import { LinkPill } from "@/components/LinkPill"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
 import ResizablePanel from "@/components/ResizablePanel"
-import { Icons } from "@/components/icons"
-import { Layout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 import { useGeneratedAnswer } from "@/hooks/use-generated-answer"
+import { getContentAndSources } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
+import { Loader2 } from "lucide-react"
 import { Toaster, toast } from "react-hot-toast"
-import { v4 as uuidv4 } from "uuid"
 
-export interface PageMeta {
-  title: string
-  description: string
-  cardImage: string
-}
-
-interface Props {
-  children: ReactNode
-  meta?: PageMeta
-}
-
-function LinkPill({ order, name }) {
-  const cleanName = name.split("SOURCE:")
-  const url = new URL(cleanName[1])
-
-  console.log("url", url)
-
-  return (
-    <div className="group block max-w-sm cursor-pointer">
-      <div className="group flex items-center gap-x-2 divide-x divide-zinc-200 rounded-full border border-zinc-200 bg-transparent px-2 py-4 transition duration-300 dark:divide-zinc-800 dark:border-zinc-800">
-        <div className="divide-zinc-200 border-zinc-200 bg-transparent pl-2 transition duration-300 dark:divide-zinc-800 dark:border-zinc-800">
-          <div className="font-mono text-xs font-bold uppercase leading-none tracking-widest text-zinc-500 transition duration-300 selection:bg-indigo-8 selection:bg-opacity-70 selection:text-white group-hover:text-indigo-6 dark:selection:bg-opacity-50">
-            {order + 1}
-          </div>
-        </div>
-        <div className="pl-3">
-          <div className="flex items-center gap-x-1 divide-zinc-200 border-zinc-200 bg-transparent transition duration-300 dark:divide-zinc-800 dark:border-zinc-800">
-            <div className="top-one relative">
-              <div className="overflow-hidden rounded-full"></div>
-            </div>
-            <div className="group-hover:text-super default font-sans text-sm text-zinc-800 transition-all duration-300 selection:bg-indigo-8 selection:bg-opacity-70 selection:text-white dark:text-zinc-300 dark:selection:bg-opacity-50">
-              {url.hostname}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
+export default function LearnPage() {
   const [userQ, setUserQ] = useState("")
+  const [submittedQ, setSubmittedQ] = useState("")
   const { loading, answer, trigger } = useGeneratedAnswer()
 
   const generateAnswer = async (e: any) => {
@@ -65,11 +25,14 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
     }
     try {
       const result = await trigger({ question: userQ }) /* options */
+      setSubmittedQ(userQ)
       return result
     } catch (e) {
       return toast.error(e)
     }
   }
+
+  const { content, sources } = getContentAndSources(loading, answer)
 
   return (
     <Layout>
@@ -82,28 +45,29 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
             This chat leverages the embedded knowledge provided by you
           </p>
           <div className="w-full max-w-4xl">
-            <Textarea
-              className=" h-[150px] w-full border-2 border-mauve-9 shadow-sm placeholder:text-mauve-11"
-              value={userQ}
-              onChange={(e) => setUserQ(e.target.value)}
-              rows={4}
-              placeholder={"e.g. ?"}
-            />
+            <div className="flex justify-center">
+              <div className="flex w-full max-w-md items-center space-x-2">
+                <Input
+                  className="rounded-full px-4 ring-mauve-7"
+                  value={userQ}
+                  onChange={(e) => setUserQ(e.target.value)}
+                  placeholder={"e.g. ?"}
+                />
+                <Button
+                  disabled={loading}
+                  type="submit"
+                  className="w-24"
+                  variant="default"
+                  onClick={(e) => generateAnswer(e)}
+                >
+                  {loading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : null}
+                  Ask
+                </Button>
+              </div>
+            </div>
 
-            {!loading && userQ && (
-              <Button
-                variant="default"
-                className=" mt-8 w-64 px-4 py-2 font-semibold"
-                onClick={(e) => generateAnswer(e)}
-              >
-                Ask your question &rarr;
-              </Button>
-            )}
-            {loading && (
-              <Button className=" mt-2 w-full px-4 py-2 font-medium" disabled>
-                {/* <LoadingDots color="white" style="xl" /> */}
-              </Button>
-            )}
             <Toaster
               position="top-center"
               reverseOrder={false}
@@ -113,61 +77,49 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
               <AnimatePresence mode="wait">
                 <motion.div className="my-10 space-y-10">
                   {answer && !loading && (
-                    <>
+                    <div
+                      className={`bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md transition ${"hover:border-accent-focus cursor-copy text-left"}`}
+                      onClick={() => {
+                        navigator.clipboard.writeText(answer)
+                        toast("Copied to clipboard!", {
+                          icon: "✂️",
+                        })
+                      }}
+                    >
                       <div>
-                        <h2 className="mx-auto text-3xl font-bold sm:text-4xl">
-                          Here is your answer:{" "}
+                        <h2 className="mx-auto text-2xl font-bold tracking-tighter">
+                          {submittedQ}
                         </h2>
                       </div>
-                      {answer.split("SOURCES:").map((splitanswer, index) => {
-                        const sources = splitanswer
-                          .trim()
-                          .split("\n")
-                          .filter((url) => url.trim().length > 0)
+                      <div className="mt-5 flex items-center gap-2">
+                        <Icons.arrowDR className="h-6 w-6 stroke-mint-9" />
+                        <p className=" font-mono text-sm font-bold leading-tight tracking-wide text-mint-9">
+                          MERCURIAL
+                        </p>
+                      </div>
+                      <div className="mb-3 ">
+                        <MarkdownRenderer content={content} />
+                      </div>
 
-                        const [answer, sourceList] = sources
+                      {sources && (
+                        <div className="my-2 border-t border-mauve-7">
+                          <div className=" my-5 flex gap-2 ">
+                            <Icons.link className="h-4 w-4 stroke-mint-9" />
 
-                        const splitSourceList = sourceList
-                          .trim()
-                          .split("\n")
-                          .filter((url) => url.trim().length > 0)
-
-                        return (
-                          <div
-                            className={`bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md transition ${
-                              index === 0
-                                ? "hover:border-accent-focus cursor-copy text-left"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              if (index === 0) {
-                                navigator.clipboard.writeText(splitanswer)
-                                toast("Copied to clipboard!", {
-                                  icon: "✂️",
-                                })
-                              }
-                            }}
-                            key={index}
-                          >
-                            <MarkdownRenderer content={answer} />
-
-                            <div className=" my-5 flex gap-2  divide-y-4">
-                              <Icons.link className="h-4 w-4 stroke-indigo-9" />
-
-                              <p className=" font-mono text-sm font-bold leading-tight tracking-wide text-indigo-9">
-                                {`${splitSourceList.length} SOURCE${
-                                  splitSourceList.length > 1 ? "S" : ""
-                                }`}
-                              </p>
-                            </div>
-
-                            {splitSourceList.map((url, i) => (
-                              <LinkPill order={i} name={url} />
+                            <p className=" font-mono text-sm font-bold leading-tight tracking-wide text-mint-9">
+                              {`${sources.length} SOURCE${
+                                sources.length > 1 ? "S" : ""
+                              }`}
+                            </p>
+                          </div>
+                          <div className=" my-5 flex gap-2 ">
+                            {sources.map((url, i) => (
+                              <LinkPill key={url} order={i} name={url} />
                             ))}
                           </div>
-                        )
-                      })}
-                    </>
+                        </div>
+                      )}
+                    </div>
                   )}
                 </motion.div>
               </AnimatePresence>
@@ -187,5 +139,3 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
     </Layout>
   )
 }
-
-export default DocsPage

@@ -33,6 +33,6 @@ export const siteConfig: SiteConfig = {
   ],
   links: {
     twitter: "https://twitter.com/nolansym",
-    github: "https://github.com/Jordan-Gilliam/mercury",
+    github: "https://github.com/Jordan-Gilliam/ai-template",
   },
 }

@@ -40,6 +40,7 @@ export default async function handler(req: Request) {
   const payload: OpenAIStreamPayload = createPayload(messages)
 
   const stream = await OpenAIStream(payload)
+
   return new Response(stream)
 }
 

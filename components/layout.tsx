@@ -1,5 +1,4 @@
-import { FancyBackground } from "@/components/FancyBackgrounnd"
-import { SiteHeader } from "@/components/site-header"
+import { SiteHeader } from "@/components/SiteHeader"
 
 interface LayoutProps {
   children: React.ReactNode

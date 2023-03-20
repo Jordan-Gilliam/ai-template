@@ -1,14 +1,5 @@
 import useSWRMutation from "swr/mutation"
 
-async function sendRequest2(url, { arg }: { arg: { username: string } }) {
-  return fetch(url, {
-    method: "POST",
-    body: JSON.stringify(arg),
-  }).then((res) => res.json())
-}
-
-// async function sendRequest(url, {question}) {
-// async function sendRequest(url, { question }: { question: string }) {
 async function sendRequest(url, { arg }: { arg: { question: string } }) {
   console.log("question", arg.question)
   const { question } = arg

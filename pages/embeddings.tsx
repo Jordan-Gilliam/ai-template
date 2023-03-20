@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { NextPage } from "next"
 import Image from "next/image"
-import { Layout } from "@/components/layout"
+import { Layout } from "@/components/Layout"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 
@@ -30,7 +30,6 @@ const Embeddings: NextPage = () => {
     <Layout>
       <div className="m-auto mt-6 flex max-w-xl flex-col items-center pb-12 text-center">
         <Image
-          // className=" rotate-[60deg]"
           className=""
           height={250}
           width={250}

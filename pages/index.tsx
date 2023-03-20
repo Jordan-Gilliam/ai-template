@@ -1,8 +1,8 @@
 import React from "react"
 import Head from "next/head"
 import Image from "next/image"
-import { Icons } from "@/components/icons"
-import { Layout } from "@/components/layout"
+import { Icons } from "@/components/Icons"
+import { Layout } from "@/components/Layout"
 
 export default function IndexPage() {
   const [open, setOpen] = React.useState(false)
@@ -58,16 +58,6 @@ export default function IndexPage() {
         <Icons.mercury className=" fill-mauve-12  stroke-violet-12 dark:fill-transparent" />
         <Icons.mercury className="  fill-[#e1fbf4] dark:fill-mauve-1 dark:stroke-orange-9" />
       </div>
-      {/* <Icons.mercury className="absolute left-80  stroke-plum-6" />
-        <Icons.mercury className="absolute right-80  stroke-plum-6" />
-        <Icons.mercury className="absolute right-20  stroke-plum-6" /> */}
-      {/* <Image
-        className=" absolute right-20  fill-orange-400 hover:rotate-180"
-        height={100}
-        width={100}
-        src="/mercury.svg"
-        alt="logo"
-      /> */}
     </Layout>
   )
 }

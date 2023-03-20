@@ -1,7 +1,7 @@
 import Link from "next/link"
-import { Icons } from "@/components/icons"
-import { MainNav } from "@/components/main-nav"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { Icons } from "@/components/Icons"
+import { MainNav } from "@/components/MainNavigation"
+import { ThemeToggle } from "@/components/ThemeToggle"
 import { buttonVariants } from "@/components/ui/button"
 import { siteConfig } from "@/config/site"
 
