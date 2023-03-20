@@ -86,7 +86,11 @@ $$;
 
 ### Set-up local environment
 
-- clone the repo: `gh repo clone Jordan-Gilliam/ai-template`
+To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+
+```bash
+npx degit Jordan-Gilliam/ai-template ai-template
+```
 
 ```bash
 cd ai-template
@@ -96,7 +100,7 @@ code .
 - install dependencies
 
 ```bash
-npm install
+npm i
 ```
 
 - create a .env.local file in the root directory to store environment variables:
