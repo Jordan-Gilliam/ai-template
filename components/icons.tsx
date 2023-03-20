@@ -1,5 +1,6 @@
 import {
   Laptop,
+  Link,
   type Icon as LucideIcon,
   LucideProps,
   Moon,
@@ -14,6 +15,7 @@ export const Icons = {
   moon: Moon,
   laptop: Laptop,
   twitter: Twitter,
+  link: Link,
 
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>

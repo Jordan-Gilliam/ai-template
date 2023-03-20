@@ -5,9 +5,11 @@ import Image from "next/image"
 // import LoadingDots from "@/components/LoadingDots"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
 import ResizablePanel from "@/components/ResizablePanel"
+import { Icons } from "@/components/icons"
 import { Layout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useGeneratedAnswer } from "@/hooks/use-generated-answer"
 import { AnimatePresence, motion } from "framer-motion"
 import { Toaster, toast } from "react-hot-toast"
 import { v4 as uuidv4 } from "uuid"
@@ -23,56 +25,50 @@ interface Props {
   meta?: PageMeta
 }
 
+function LinkPill({ order, name }) {
+  const cleanName = name.split("SOURCE:")
+  const url = new URL(cleanName[1])
+
+  console.log("url", url)
+
+  return (
+    <div className="group block max-w-sm cursor-pointer">
+      <div className="group flex items-center gap-x-2 divide-x divide-zinc-200 rounded-full border border-zinc-200 bg-transparent px-2 py-4 transition duration-300 dark:divide-zinc-800 dark:border-zinc-800">
+        <div className="divide-zinc-200 border-zinc-200 bg-transparent pl-2 transition duration-300 dark:divide-zinc-800 dark:border-zinc-800">
+          <div className="font-mono text-xs font-bold uppercase leading-none tracking-widest text-zinc-500 transition duration-300 selection:bg-indigo-8 selection:bg-opacity-70 selection:text-white group-hover:text-indigo-6 dark:selection:bg-opacity-50">
+            {order + 1}
+          </div>
+        </div>
+        <div className="pl-3">
+          <div className="flex items-center gap-x-1 divide-zinc-200 border-zinc-200 bg-transparent transition duration-300 dark:divide-zinc-800 dark:border-zinc-800">
+            <div className="top-one relative">
+              <div className="overflow-hidden rounded-full"></div>
+            </div>
+            <div className="group-hover:text-super default font-sans text-sm text-zinc-800 transition-all duration-300 selection:bg-indigo-8 selection:bg-opacity-70 selection:text-white dark:text-zinc-300 dark:selection:bg-opacity-50">
+              {url.hostname}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
-  const [loading, setLoading] = useState(false)
   const [userQ, setUserQ] = useState("")
-  const [answer, setAanswer] = useState<String>("")
-
-  console.log("Streamed response: ", answer)
-
-  const question = userQ
+  const { loading, answer, trigger } = useGeneratedAnswer()
 
   const generateAnswer = async (e: any) => {
     e.preventDefault()
     if (!userQ) {
       return toast.error("Please enter a question!")
     }
-
-    setAanswer("")
-    setLoading(true)
-    const response = await fetch("/api/learn", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        question,
-      }),
-    })
-    console.log("Edge function returned.")
-
-    if (!response.ok) {
-      throw new Error(response.statusText)
+    try {
+      const result = await trigger({ question: userQ }) /* options */
+      return result
+    } catch (e) {
+      return toast.error(e)
     }
-
-    // This data is a ReadableStream
-    const data = response.body
-    if (!data) {
-      return
-    }
-
-    const reader = data.getReader()
-    const decoder = new TextDecoder()
-    let done = false
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read()
-      done = doneReading
-      const chunkValue = decoder.decode(value)
-      setAanswer((prev) => prev + chunkValue)
-    }
-
-    setLoading(false)
   }
 
   return (
@@ -94,7 +90,7 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
               placeholder={"e.g. ?"}
             />
 
-            {!loading && (
+            {!loading && userQ && (
               <Button
                 variant="default"
                 className=" mt-8 w-64 px-4 py-2 font-semibold"
@@ -116,7 +112,7 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
             <ResizablePanel>
               <AnimatePresence mode="wait">
                 <motion.div className="my-10 space-y-10">
-                  {answer && (
+                  {answer && !loading && (
                     <>
                       <div>
                         <h2 className="mx-auto text-3xl font-bold sm:text-4xl">
@@ -124,6 +120,18 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
                         </h2>
                       </div>
                       {answer.split("SOURCES:").map((splitanswer, index) => {
+                        const sources = splitanswer
+                          .trim()
+                          .split("\n")
+                          .filter((url) => url.trim().length > 0)
+
+                        const [answer, sourceList] = sources
+
+                        const splitSourceList = sourceList
+                          .trim()
+                          .split("\n")
+                          .filter((url) => url.trim().length > 0)
+
                         return (
                           <div
                             className={`bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md transition ${
@@ -141,41 +149,21 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
                             }}
                             key={index}
                           >
-                            {index === 0 ? (
-                              <MarkdownRenderer content={splitanswer.trim()} />
-                            ) : (
-                              <>
-                                <p>SOURCES:</p>
-                                <ul>
-                                  {splitanswer
-                                    .trim()
-                                    .split("\n")
-                                    .filter((url) => url.trim().length > 0)
-                                    .map((url) =>
-                                      url.includes("http") ? (
-                                        <li key={uuidv4()}>
-                                          <a
-                                            className="text-accent underline"
-                                            target="_blank"
-                                            href={url.replace(/^-+/g, "")} // Remove leading hyphens
-                                          >
-                                            {url.replace(/^-+/g, "")}
-                                          </a>
-                                        </li>
-                                      ) : (
-                                        <li key={uuidv4()}>{url}</li>
-                                      )
-                                    )}
-                                </ul>
-                              </>
-                            )}
-                            <style>
-                              {`
-                              p {
-                                margin-bottom: 20px;
-                              }
-                            `}
-                            </style>
+                            <MarkdownRenderer content={answer} />
+
+                            <div className=" my-5 flex gap-2  divide-y-4">
+                              <Icons.link className="h-4 w-4 stroke-indigo-9" />
+
+                              <p className=" font-mono text-sm font-bold leading-tight tracking-wide text-indigo-9">
+                                {`${splitSourceList.length} SOURCE${
+                                  splitSourceList.length > 1 ? "S" : ""
+                                }`}
+                              </p>
+                            </div>
+
+                            {splitSourceList.map((url, i) => (
+                              <LinkPill order={i} name={url} />
+                            ))}
                           </div>
                         )
                       })}
