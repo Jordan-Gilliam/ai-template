@@ -1,5 +1,5 @@
 import { Head, Html, Main, NextScript } from "next/document"
-import { FancyBackground } from "@/components/FancyBackground"
+import { FancyBackground } from "@/components/Layout"
 
 export default function Document() {
   return (

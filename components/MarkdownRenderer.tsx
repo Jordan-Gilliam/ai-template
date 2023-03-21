@@ -65,7 +65,6 @@ const MarkdownComponents: object = {
         PreTag="div"
         className="codeStyle"
         showLineNumbers={true}
-        // wrapLines={hasMeta ? true : false}
         wrapLines={true}
         wrapLongLines={true}
         useInlineStyles={true}

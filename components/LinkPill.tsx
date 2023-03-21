@@ -1,41 +1,4 @@
-// function getLastUrlSegment(url) {
-//   return new URL(url).pathname.split("/").filter(Boolean).pop() ?? ""
-// }
-
-// function getHostShortName(url) {
-//   return new URL(url).hostname.split("www.").filter(Boolean).pop()
-// }
-
-function isValidUrl(url) {
-  try {
-    new URL(url)
-    return true
-  } catch (_) {
-    return false
-  }
-}
-
-function getLastUrlSegment(url) {
-  if (!isValidUrl(url)) {
-    console.error(`Invalid URL in getLastUrlSegment: '${url}'`)
-    return null
-  }
-
-  const pathname = new URL(url).pathname
-  const segments = pathname.split("/").filter(Boolean)
-  return segments.pop()
-}
-
-function getHostShortName(url) {
-  if (!isValidUrl(url)) {
-    console.error(`Invalid URL in getHostShortName: '${url}'`)
-    return null
-  }
-
-  const hostname = new URL(url).hostname
-  const shortName = hostname.split("www.").filter(Boolean).pop()
-  return shortName
-}
+import { getHostShortName, getLastUrlSegment } from "@/lib/utils"
 
 export function LinkPill({ order, name }) {
   const url = name.includes("http") ? name.replace(/^-+/g, "") : `${name}`
@@ -43,7 +6,7 @@ export function LinkPill({ order, name }) {
   const host = getHostShortName(url)
 
   return (
-    <div className=" group block max-w-lg cursor-pointer rounded-full ">
+    <li className=" group block max-w-lg cursor-pointer rounded-full ">
       <div className="group flex items-center gap-x-2 divide-x divide-mauve-9 rounded-full border border-mauve-9  bg-transparent p-2  transition duration-300 group-hover:border-pink-10">
         <div className="divide-zinc-200 border-zinc-200 bg-transparent pl-2 transition duration-300 ">
           <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-mauve-11 transition duration-300 selection:bg-mint-8 selection:text-white group-hover:text-indigo-9 dark:group-hover:text-mint-10 ">
@@ -61,6 +24,6 @@ export function LinkPill({ order, name }) {
           </div>
         </div>
       </div>
-    </div>
+    </li>
   )
 }

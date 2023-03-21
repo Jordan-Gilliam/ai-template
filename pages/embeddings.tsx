@@ -4,25 +4,27 @@ import Image from "next/image"
 import { Layout } from "@/components/Layout"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useGenerateEmbeddings } from "@/hooks/use-generate-embeddings"
+import { Loader2 } from "lucide-react"
+import { Toaster, toast } from "react-hot-toast"
 
 const Embeddings: NextPage = () => {
   const [urls, setUrls] = useState<string[]>([])
-  const [loading, setLoading] = useState(false)
+
+  const { loading, trigger } = useGenerateEmbeddings()
+
+  console.log("load", loading)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
-
-    const response = await fetch("/api/generate-embeddings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ urls }),
-    })
-
-    setLoading(false)
-
-    if (!response.ok) {
-      // Handle error
+    if (!urls) {
+      return toast.error("Please enter a url")
+    }
+    try {
+      const result = await trigger({ urls })
+      return result
+    } catch (e) {
+      return toast.error(e)
     }
   }
 
@@ -46,16 +48,28 @@ const Embeddings: NextPage = () => {
         </p>
         <form onSubmit={handleSubmit}>
           <Textarea
-            className=" h-[250px] w-[300px] border-2  border-mauve-9 shadow-sm placeholder:text-mauve-11 md:w-[750px]"
+            className=" h-[150px] w-[300px] border-2  border-mauve-9 shadow-sm placeholder:text-mauve-11 md:w-[750px]"
             placeholder="https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/README.md, https://ui.shadcn.com/"
             value={urls.join("\n")}
             onChange={(e) => setUrls(e.target.value.split("\n"))}
           />
-          <Button className=" my-6" type="submit" disabled={loading}>
+
+          <Button
+            disabled={loading}
+            type="submit"
+            className="mt-6 max-w-lg"
+            variant="default"
+          >
+            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Generate Embeddings
           </Button>
         </form>
-        {loading && <div>Loading...</div>}
+
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{ duration: 2000 }}
+        />
       </div>
     </Layout>
   )

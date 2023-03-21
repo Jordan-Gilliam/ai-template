@@ -5,6 +5,22 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function pluralize(
+  word: string,
+  count: number,
+  pluralForm?: string
+): string {
+  if (count === 1) {
+    return word
+  }
+
+  if (pluralForm) {
+    return pluralForm
+  }
+
+  return `${word}s`
+}
+
 export function getContentAndSources(loading, answer) {
   if (loading) {
     return { content: "", sources: [] }
@@ -51,4 +67,35 @@ export function parseResponse(response) {
     : []
 
   return [...textMatches, ...codeMatches, ...unknownMatch]
+}
+
+export function isValidUrl(url) {
+  try {
+    new URL(url)
+    return true
+  } catch (_) {
+    return false
+  }
+}
+
+export function getLastUrlSegment(url) {
+  if (!isValidUrl(url)) {
+    console.error(`Invalid URL in getLastUrlSegment: '${url}'`)
+    return null
+  }
+
+  const pathname = new URL(url).pathname
+  const segments = pathname.split("/").filter(Boolean)
+  return segments.pop()
+}
+
+export function getHostShortName(url) {
+  if (!isValidUrl(url)) {
+    console.error(`Invalid URL in getHostShortName: '${url}'`)
+    return null
+  }
+
+  const hostname = new URL(url).hostname
+  const shortName = hostname.split("www.").filter(Boolean).pop()
+  return shortName
 }

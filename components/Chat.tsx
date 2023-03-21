@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
-import { type ChatGPTMessage, ChatLine } from "./ChatLine"
-import { LoadingChatLine } from "@/components/Loading"
+import { type ChatGPTMessage, ChatLine, LoadingChatLine } from "./ChatLine"
 import { Button } from "@/components/ui/button"
 import { useCookies } from "react-cookie"
 

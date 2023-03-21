@@ -12,7 +12,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { Loader2 } from "lucide-react"
 import { Toaster, toast } from "react-hot-toast"
 
-export default function LearnPage() {
+export function InvokeEmbeddings() {
   const [userQ, setUserQ] = useState("")
   const [submittedQ, setSubmittedQ] = useState("")
   const { loading, answer, trigger } = useGeneratedAnswer()
@@ -34,73 +34,62 @@ export default function LearnPage() {
   const { content, sources } = getContentAndSources(loading, answer)
 
   return (
-    <Layout>
-      <div className="mx-auto flex min-h-screen flex-col items-center  py-2">
-        <main className="mx-auto  flex min-h-screen w-full flex-1 flex-col items-center  px-4 py-2 text-center sm:mt-12">
-          <h1 className="mb-6 max-w-xl font-aboreto text-2xl font-bold sm:text-4xl">
-            Summon Embeddings
-          </h1>
-          <p className="mb-6 -mt-4 max-w-xl text-lg text-mauve-11">
-            This chat leverages the embedded knowledge provided by you
-          </p>
-
-          <div className="w-full max-w-4xl">
-            <div className="flex justify-center">
-              <div className="flex w-full max-w-md items-center space-x-2">
-                <Input
-                  className="rounded-full px-4 ring-mauve-7"
-                  value={userQ}
-                  onChange={(e) => setUserQ(e.target.value)}
-                  placeholder={"e.g. ?"}
-                />
-                <Button
-                  disabled={loading}
-                  type="submit"
-                  className="w-24"
-                  variant="default"
-                  onClick={(e) => generateAnswer(e)}
-                >
-                  {loading ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : null}
-                  Ask
-                </Button>
-              </div>
-            </div>
-
-            <ResizablePanel>
-              <AnimatePresence mode="wait">
-                <motion.div className="my-10 space-y-10">
-                  <div
-                    className={cn(
-                      `bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md transition 
-                      ${"hover:border-accent-focus cursor-copy text-left"}`,
-                      loading ? "animate-pulse" : ""
-                    )}
-                    onClick={() => {
-                      navigator.clipboard.writeText(answer)
-                      toast("Copied to clipboard!", {
-                        icon: "✂️",
-                      })
-                    }}
-                  >
-                    <Answer submittedQ={submittedQ} content={content} />
-                    <Sources sources={sources} />
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </ResizablePanel>
-            <Logo path="/logo-down-pink.svg" width={250} height={250} />
-
-            <Toaster
-              position="top-center"
-              reverseOrder={false}
-              toastOptions={{ duration: 2000 }}
+    // <div className="mx-auto flex min-h-screen flex-col items-center  py-2">
+    <div className="flex flex-col items-center py-2">
+      <div className="w-full max-w-4xl">
+        <div className="flex justify-center">
+          <div className="flex w-full max-w-md items-center space-x-2">
+            <Input
+              className="rounded-full px-4 ring-mauve-7"
+              value={userQ}
+              onChange={(e) => setUserQ(e.target.value)}
+              placeholder={"e.g. ?"}
             />
+            <Button
+              disabled={loading}
+              type="submit"
+              className="w-24 "
+              variant="default"
+              onClick={(e) => generateAnswer(e)}
+            >
+              {loading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
+              Invoke
+            </Button>
           </div>
-        </main>
+        </div>
+
+        <ResizablePanel>
+          <AnimatePresence mode="wait">
+            <motion.div className="my-10 space-y-10">
+              <div
+                className={cn(
+                  `bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md transition 
+                      ${"hover:border-accent-focus cursor-copy text-left"}`,
+                  loading ? "animate-pulse" : ""
+                )}
+                onClick={() => {
+                  navigator.clipboard.writeText(answer)
+                  toast("Copied to clipboard!", {
+                    icon: "✂️",
+                  })
+                }}
+              >
+                <Answer submittedQ={submittedQ} content={content} />
+                <Sources sources={sources} />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </ResizablePanel>
+
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{ duration: 2000 }}
+        />
       </div>
-    </Layout>
+    </div>
   )
 }
 
