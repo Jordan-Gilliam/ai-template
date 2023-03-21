@@ -12,23 +12,26 @@
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home.png" alt=""></a>
 </h1>
 
-> ### This template gives you two ways to leverage [openAI's api](https://platform.openai.com/docs/guides/chat):
+> ### This template gives you two sandboxes to explore the [openAI chat api](https://platform.openai.com/docs/guides/chat):
 
-### 1. Domain-Specific ChatGTP
+### 1. Domain-Specific - [perplexity clone]
 
-ChatGPT style app trained on specific websites that you define
+- [Perplexity](https://www.perplexity.ai/) style sandbbox
+- Trained on specific websites that you define
+- Sites sources
 
-### 2. Conversational ChatGPT
+### 2. Chat - [chatGPT clone]
 
-Conversational chatGPT clone using the chat api
+- Conversational chatGPT sandbox with in chat memory
+- Markdown Renderer built in for code snippets
 
-## Domain-Specific What: `/pages/learn`
+## Domain-Specific Overview: `/pages/embed`
 
 ChatGPT is a great tool for answering general questions, but it falls short when it comes to answering domain-specific questions as it often makes up answers to fill its knowledge gaps and doesn't cite sources. To solve this issue, this starter app uses embeddings coupled with vector search. This app shows how OpenAI's GPT-3 API can be used to create conversational interfaces for domain-specific knowledge.
 
 <b>Embeddings</b> are vectors of floating-point numbers that represent the "relatedness" of text strings. They are very useful for tasks like ranking search results, clustering, and classification. In text embeddings, a high cosine similarity between two embedding vectors indicates that the corresponding text strings are highly related.
 
-This app uses embeddings to generate a vector representation of a document and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which generates a response. The response is then streamed back to the user. For more background, check out the Supabase blog posts on pgvector and OpenAI embeddings.
+This app uses embeddings to generate a vector representation of a document and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which generates a response. The response is then streamed back to the user.
 
 
 <h2 align="center">
@@ -36,7 +39,7 @@ This app uses embeddings to generate a vector representation of a document and t
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-lab-light.png" alt=""></a>
 </h2>
 
-## Domain-Specific How: `/pages/embed`
+## Domain-Specific Details: `/pages/embed`
 
 > `[model gpt-3.5-turbo]`
 
@@ -46,14 +49,15 @@ This app uses embeddings to generate a vector representation of a document and t
 - OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
 - The embeddings are stored in a Supabase postgres table using pgvector. The table has three columns: the document text, the source URL, and the embedding vectors returned from the OpenAI API.
 
-#### 2. Responding to queries: `/api/learn`
+#### 2. Responding to queries: `/api/get-embeddings`
 
 - A single embedding is generated from the user prompt.
 - The embedding is used to perform a similarity search against the vector database.
 - The results of the similarity search are used to construct a prompt for GPT-3.
 - The GTP-3 response is then streamed back to the user.
 
-## Conversational What: `/pages/chat`
+## Chat Overview: `/pages/chat`
+> `[model gpt-3.5-turbo]`
 
 The OpenAI API chat feature uses a machine learning model to generate responses to user input. It can be fine-tuned on specific datasets and scenarios to create chatbots that provide contextually-relevant and effective responses.
 
@@ -62,13 +66,9 @@ The OpenAI API chat feature uses a machine learning model to generate responses 
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-chat-3.png" alt=""></a>
 </h2>
 
-## Conversational How
-
-> `[model gpt-3.5-turbo]`
-
 - OpenAI API (ChatGPT) - streaming `/api/chat`
 
-## Features
+## Template Features
 
 - OpenAI API (for generating embeddings and GPT-3 responses)
 - Supabase (using their pgvector implementation as the vector database)
@@ -81,6 +81,7 @@ The OpenAI API chat feature uses a machine learning model to generate responses 
 - Automatic import sorting with `@ianvs/prettier-plugin-sort-imports`
 
 ## Getting Started
+> 🍴 Huge thanks to [@gannonh](https://github.com/gannonh) most of the scraping and embedding logic came from his [gpt3.5-turbo-pgvector repo](https://github.com/gannonh/gpt3.5-turbo-pgvector)
 
 ### Set-up Supabase
 
@@ -169,9 +170,10 @@ npm run dev
 
 - Open http://localhost:3000 in your browser to view the app.
 
+
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-evoke-.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-evoke.png" alt=""></a>
 </h2>
 
 <h2 align="center">
