@@ -30,9 +30,10 @@ ChatGPT is a great tool for answering general questions, but it falls short when
 
 This app uses embeddings to generate a vector representation of a document and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which generates a response. The response is then streamed back to the user. For more background, check out the Supabase blog posts on pgvector and OpenAI embeddings.
 
+
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn-3.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-lab-light.png" alt=""></a>
 </h2>
 
 ## Domain-Specific How: `/pages/embed`
@@ -170,10 +171,16 @@ npm run dev
 
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home-light.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-evoke-.png" alt=""></a>
 </h2>
 
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn-light.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-invoke.png" alt=""></a>
+</h2>
+
+
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home-light.png" alt=""></a>
 </h2>
