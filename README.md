@@ -30,7 +30,7 @@ This app uses embeddings to generate a vector representation of a document and t
 
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn-2.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn-3.png" alt=""></a>
 </h2>
 
 
@@ -165,5 +165,14 @@ npm run dev
 - Open http://localhost:3000 in your browser to view the app.
 
 
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home-light.png" alt=""></a>
+</h2>
+
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn-light.png" alt=""></a>
+</h2>
 
 
