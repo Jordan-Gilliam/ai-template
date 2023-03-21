@@ -1,8 +1,8 @@
 import * as React from "react"
 import Image from "next/image"
 import { useTheme } from "next-themes"
-import { Icons } from "@/components/Icons"
 import { NavHeader } from "@/components/NavHeader"
+import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,

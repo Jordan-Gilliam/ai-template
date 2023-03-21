@@ -1,8 +1,8 @@
 import React from "react"
 import Head from "next/head"
 import Image from "next/image"
-import { Icons } from "@/components/Icons"
 import { Layout } from "@/components/Layout"
+import { Icons } from "@/components/icons"
 
 export default function HomePage() {
   const [open, setOpen] = React.useState(false)
