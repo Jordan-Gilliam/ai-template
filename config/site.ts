@@ -12,23 +12,19 @@ interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   name: "Mercury",
-  description: "AI Wizard Creator",
+  description: "Unlock the secrets of any website",
   mainNav: [
     {
       title: "Home",
       href: "/",
     },
     {
-      title: "Chat",
+      title: "Conversational",
       href: "/chat",
     },
     {
-      title: "Embed",
-      href: "/embeddings",
-    },
-    {
-      title: "Learn",
-      href: "/learn",
+      title: "Domain Specific",
+      href: "/embed",
     },
   ],
   links: {

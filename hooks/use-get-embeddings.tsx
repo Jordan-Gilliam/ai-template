@@ -1,7 +1,6 @@
 import useSWRMutation from "swr/mutation"
 
 async function sendRequest(url, { arg }: { arg: { question: string } }) {
-  console.log("question", arg.question)
   const { question } = arg
   const response = await fetch(url, {
     method: "POST",
@@ -35,9 +34,9 @@ async function sendRequest(url, { arg }: { arg: { question: string } }) {
   return result
 }
 
-export const useGeneratedAnswer = () => {
+export const useGetEmbeddings = () => {
   const { data, trigger, error, isMutating } = useSWRMutation(
-    "/api/learn",
+    "/api/get-embeddings",
     sendRequest
   )
 

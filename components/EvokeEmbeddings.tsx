@@ -1,12 +1,12 @@
 import { useState } from "react"
-import ResizablePanel from "@/components/ResizablePanel"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { useGenerateEmbeddings } from "@/hooks/use-generate-embeddings"
 import { AnimatePresence, motion } from "framer-motion"
 import { Loader2 } from "lucide-react"
 import { Toaster, toast } from "react-hot-toast"
 import useMeasure from "react-use-measure"
+import ResizablePanel from "@/components/ResizablePanel"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { useGenerateEmbeddings } from "@/hooks/use-generate-embeddings"
 
 const fadeIn = {
   hidden: { opacity: 0 },

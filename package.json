@@ -63,13 +63,13 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-use-measure": "^2.1.1",
     "react-wrap-balancer": "^0.4.0",
-    "sharp": "^0.31.3",
     "swr": "^2.1.0",
     "tailwind-merge": "^1.8.0",
     "tailwindcss-animate": "^1.0.5",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "sharp": "^0.31.3",
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
     "@radix-ui/colors": "^0.1.8",
     "@types/node": "^17.0.12",

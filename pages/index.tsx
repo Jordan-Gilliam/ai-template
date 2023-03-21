@@ -28,17 +28,17 @@ export default function IndexPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="container grid items-center gap-6 pt-6 pb-8 md:py-10">
-        <div className="flex max-w-[980px] flex-col items-start gap-2">
+      <section className="container grid items-center gap-6  px-3 pt-6 pb-8 md:px-12 md:py-10">
+        <div className="mt-6 flex max-w-[980px] flex-col items-start gap-2">
           <Image
-            className=" rotate-[36deg] hover:rotate-180"
-            height={250}
-            width={250}
-            src="/logo-up.svg"
+            className=" rotate-[-30deg] hover:scale-110 hover:transition hover:duration-100"
+            height={200}
+            width={200}
+            src="/merc-logo-og.webp"
             alt="logo"
           />
           <h1>
-            <span className="font-aboreto text-4xl leading-tight tracking-tight  md:text-5xl lg:text-8xl">
+            <span className="font-aboreto text-5xl leading-tight tracking-tight lg:text-8xl">
               Mercury
             </span>{" "}
             <br className="inline lg:-mt-12" />

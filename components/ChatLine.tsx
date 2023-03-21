@@ -1,9 +1,7 @@
+import { cn } from "@/lib/utils"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
-import { cn, parseResponse } from "@/lib/utils"
-import Balancer from "react-wrap-balancer"
 
-// wrap Balancer to remove type errors :( - @TODO - fix this ugly hack
-// const BalancerWrapper = (props: any) => <Balancer {...props} />
+// import Balancer from "react-wrap-balancer"
 
 type ChatGPTAgent = "user" | "system" | "assistant"
 
@@ -33,7 +31,6 @@ export function ChatLine({ role = "assistant", content }: ChatGPTMessage) {
       }
     >
       <div className="!important w-full max-w-5xl">
-        {/* <BalancerWrapper> */}
         <div className="float-right mb-5 rounded-lg bg-mauve-1 px-4 py-5 shadow-lg ring-1 ring-mauve-8 sm:px-6">
           <div className="flex space-x-3">
             <div className="flex-1 gap-4">

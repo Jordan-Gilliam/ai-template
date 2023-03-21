@@ -1,21 +1,20 @@
 import { useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Loader2 } from "lucide-react"
+import { Toaster, toast } from "react-hot-toast"
+import { cn, getContentAndSources, pluralize } from "@/lib/utils"
 import { Icons } from "@/components/Icons"
-import { Layout, Logo } from "@/components/Layout"
 import { LinkPill } from "@/components/LinkPill"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
 import ResizablePanel from "@/components/ResizablePanel"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useGeneratedAnswer } from "@/hooks/use-generated-answer"
-import { cn, getContentAndSources, pluralize } from "@/lib/utils"
-import { AnimatePresence, motion } from "framer-motion"
-import { Loader2 } from "lucide-react"
-import { Toaster, toast } from "react-hot-toast"
+import { useGetEmbeddings } from "@/hooks/use-get-embeddings"
 
 export function InvokeEmbeddings() {
   const [userQ, setUserQ] = useState("")
   const [submittedQ, setSubmittedQ] = useState("")
-  const { loading, answer, trigger } = useGeneratedAnswer()
+  const { loading, answer, trigger } = useGetEmbeddings()
 
   const generateAnswer = async (e: any) => {
     e.preventDefault()

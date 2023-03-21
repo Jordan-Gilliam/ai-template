@@ -1,24 +1,26 @@
 <h1 align="center">
 
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="300" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-og.svg" alt=""></a>
+<a href="https://github.com/Jordan-Gilliam/ai-template"><img width="300" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-og.svg" alt=""></a>
+
 </h1>
 
 # Mercury
 
- <i>A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)</i>
- 
+<i>A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)</i>
+
  <h1 align="center">
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home.png" alt=""></a>
 </h1>
 
 > ### This template gives you two ways to leverage [openAI's api](https://platform.openai.com/docs/guides/chat):
-### 1. Domain-Specific ChatGTP 
-ChatGPT style app trained on specific websites that you define 
 
-### 2. Conversational ChatGPT 
- Conversational chatGPT clone using the chat api 
- 
- 
+### 1. Domain-Specific ChatGTP
+
+ChatGPT style app trained on specific websites that you define
+
+### 2. Conversational ChatGPT
+
+Conversational chatGPT clone using the chat api
 
 ## Domain-Specific What: `/pages/learn`
 
@@ -33,21 +35,25 @@ This app uses embeddings to generate a vector representation of a document and t
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn-3.png" alt=""></a>
 </h2>
 
-
 ## Domain-Specific How: `/pages/embed`
+
 > `[model gpt-3.5-turbo]`
- #### 1. Creating and storing the embeddings: `/api/generate-embeddings`
+
+#### 1. Creating and storing the embeddings: `/api/generate-embeddings`
+
 - Web pages are scraped using [cheerio](https://github.com/cheeriojs/cheerio), cleaned to plain text, and split into 1000-character documents.
 - OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
 - The embeddings are stored in a Supabase postgres table using pgvector. The table has three columns: the document text, the source URL, and the embedding vectors returned from the OpenAI API.
 
 #### 2. Responding to queries: `/api/learn`
+
 - A single embedding is generated from the user prompt.
 - The embedding is used to perform a similarity search against the vector database.
 - The results of the similarity search are used to construct a prompt for GPT-3.
 - The GTP-3 response is then streamed back to the user.
 
 ## Conversational What: `/pages/chat`
+
 The OpenAI API chat feature uses a machine learning model to generate responses to user input. It can be fine-tuned on specific datasets and scenarios to create chatbots that provide contextually-relevant and effective responses.
 
 <h2 align="center">
@@ -55,11 +61,11 @@ The OpenAI API chat feature uses a machine learning model to generate responses 
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-chat-3.png" alt=""></a>
 </h2>
 
-
 ## Conversational How
-> `[model gpt-3.5-turbo]`
-- OpenAI API (ChatGPT) - streaming `/api/chat`
 
+> `[model gpt-3.5-turbo]`
+
+- OpenAI API (ChatGPT) - streaming `/api/chat`
 
 ## Features
 
@@ -73,13 +79,11 @@ The OpenAI API chat feature uses a machine learning model to generate responses 
 - Radix UI Primitives
 - Automatic import sorting with `@ianvs/prettier-plugin-sort-imports`
 
-
-
 ## Getting Started
 
 ### Set-up Supabase
 
-- Create a Supabase account and project at https://app.supabase.com/sign-in. 
+- Create a Supabase account and project at https://app.supabase.com/sign-in.
 - First we'll enable the Vector extension. In Supabase, this can be done from the web portal through `Database` → `Extensions`. You can also do this in SQL by running:
 
 ```
@@ -150,10 +154,10 @@ npm i
 - create a .env.local file in the root directory to store environment variables:
 
 ```bash
-cp .env.local.example .env.local
+cp .env.example .env.local
 ```
 
-- open the .env.local file and add your Supabase project URL and API key. 
+- open the .env.local file and add your Supabase project URL and API key.
   > You can find these in the Supabase web portal under `Project` → `API`. The API key should be stored in the `SUPABASE_ANON_KEY` variable and project URL should be stored under `NEXT_PUBLIC_SUPABASE_URL`.
 - Add your OPENAI PI key to .env.local. You can find this in the OpenAI web portal under `API Keys`. The API key should be stored in the `OPENAI_API_KEY` variable.
 - Start the app
@@ -164,7 +168,6 @@ npm run dev
 
 - Open http://localhost:3000 in your browser to view the app.
 
-
 <h2 align="center">
   <br>
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home-light.png" alt=""></a>
@@ -174,5 +177,3 @@ npm run dev
   <br>
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn-light.png" alt=""></a>
 </h2>
-
-

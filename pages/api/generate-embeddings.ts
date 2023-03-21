@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { supabaseClient } from "@/lib/embeddings-supabase"
 import * as cheerio from "cheerio"
 import { Configuration, OpenAIApi } from "openai"
+import { supabaseClient } from "@/lib/embeddings-supabase"
 
 // Embedding document sizes
 const docSize = 1000

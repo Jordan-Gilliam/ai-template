@@ -1,5 +1,6 @@
 import * as React from "react"
 import Image from "next/image"
+import { useTheme } from "next-themes"
 import { Icons } from "@/components/Icons"
 import { NavHeader } from "@/components/NavHeader"
 import { Button } from "@/components/ui/button"
@@ -9,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useTheme } from "next-themes"
 
 interface LayoutProps {
   children: React.ReactNode

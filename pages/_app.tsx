@@ -1,9 +1,9 @@
 import type { AppProps } from "next/app"
-import "@/styles/globals.css"
 // import { Inter as FontSans } from "@next/font/google"
 import { Work_Sans as FontSans } from "@next/font/google"
 import { Aboreto } from "@next/font/google"
 import { ThemeProvider } from "next-themes"
+import "@/styles/globals.css"
 
 const fontSans = FontSans({
   subsets: ["latin"],

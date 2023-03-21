@@ -1,9 +1,9 @@
 import { useState } from "react"
+import { LayoutGroup, motion } from "framer-motion"
+import { cn } from "@/lib/utils"
 import { EvokeEmbeddings } from "@/components/EvokeEmbeddings"
 import { InvokeEmbeddings } from "@/components/InvokeEmbeddings"
-import { Layout, Logo } from "@/components/Layout"
-import { cn } from "@/lib/utils"
-import { LayoutGroup, motion } from "framer-motion"
+import { Layout } from "@/components/Layout"
 
 function ToggleHeading({ text, embedding }) {
   const activeHeading = text == embedding
@@ -19,11 +19,13 @@ function ToggleHeading({ text, embedding }) {
   )
 }
 
-export default function LabPage() {
+export default function DomainSpecificEmbeddingPage() {
   const [embedding, setEmbedding] = useState("EVOKE")
+  const [animateOnce, setAnimateOnce] = useState(true)
 
   function toggleEmbedding() {
     setEmbedding(embedding === "EVOKE" ? "INVOKE" : "EVOKE")
+    setAnimateOnce(false)
   }
 
   const imageVariants = {
@@ -31,24 +33,27 @@ export default function LabPage() {
       rotateY: 90,
     },
   }
+
   return (
     <Layout>
-      {/* <div className="grid-col-flow grid  min-h-screen  grid-cols-12 grid-rows-3 items-center justify-center">
-        <div className="col-span-4 row-span-2"> */}
-      <div className="  flex min-h-screen  flex-col gap-3 ">
+      <div className="  flex min-h-screen  flex-col gap-3 px-3">
         <div className="my-6">
           <div className="flex items-center justify-center gap-3">
             <ToggleHeading text="EVOKE" embedding={embedding} />
-            <button onClick={toggleEmbedding}>
+            <button
+              className="transition duration-150 hover:scale-105"
+              onClick={toggleEmbedding}
+            >
               <motion.img
+                className={cn(animateOnce ? "animate-pulse" : "")}
                 alt={embedding}
                 src={
                   embedding === "EVOKE"
-                    ? "/logo-down-violet.svg"
-                    : "/logo-down-pink.svg"
+                    ? "/merc-logo-down-purple.webp"
+                    : "/merc-logo-down-aqua.webp"
                 }
                 variants={imageVariants}
-                animate={{ rotateX: embedding === "EVOKE" ? 180 : 0 }}
+                animate={{ rotateX: embedding === "EVOKE" ? 0 : 180 }}
                 height={250}
                 width={250}
               />
@@ -88,39 +93,3 @@ export default function LabPage() {
     </Layout>
   )
 }
-
-// export default function LabPage() {
-//     return (
-//       <Layout>
-//         <Collapsible className=" flex flex-col items-center justify-center">
-//           <CollapsibleTrigger>
-//             <Logo path="/logo-down-violet.svg" height={250} width={250} />
-//           </CollapsibleTrigger>
-//           <CollapsibleContent className=" flex flex-col items-center justify-center">
-//             <h1 className="my-5 font-aboreto text-2xl font-bold sm:text-4xl">
-//               Evoke embeddings
-//             </h1>
-//             <p className="mb-6 -mt-4 max-w-xl text-base text-mauve-11">
-//               Paste a list of comma separated URLs below
-//             </p>
-//             <EvokeEmbeddings />
-//           </CollapsibleContent>
-//         </Collapsible>
-
-//         <Collapsible className=" flex flex-col items-center justify-center">
-//           <CollapsibleContent className=" flex flex-col items-center justify-center">
-//             <h1 className="my-6  font-aboreto text-2xl font-bold sm:text-4xl">
-//               Invoke Embeddings
-//             </h1>
-//             <p className="mb-6 -mt-4 max-w-xl text-lg text-mauve-11">
-//               This chat leverages the embedded knowledge provided by you
-//             </p>
-//             <InvokeEmbeddings />
-//           </CollapsibleContent>
-//           <CollapsibleTrigger>
-//             <Logo path="/logo-down-pink.svg" rotate height={250} width={250} />
-//           </CollapsibleTrigger>
-//         </Collapsible>
-//       </Layout>
-//     )
-//   }

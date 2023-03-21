@@ -1,4 +1,6 @@
 /** @type {import('prettier').Config} */
+/** @type {import("@ianvs/prettier-plugin-sort-imports").PrettierConfig} */
+
 module.exports = {
   endOfLine: "lf",
   semi: false,
@@ -9,15 +11,15 @@ module.exports = {
     "^(react/(.*)$)|^(react$)",
     "^(next/(.*)$)|^(next$)",
     "<THIRD_PARTY_MODULES>",
-    "",
+
     "^types$",
     "^@/types/(.*)$",
     "^@/config/(.*)$",
     "^@/lib/(.*)$",
+
     "^@/components/(.*)$",
     "^@/hooks/(.*)$",
     "^@/styles/(.*)$",
-    "^[./]",
   ],
   importOrderSeparation: false,
   importOrderSortSpecifiers: true,
