@@ -186,3 +186,11 @@ npm run dev
   <br>
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home-light.png" alt=""></a>
 </h2>
+
+## Inspiration: 
+- https://www.perplexity.ai/
+- https://builtbyjesse.com/
+- https://ui.shadcn.com/docs
+- https://meodai.github.io/poline/
+- https://github.com/gannonh/gpt3.5-turbo-pgvector
+- https://github.com/vercel/examples/tree/main/solutions/ai-chatgpt
