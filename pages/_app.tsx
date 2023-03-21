@@ -1,6 +1,8 @@
 import type { AppProps } from "next/app"
 import "@/styles/globals.css"
-import { Inter as FontSans } from "@next/font/google"
+// import { Inter as FontSans } from "@next/font/google"
+import { Work_Sans as FontSans } from "@next/font/google"
+import { Aboreto } from "@next/font/google"
 import { ThemeProvider } from "next-themes"
 
 const fontSans = FontSans({
@@ -9,12 +11,15 @@ const fontSans = FontSans({
   display: "swap",
 })
 
+const fontAboretoSans = Aboreto({ weight: "400", variable: "--font-aboreto" })
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <style jsx global>{`
 				:root {
 					--font-sans: ${fontSans.style.fontFamily};
+          --font-aboreto: ${fontAboretoSans.style.fontFamily}
 				}
 			}`}</style>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

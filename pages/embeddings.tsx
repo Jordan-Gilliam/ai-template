@@ -36,7 +36,7 @@ const Embeddings: NextPage = () => {
           src="/logo-down-violet.svg"
           alt="logo"
         />
-        <h1 className="my-5 w-full text-2xl font-bold sm:text-4xl ">
+        <h1 className="my-5 w-full font-aboreto text-2xl font-bold sm:text-4xl">
           Generate embeddings
         </h1>
         <p className="mb-4">

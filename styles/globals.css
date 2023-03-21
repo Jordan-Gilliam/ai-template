@@ -8,7 +8,7 @@ body,
   height: 100%;
 }
 
-.fancy-bg2 {
+/* .fancy-bg2 {
   background-image: radial-gradient(
       circle 800px at 700px 200px,
       var(--plum3),
@@ -27,6 +27,10 @@ body,
       var(--pink2),
       transparent
     );
+} */
+
+.codeStyle {
+  font-size: 10px;
 }
 
 .fancy-bg2 {

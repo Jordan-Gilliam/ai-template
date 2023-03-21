@@ -60,6 +60,7 @@ const MarkdownComponents: object = {
     return match ? (
       <SyntaxHighlighter
         style={syntaxTheme}
+        customStyles={{ fontSize: "10px" }}
         language={match[1]}
         PreTag="div"
         className="codeStyle"

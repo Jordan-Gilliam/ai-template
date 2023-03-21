@@ -37,7 +37,7 @@ export function ChatLine({ role = "assistant", content }: ChatGPTMessage) {
         <div className="float-right mb-5 rounded-lg bg-mauve-1 px-4 py-5 shadow-lg ring-1 ring-mauve-8 sm:px-6">
           <div className="flex space-x-3">
             <div className="flex-1 gap-4">
-              <p className="text-left font-mono text-xl font-bold text-mauve-11">
+              <p className="text-left font-aboreto text-xl font-bold text-mauve-11">
                 <a href="#" className="hover:underline">
                   {role == "assistant" ? "AI" : "You"}
                 </a>

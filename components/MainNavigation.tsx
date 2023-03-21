@@ -25,7 +25,7 @@ export function MainNav({ items }: MainNavProps) {
       <Link href="/" className="hidden items-center space-x-2 md:flex">
         <Image height={42} width={42} src="/logo-down.svg" alt="logo" />
 
-        <span className="hidden font-bold sm:inline-block">
+        <span className="hidden font-aboreto font-bold sm:inline-block">
           {siteConfig.name}
         </span>
       </Link>

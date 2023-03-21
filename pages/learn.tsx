@@ -37,9 +37,9 @@ export default function LearnPage() {
   return (
     <Layout>
       <div className="mx-auto flex min-h-screen flex-col items-center  py-2">
-        <main className="mx-auto  flex min-h-screen w-full flex-1 flex-col items-center  px-4 py-2 text-center sm:mt-20">
-          <h1 className="mb-6 max-w-xl text-2xl font-bold sm:text-4xl">
-            Ask me anything
+        <main className="mx-auto  flex min-h-screen w-full flex-1 flex-col items-center  px-4 py-2 text-center sm:mt-12">
+          <h1 className="mb-6 max-w-xl font-aboreto text-2xl font-bold sm:text-4xl">
+            Summon Embeddings
           </h1>
           <p className="mb-6 -mt-4 max-w-xl text-lg text-mauve-11">
             This chat leverages the embedded knowledge provided by you
@@ -92,8 +92,8 @@ export default function LearnPage() {
                         </h2>
                       </div>
                       <div className="mt-5 flex items-center gap-2">
-                        <Icons.arrowDR className="h-6 w-6 stroke-mint-9" />
-                        <p className=" font-mono text-sm font-bold leading-tight tracking-wide text-mint-9">
+                        <Icons.arrowDR className="h-6 w-6 stroke-indigo-10 dark:stroke-mint-9" />
+                        <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-10 dark:text-mint-9">
                           MERCURIAL
                         </p>
                       </div>
@@ -104,9 +104,9 @@ export default function LearnPage() {
                       {sources && (
                         <div className="my-2 border-t border-mauve-7">
                           <div className=" my-5 flex gap-2 ">
-                            <Icons.link className="h-4 w-4 stroke-mint-9" />
+                            <Icons.link className="h-4 w-4  stroke-indigo-10 dark:stroke-mint-9" />
 
-                            <p className=" font-mono text-sm font-bold leading-tight tracking-wide text-mint-9">
+                            <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-10 dark:text-mint-9">
                               {`${sources.length} SOURCE${
                                 sources.length > 1 ? "S" : ""
                               }`}

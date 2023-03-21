@@ -37,9 +37,12 @@ export default function IndexPage() {
             src="/logo-up.svg"
             alt="logo"
           />
-          <h1 className="text-2xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
-            Mercury <br className="inline" />
-            <span className="text-xl md:text-5xl lg:text-6xl">
+          <h1>
+            <span className="font-aboreto text-4xl leading-tight tracking-tight  md:text-5xl lg:text-8xl">
+              Mercury
+            </span>{" "}
+            <br className="inline lg:-mt-12" />
+            <span className="leading-tighter font-sans text-3xl font-extrabold tracking-tight md:text-5xl  lg:text-6xl">
               Unlock the secrets of any website
             </span>
           </h1>
@@ -48,12 +51,12 @@ export default function IndexPage() {
           </p>
         </div>
         <p className="hidden text-2xl text-zinc-500 dark:text-zinc-400 md:block">
-          <kbd className="pointer-events-none inline-flex h-12 select-none items-center gap-1 rounded border border-zinc-100 bg-zinc-800 px-4 font-mono text-[32px] font-medium text-zinc-300 opacity-100 dark:border-zinc-700 dark:bg-zinc-200 dark:text-zinc-900">
-            <span className="text-5xl">⌘</span>K
+          <kbd className="pointer-events-none inline-flex h-12 select-none items-center gap-1 rounded border border-zinc-100 bg-zinc-800 px-4 font-aboreto text-[32px] font-medium text-zinc-300 opacity-100 dark:border-zinc-700 dark:bg-zinc-200 dark:text-zinc-900">
+            <span className=" text-4xl">⌘</span>K
           </kbd>
         </p>
       </section>
-      <div className="ml-20 flex items-center justify-center md:gap-20">
+      <div className="ml-12 flex items-center justify-center md:ml-20 md:gap-20">
         <Icons.mercury className="     fill-[#FEE9DF] dark:fill-mauve-1 dark:stroke-sky-9" />
         <Icons.mercury className=" fill-mauve-12  stroke-violet-12 dark:fill-transparent" />
         <Icons.mercury className="  fill-[#e1fbf4] dark:fill-mauve-1 dark:stroke-orange-9" />

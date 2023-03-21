@@ -16,6 +16,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        aboreto: ["var(--font-aboreto)", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {
