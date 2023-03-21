@@ -8,7 +8,7 @@
  <i>A Chat GPT Embedding Template - inspired by [gannonh](https://github.com/gannonh)</i>
  
  <h1 align="center">
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc1.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home.png" alt=""></a>
 </h1>
 
 > ### This template gives you two ways to leverage [openAI's api](https://platform.openai.com/docs/guides/chat):
@@ -30,7 +30,7 @@ This app uses embeddings to generate a vector representation of a document and t
 
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-learn-2.png" alt=""></a>
 </h2>
 
 
@@ -52,7 +52,7 @@ The OpenAI API chat feature uses a machine learning model to generate responses 
 
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-chat.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-chat-3.png" alt=""></a>
 </h2>
 
 
