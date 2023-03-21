@@ -4,7 +4,7 @@ import Image from "next/image"
 import { Icons } from "@/components/Icons"
 import { Layout } from "@/components/Layout"
 
-export default function IndexPage() {
+export default function HomePage() {
   const [open, setOpen] = React.useState(false)
 
   React.useEffect(() => {
@@ -31,11 +31,12 @@ export default function IndexPage() {
       <section className="container grid items-center gap-6  px-3 pt-6 pb-8 md:px-12 md:py-10">
         <div className="mt-6 flex max-w-[980px] flex-col items-start gap-2">
           <Image
+            alt="merc-logo-turned"
+            priority={true}
             className=" rotate-[-30deg] hover:scale-110 hover:transition hover:duration-100"
             height={200}
             width={200}
             src="/merc-logo-og.webp"
-            alt="logo"
           />
           <h1>
             <span className="font-aboreto text-5xl leading-tight tracking-tight lg:text-8xl">
@@ -57,9 +58,9 @@ export default function IndexPage() {
         </p>
       </section>
       <div className="ml-12 flex items-center justify-center md:ml-20 md:gap-20">
-        <Icons.mercury className="     fill-[#FEE9DF] dark:fill-mauve-1 dark:stroke-sky-9" />
-        <Icons.mercury className=" fill-mauve-12  stroke-violet-12 dark:fill-transparent" />
-        <Icons.mercury className="  fill-[#e1fbf4] dark:fill-mauve-1 dark:stroke-orange-9" />
+        <Icons.mercury className="fill-[#FEE9DF] dark:fill-mauve-1 dark:stroke-sky-9" />
+        <Icons.mercury className="fill-mauve-12  stroke-violet-12 dark:fill-transparent" />
+        <Icons.mercury className="fill-[#e1fbf4] dark:fill-mauve-1 dark:stroke-orange-9" />
       </div>
     </Layout>
   )

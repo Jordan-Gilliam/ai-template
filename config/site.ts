@@ -19,7 +19,7 @@ export const siteConfig: SiteConfig = {
       href: "/",
     },
     {
-      title: "Conversational",
+      title: "Chat",
       href: "/chat",
     },
     {
