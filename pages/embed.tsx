@@ -3,7 +3,7 @@ import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { EvokeEmbeddings } from "@/components/EvokeEmbeddings"
 import { InvokeEmbeddings } from "@/components/InvokeEmbeddings"
-import { Layout } from "@/components/Layout"
+import { Layout } from "@/components/Layouts"
 
 function ToggleHeading({ text, embedding }) {
   const activeHeading = text == embedding

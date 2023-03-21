@@ -1,7 +1,7 @@
 import React from "react"
 import Head from "next/head"
 import Image from "next/image"
-import { Layout } from "@/components/Layout"
+import { Layout } from "@/components/Layouts"
 import { Icons } from "@/components/icons"
 
 export default function HomePage() {

@@ -15,7 +15,7 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
-export function Layout({ children }: LayoutProps) {
+function Layout({ children }: LayoutProps) {
   return (
     <>
       <NavHeader />
@@ -24,7 +24,7 @@ export function Layout({ children }: LayoutProps) {
   )
 }
 
-export function Logo({ path, width, height, rotate = false }) {
+function Logo({ path, width, height, rotate = false }) {
   return (
     <div className="mt-8 flex items-center justify-center">
       <Image
@@ -38,18 +38,18 @@ export function Logo({ path, width, height, rotate = false }) {
   )
 }
 
-export function FancyBackground({ children }) {
+function FancyBackground({ children }) {
   return (
     <div className="relative z-0 min-h-screen">
       <div className="absolute inset-0 -z-10 overflow-hidden ">
-        <div className=" fancy-bg2 absolute top-0 bottom-0 left-1/2 w-[100vw] min-w-[1500px] -translate-x-1/2 bg-no-repeat" />
+        <div className=" fancy-bg2 absolute inset-y-0 left-1/2 w-[100vw] min-w-[1500px] -translate-x-1/2 bg-no-repeat" />
       </div>
       {children}
     </div>
   )
 }
 
-export function ThemeToggle() {
+function ThemeToggle() {
   const { setTheme } = useTheme()
 
   return (
@@ -78,3 +78,5 @@ export function ThemeToggle() {
     </DropdownMenu>
   )
 }
+
+export { Layout, Logo, FancyBackground, ThemeToggle }
