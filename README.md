@@ -1,6 +1,6 @@
 <h1 align="center">
 
-<a href="https://github.com/Jordan-Gilliam/ai-template"><img width="300" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-og.svg" alt=""></a>
+<a href="https://github.com/Jordan-Gilliam/ai-template"><img width="300" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-logo-og.webp" alt=""></a>
 
 </h1>
 
