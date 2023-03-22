@@ -2,32 +2,39 @@ import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { PlusIcon } from "lucide-react"
 import { Loader2 } from "lucide-react"
-import { Toaster, toast } from "react-hot-toast"
 import { cn, getContentAndSources, pluralize } from "@/lib/utils"
 import { LinkPill } from "@/components/LinkPill"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
 import ResizablePanel from "@/components/ResizablePanel"
 import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import { Input, InputButton } from "@/components/ui/input"
+import { InputButton } from "@/components/ui/input"
 import { useGetEmbeddings } from "@/hooks/use-get-embeddings"
+import { toast } from "@/hooks/use-toast"
 
 export function InvokeEmbeddings() {
   const [userQ, setUserQ] = useState("")
   const [submittedQ, setSubmittedQ] = useState("")
-  const { loading, answer, trigger } = useGetEmbeddings()
+  const { loading, answer, trigger, error } = useGetEmbeddings()
+
+  console.log("invoke EERRR", error)
 
   const generateAnswer = async (e: any) => {
     e.preventDefault()
     if (!userQ) {
-      return toast.error("Please enter a question!")
+      return toast({
+        title: "Please enter a url",
+      })
     }
+
     try {
       setSubmittedQ(userQ)
       const result = await trigger({ question: userQ })
       return result
     } catch (e) {
-      return toast.error(e)
+      return toast({
+        title: "Uh oh! Something went wrong.",
+        description: e,
+      })
     }
   }
 
@@ -86,23 +93,21 @@ export function InvokeEmbeddings() {
                 )}
                 onClick={() => {
                   navigator.clipboard.writeText(answer)
-                  toast("Copied to clipboard!", {
-                    icon: "✂️",
-                  })
+                  // toast({"Copied to clipboard!", {
+                  //   icon: "✂️",
+                  // })
                 }}
               >
-                <Answer submittedQ={submittedQ} content={content} />
+                <Answer
+                  submittedQ={submittedQ}
+                  content={content}
+                  error={error}
+                />
                 <Sources sources={sources} />
               </div>
             </motion.div>
           </AnimatePresence>
         </ResizablePanel>
-
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{ duration: 2000 }}
-        />
       </div>
     </div>
   )
@@ -133,7 +138,7 @@ const AnimatedQuestion = ({ submittedQ }) => {
   )
 }
 
-function Answer({ submittedQ, content }) {
+function Answer({ submittedQ, content, error }) {
   return (
     <>
       <AnimatedQuestion submittedQ={submittedQ} />
@@ -144,7 +149,7 @@ function Answer({ submittedQ, content }) {
         </p>
       </div>
       <div className="mb-3 ">
-        {content ? <MarkdownRenderer content={content} /> : null}
+        {!error && content ? <MarkdownRenderer content={content} /> : null}
       </div>
     </>
   )

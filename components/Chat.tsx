@@ -3,6 +3,7 @@ import { ChatLine, LoadingChatLine } from "./ChatLine"
 import { type ChatGPTMessage } from "./ChatLine"
 import { useCookies } from "react-cookie"
 import { Button } from "@/components/ui/button"
+import { toast } from "@/hooks/use-toast"
 
 const COOKIE_NAME = "nextjs-example-ai-chat-gpt3"
 
@@ -84,7 +85,10 @@ export function Chat({ apiPath }: { apiPath: string }) {
     console.log("Edge function returned.")
 
     if (!response.ok) {
-      throw new Error(response.statusText)
+      return toast({
+        title: "Chat API Error",
+        description: response.statusText,
+      })
     }
 
     // This data is a ReadableStream

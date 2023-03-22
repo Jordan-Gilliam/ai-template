@@ -1,4 +1,5 @@
 import useSWRMutation from "swr/mutation"
+import { toast } from "@/hooks/use-toast"
 
 async function sendRequest(url, { arg }: { arg: { urls: string[] } }) {
   console.log("urls", arg.urls)
@@ -11,7 +12,10 @@ async function sendRequest(url, { arg }: { arg: { urls: string[] } }) {
   })
 
   if (!response.ok) {
-    throw new Error(response.statusText)
+    toast({
+      title: "You need to configure API Keys to use this app",
+      description: response.statusText,
+    })
   }
 
   const data = response.body

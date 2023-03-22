@@ -1,18 +1,12 @@
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Loader2 } from "lucide-react"
-import { Toaster, toast } from "react-hot-toast"
 import useMeasure from "react-use-measure"
 import ResizablePanel from "@/components/ResizablePanel"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useGenerateEmbeddings } from "@/hooks/use-generate-embeddings"
-
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 3.5 } },
-  exit: { opacity: 0, transition: { duration: 0.02 } },
-}
+import { toast } from "@/hooks/use-toast"
 
 export function EvokeEmbeddings() {
   let [ref, { height }] = useMeasure()
@@ -20,18 +14,21 @@ export function EvokeEmbeddings() {
 
   const { loading, trigger } = useGenerateEmbeddings()
 
-  console.log("load", loading)
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!urls) {
-      return toast.error("Please enter a url")
+      return toast({
+        title: "Please enter a url",
+      })
     }
     try {
       const result = await trigger({ urls })
       return result
     } catch (e) {
-      return toast.error(e)
+      return toast({
+        title: "Uh oh! Something went wrong.",
+        description: e,
+      })
     }
   }
 
@@ -65,12 +62,6 @@ export function EvokeEmbeddings() {
               Evoke Embeddings
             </Button>
           </form>
-
-          <Toaster
-            position="top-center"
-            reverseOrder={false}
-            toastOptions={{ duration: 2000 }}
-          />
         </motion.div>
       </AnimatePresence>
     </ResizablePanel>

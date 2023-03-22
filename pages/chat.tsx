@@ -12,11 +12,6 @@ function ChatPage() {
             Ask me anything
           </h1>
           <div className="mx-auto w-full max-w-6xl">
-            <Toaster
-              position="top-center"
-              reverseOrder={false}
-              toastOptions={{ duration: 2000 }}
-            />
             <Chat apiPath="chat" />
             <div className="mt-8 flex flex-col items-center justify-center ">
               <Image

@@ -3,6 +3,9 @@ import { Work_Sans as FontSans } from "@next/font/google"
 import { Aboreto } from "@next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import { ThemeProvider } from "next-themes"
+import { SWRConfig } from "swr"
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from "@/hooks/use-toast"
 import "@/styles/globals.css"
 
 const fontSans = FontSans({
@@ -27,10 +30,20 @@ export default function App({ Component, pageProps }: AppProps) {
           --font-aboreto: ${fontAboretoSans.style.fontFamily};
         }
       `}</style>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <Component {...pageProps} />
-        <Analytics />
-      </ThemeProvider>
+      <SWRConfig
+        value={{
+          revalidateOnFocus: false,
+          onError: (error, key) => {
+            toast({ title: "API Error", description: error.message })
+          },
+        }}
+      >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Component {...pageProps} />
+          <Analytics />
+          <Toaster />
+        </ThemeProvider>
+      </SWRConfig>
     </>
   )
 }

@@ -1,7 +1,9 @@
 import useSWRMutation from "swr/mutation"
+import { toast } from "@/hooks/use-toast"
 
 async function sendRequest(url, { arg }: { arg: { question: string } }) {
   const { question } = arg
+
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -11,7 +13,15 @@ async function sendRequest(url, { arg }: { arg: { question: string } }) {
   })
 
   if (!response.ok) {
-    throw new Error(response.statusText)
+    toast({
+      title: "You need to configure API Keys to use this app",
+      description: response.statusText,
+    })
+    // const error = new Error("An error occurred while fetching the data.")
+    // Attach extra info to the error object.
+    // error.status = response.status
+
+    // throw error
   }
 
   const data = response.body
