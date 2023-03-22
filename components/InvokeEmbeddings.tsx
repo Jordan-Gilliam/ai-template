@@ -66,9 +66,9 @@ export function InvokeEmbeddings() {
                     aria-hidden="true"
                   />
                 )}
-                <span className="pr-1 group-hover:text-indigo-9 dark:group-hover:text-mint-9">
+                {/* <span className="pr-1 group-hover:text-indigo-9 dark:group-hover:text-mint-9">
                   Invoke
-                </span>
+                </span> */}
               </button>
             </InputButton>
             {/* </div> */}

@@ -28,7 +28,7 @@ const InputButton = React.forwardRef<HTMLInputElement, InputProps>(
         <div className="relative w-full focus-within:z-10">
           <input
             className={cn(
-              "block h-14 w-full rounded-l-full border-2 border-mauve-10 bg-transparent py-1.5 pl-10 text-mauve-12 shadow-sm ring-1 ring-inset ring-mauve-3 placeholder:text-mauve-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-mauve-1 disabled:cursor-not-allowed disabled:opacity-50 dark:text-mauve-12 sm:text-sm sm:leading-6",
+              "block h-14 w-full rounded-l-full border-2 border-mauve-10 bg-transparent py-1.5 pl-2 text-mauve-12 shadow-sm ring-1 ring-inset ring-mauve-3 placeholder:text-mauve-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-mauve-1 disabled:cursor-not-allowed disabled:opacity-50 dark:text-mauve-12 sm:text-sm sm:leading-6",
               className
             )}
             ref={ref}

@@ -9,20 +9,27 @@ const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  preload: true,
 })
 
-const fontAboretoSans = Aboreto({ weight: "400", variable: "--font-aboreto" })
+const fontAboretoSans = Aboreto({
+  weight: "400",
+  preload: true,
+  variable: "--font-aboreto",
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
+      <style jsx global>{`
+        :root {
+          --font-sans: ${fontSans.style.fontFamily};
+          --font-aboreto: ${fontAboretoSans.style.fontFamily};
+        }
+      `}</style>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <main
-          className={`${fontAboretoSans.variable} ${fontSans.variable} font-sans `}
-        >
-          <Component {...pageProps} />
-          <Analytics />
-        </main>
+        <Component {...pageProps} />
+        <Analytics />
       </ThemeProvider>
     </>
   )
