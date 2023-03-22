@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
+import { PlusIcon } from "lucide-react"
 import { Loader2 } from "lucide-react"
 import { Toaster, toast } from "react-hot-toast"
 import { cn, getContentAndSources, pluralize } from "@/lib/utils"
@@ -8,7 +9,7 @@ import MarkdownRenderer from "@/components/MarkdownRenderer"
 import ResizablePanel from "@/components/ResizablePanel"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Input, InputButton } from "@/components/ui/input"
 import { useGetEmbeddings } from "@/hooks/use-get-embeddings"
 
 export function InvokeEmbeddings() {
@@ -37,25 +38,40 @@ export function InvokeEmbeddings() {
     <div className="flex flex-col items-center py-2">
       <div className="w-full max-w-4xl">
         <div className="flex justify-center">
-          <div className="flex w-full max-w-md items-center space-x-2">
-            <Input
+          <div className="flex w-full max-w-lg items-center space-x-2">
+            {/* <Input
               className="rounded-full px-4 ring-mauve-7"
               value={userQ}
               onChange={(e) => setUserQ(e.target.value)}
-              placeholder={"e.g. ?"}
-            />
-            <Button
-              disabled={loading}
-              type="submit"
-              className="w-24 "
-              variant="default"
-              onClick={(e) => generateAnswer(e)}
+              placeholder={"e.g. Teach me about Manly P Hall"}
+            /> */}
+            {/* <div className=" min-w-[350px] md:min-w-[500px] lg:min-w-[550px]"> */}
+            <InputButton
+              className="   ring-mauve-7"
+              value={userQ}
+              onChange={(e) => setUserQ(e.target.value)}
+              placeholder={"e.g. Teach me about Manly P Hall"}
             >
-              {loading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : null}
-              Invoke
-            </Button>
+              <button
+                disabled={loading}
+                type="submit"
+                onClick={(e) => generateAnswer(e)}
+                className="group relative -ml-px inline-flex h-14 items-center gap-x-1.5 rounded-r-full bg-transparent  px-3 py-2 text-sm font-semibold text-mauve-12 shadow-sm ring-2 ring-inset ring-mauve-9 hover:ring-indigo-10 focus:outline-none focus:ring-indigo-10 dark:hover:ring-mint-10 dark:focus:ring-mint-10 "
+              >
+                {loading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <PlusIcon
+                    className="-ml-0.5 h-5 w-5 text-mauve-12 group-hover:text-indigo-9 dark:group-hover:text-mint-9"
+                    aria-hidden="true"
+                  />
+                )}
+                <span className="pr-1 group-hover:text-indigo-9 dark:group-hover:text-mint-9">
+                  Invoke
+                </span>
+              </button>
+            </InputButton>
+            {/* </div> */}
           </div>
         </div>
 

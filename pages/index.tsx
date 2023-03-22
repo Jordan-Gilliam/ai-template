@@ -29,17 +29,17 @@ export default function HomePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="container grid items-center gap-6  px-3 pt-6 pb-8 md:px-12 md:py-10">
-        <div className="mt-6 flex max-w-[980px] flex-col items-start gap-2">
+        <div className="mt-6 flex max-w-[980px] flex-col items-center gap-2 md:items-start">
           <Image
             alt="merc-logo-turned"
             priority={true}
-            className=" rotate-[-30deg] hover:scale-110 hover:transition hover:duration-100"
+            className=" hover:scale-110 hover:transition hover:duration-100 md:ml-8 md:rotate-[-30deg]"
             height={200}
             width={200}
             src="/merc-logo-og.webp"
           />
           <h1>
-            <span className="font-aboreto text-5xl leading-tight tracking-tight lg:text-8xl">
+            <span className="font-aboreto text-6xl leading-tight tracking-tight lg:text-8xl">
               Mercury
             </span>{" "}
             <br className="inline lg:-mt-12" />

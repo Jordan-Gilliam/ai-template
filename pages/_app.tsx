@@ -16,15 +16,13 @@ const fontAboretoSans = Aboreto({ weight: "400", variable: "--font-aboreto" })
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <style jsx global>{`
-				:root {
-					--font-sans: ${fontSans.style.fontFamily};
-          --font-aboreto: ${fontAboretoSans.style.fontFamily}
-				}
-			}`}</style>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <Component {...pageProps} />
-        <Analytics />
+        <main
+          className={`${fontAboretoSans.variable} ${fontSans.variable} font-sans `}
+        >
+          <Component {...pageProps} />
+          <Analytics />
+        </main>
       </ThemeProvider>
     </>
   )

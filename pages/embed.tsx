@@ -10,7 +10,7 @@ function ToggleHeading({ text, embedding }) {
   return (
     <h1
       className={cn(
-        " my-6 font-aboreto text-2xl transition duration-300 sm:text-6xl",
+        " my-6 font-aboreto text-3xl transition duration-300 sm:text-6xl",
         activeHeading ? "text-mauve-12" : "text-mauve-8"
       )}
     >
@@ -38,7 +38,7 @@ export default function DomainSpecificEmbeddingPage() {
     <Layout>
       <div className="  flex min-h-screen  flex-col gap-3 px-3">
         <div className="my-6">
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center md:gap-3">
             <ToggleHeading text="EVOKE" embedding={embedding} />
             <button
               className="transition duration-150 hover:scale-105"
@@ -70,7 +70,7 @@ export default function DomainSpecificEmbeddingPage() {
             <motion.div className=" flex w-full flex-col items-center justify-center">
               {embedding === "EVOKE" ? (
                 <div className="">
-                  <p className="mb-6 -mt-4 max-w-xl text-center text-lg text-mauve-12">
+                  <p className="mb-6 -mt-4 max-w-xl text-center text-mauve-12 md:text-lg">
                     Paste a list of comma separated URLs below to generate
                     embeddings using the OpenAI API, and add the embeddings to
                     the Supabase embeddings table.
@@ -79,7 +79,7 @@ export default function DomainSpecificEmbeddingPage() {
                 </div>
               ) : (
                 <div className=" w-full ">
-                  <p className="mb-6 -mt-4  text-center text-lg text-mauve-12">
+                  <p className="mb-6 -mt-4  text-center text-mauve-12 md:text-lg">
                     This chat leverages the embedded knowledge provided by you
                   </p>
 

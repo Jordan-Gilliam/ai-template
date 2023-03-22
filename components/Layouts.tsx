@@ -19,7 +19,7 @@ function Layout({ children }: LayoutProps) {
   return (
     <>
       <NavHeader />
-      <main>{children}</main>
+      <div>{children}</div>
     </>
   )
 }
