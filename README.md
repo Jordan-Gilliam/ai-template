@@ -139,7 +139,7 @@ $$;
 To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-npx degit Jordan-Gilliam/ai-template ai-template
+npx degit https://github.com/Jordan-Gilliam/ai-template ai-template
 ```
 
 ```bash
