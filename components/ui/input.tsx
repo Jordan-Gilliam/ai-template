@@ -27,8 +27,9 @@ const InputButton = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="mt-2 flex w-full rounded-md ">
         <div className="relative w-full focus-within:z-10">
           <input
-            type="text"
-            id="txtComputer"
+            type="search"
+            autoComplete="false"
+            autoFocus
             className={cn(
               "block h-14 w-full rounded-l-full border-2 bg-mauve-1 py-1.5 pl-6 text-xl font-semibold text-mauve-12 shadow-sm ring-1 ring-inset ring-mauve-2 placeholder:text-mauve-10 focus:bg-transparent  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-mauve-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-black dark:text-mauve-12  sm:leading-6",
               className

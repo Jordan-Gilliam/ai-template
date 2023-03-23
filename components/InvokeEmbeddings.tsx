@@ -1,19 +1,19 @@
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { PlusIcon } from "lucide-react"
-import { Loader2 } from "lucide-react"
 import { cn, getContentAndSources, pluralize } from "@/lib/utils"
 import { LinkPill } from "@/components/LinkPill"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
 import ResizablePanel from "@/components/ResizablePanel"
+import { SearchInput } from "@/components/SearchInput"
 import { Icons } from "@/components/icons"
-import { InputButton } from "@/components/ui/input"
 import { useGetEmbeddings } from "@/hooks/use-get-embeddings"
 import { toast } from "@/hooks/use-toast"
 
 export function InvokeEmbeddings() {
   const [userQ, setUserQ] = useState("")
   const [submittedQ, setSubmittedQ] = useState("")
+  const [status, setStatus] = useState("idle")
+
   const { loading, answer, trigger, error } = useGetEmbeddings()
 
   const generateAnswer = async (e: any) => {
@@ -27,6 +27,7 @@ export function InvokeEmbeddings() {
     try {
       setSubmittedQ(userQ)
       const result = await trigger({ question: userQ })
+      setStatus("complete")
       return result
     } catch (e) {
       return toast({
@@ -38,78 +39,53 @@ export function InvokeEmbeddings() {
 
   const { content, sources } = getContentAndSources(loading, answer)
 
+  function handleChange(e) {
+    setStatus("typing")
+    return setUserQ(e.target.value)
+  }
+
+  function handleSubmit(e) {
+    setUserQ("")
+    return generateAnswer(e)
+  }
+
   return (
-    // <div className="mx-auto flex min-h-screen flex-col items-center  py-2">
     <div className="flex flex-col items-center py-2">
       <div className="w-full max-w-4xl">
         <div className="flex justify-center">
-          <div className="flex w-full max-w-lg items-center space-x-2">
-            {/* <Input
-              className="rounded-full px-4 ring-mauve-7"
-              value={userQ}
-              onChange={(e) => setUserQ(e.target.value)}
-              placeholder={"e.g. Teach me about Manly P Hall"}
-            /> */}
-            {/* <div className=" min-w-[350px] md:min-w-[500px] lg:min-w-[550px]"> */}
-            <InputButton
-              // className=" relative rounded-full py-8 pr-16   ring-2 ring-teal-800/20"
-              className=" relative rounded-full py-8 pr-16   ring-2 dark:ring-teal-900/20"
-              value={userQ}
-              onChange={(e) => setUserQ(e.target.value)}
-              placeholder={"e.g. Teach me about Manly P Hall"}
-            >
-              <div className="relative -ml-10 flex items-center justify-center">
-                <div className="absolute  ml-4 w-14 rounded-r-full    ">
-                  <button
-                    disabled={loading}
-                    type="submit"
-                    onClick={(e) => generateAnswer(e)}
-                    className=" group z-10  -ml-px  inline-flex items-center rounded-full bg-mauve-1  px-3 py-3 text-sm font-semibold text-mauve-12 shadow-sm ring-1 ring-inset ring-mauve-9 hover:ring-indigo-10 focus:outline-none focus:ring-indigo-10 dark:hover:ring-mint-10 dark:focus:ring-mint-10 "
-                  >
-                    {loading ? (
-                      <Loader2 className="-ml-0.5 h-7 w-7 animate-spin text-indigo-9 group-hover:text-indigo-9 dark:text-mint-10 dark:group-hover:text-mint-9" />
-                    ) : (
-                      <PlusIcon
-                        className="-ml-0.5 h-7 w-7 text-indigo-9 group-hover:text-indigo-9 dark:text-mint-10 dark:group-hover:text-mint-9"
-                        aria-hidden="true"
-                      />
-                    )}
-                    {/* <span className="pr-1 group-hover:text-indigo-9 dark:group-hover:text-mint-9">
-                  Invoke
-                </span> */}
-                  </button>
-                </div>
-              </div>
-            </InputButton>
-            {/* </div> */}
-          </div>
+          <SearchInput
+            value={userQ}
+            handleChange={handleChange}
+            loading={loading}
+            handleClick={handleSubmit}
+            status={status}
+            placeholder="What are React Server Components?"
+          />
         </div>
-
         <ResizablePanel>
-          <AnimatePresence mode="wait">
-            <motion.div className="my-10 space-y-10">
-              <div
-                className={cn(
-                  `bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md transition 
-                      ${"hover:border-accent-focus cursor-copy text-left"}`,
-                  loading ? "animate-pulse" : ""
-                )}
-                onClick={() => {
-                  navigator.clipboard.writeText(answer)
-                  // toast({"Copied to clipboard!", {
-                  //   icon: "✂️",
-                  // })
-                }}
-              >
-                <Answer
-                  submittedQ={submittedQ}
-                  content={content}
-                  error={error}
-                />
-                <Sources sources={sources} />
-              </div>
-            </motion.div>
-          </AnimatePresence>
+          {submittedQ ? (
+            <AnimatePresence mode="wait">
+              <motion.div className="my-10 space-y-10">
+                <div
+                  className={cn(
+                    "bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md",
+                    "hover:border-accent-focus cursor-copy text-left transition",
+                    loading ? "animate-pulse" : ""
+                  )}
+                  onClick={() => {
+                    navigator.clipboard.writeText(answer)
+                  }}
+                >
+                  <Answer
+                    submittedQ={submittedQ}
+                    content={content}
+                    error={error}
+                  />
+                  <Sources sources={sources} />
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          ) : null}
         </ResizablePanel>
       </div>
     </div>
@@ -152,7 +128,11 @@ function Answer({ submittedQ, content, error }) {
         </p>
       </div>
       <div className="mb-3 ">
-        {!error && content ? <MarkdownRenderer content={content} /> : null}
+        {!error && content ? (
+          <MarkdownRenderer content={content} />
+        ) : (
+          <LoadingLine />
+        )}
       </div>
     </>
   )
@@ -169,11 +149,29 @@ function Sources({ sources }) {
           {`${sources.length} ${pluralize("SOURCE", sources.length)}`}
         </p>
       </div>
-      <motion.ul className=" my-5 flex gap-2 ">
+      <motion.ul layout className=" my-5 flex gap-2 ">
         {sources.map((url, i) => (
           <LinkPill key={`${url}-${i}`} order={i} name={url} />
         ))}
       </motion.ul>
+    </div>
+  )
+}
+
+export function LoadingLine() {
+  return (
+    <div className="flex min-w-full animate-pulse px-4 py-5 sm:px-6">
+      <div className="flex grow space-x-3">
+        <div className="min-w-0 flex-1">
+          <div className="space-y-4 pt-4">
+            <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-2 h-2 rounded bg-zinc-500"></div>
+              <div className="col-span-1 h-2 rounded bg-zinc-500"></div>
+            </div>
+            <div className="h-2 rounded bg-zinc-500"></div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

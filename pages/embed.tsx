@@ -49,7 +49,7 @@ export default function DomainSpecificEmbeddingPage() {
                 alt={embedding}
                 src={
                   embedding === "EVOKE"
-                    ? "/merc-logo-down-purple.webp"
+                    ? "/logo-down-indigo.webp"
                     : "/merc-logo-down-aqua.webp"
                 }
                 variants={imageVariants}
@@ -69,11 +69,10 @@ export default function DomainSpecificEmbeddingPage() {
           <LayoutGroup>
             <motion.div className=" flex w-full flex-col items-center justify-center">
               {embedding === "EVOKE" ? (
-                <div className="">
-                  <p className="mb-6 -mt-4 max-w-xl text-center text-mauve-12 md:text-lg">
+                <div className="w-full">
+                  <p className="mb-6 -mt-4 text-center text-mauve-12 md:text-lg">
                     Paste a list of comma separated URLs below to generate
-                    embeddings using the OpenAI API, and add the embeddings to
-                    the Supabase embeddings table.
+                    embeddings
                   </p>
                   <EvokeEmbeddings />
                 </div>

@@ -1,18 +1,27 @@
 import { useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { Loader2 } from "lucide-react"
+import { LayoutGroup, motion } from "framer-motion"
 import useMeasure from "react-use-measure"
-import ResizablePanel from "@/components/ResizablePanel"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+import { pluralize } from "@/lib/utils"
+import { LinkPill } from "@/components/LinkPill"
+import { SearchInput } from "@/components/SearchInput"
+import { Icons } from "@/components/icons"
 import { useGenerateEmbeddings } from "@/hooks/use-generate-embeddings"
 import { toast } from "@/hooks/use-toast"
+import { useHasHydrated, useUrlHistory } from "@/hooks/use-url-history"
 
 export function EvokeEmbeddings() {
-  let [ref, { height }] = useMeasure()
   const [urls, setUrls] = useState<string[]>([])
+  const [status, setStatus] = useState("idle")
+
+  const isHydrated = useHasHydrated()
+  const { urlHistory, addUrlToHistory } = useUrlHistory()
 
   const { loading, trigger } = useGenerateEmbeddings()
+
+  function handleChange(e) {
+    setStatus("typing")
+    return setUrls(e.target.value.split("\n"))
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -23,8 +32,12 @@ export function EvokeEmbeddings() {
     }
     try {
       const result = await trigger({ urls })
+      setStatus("complete")
+      urls.map((url) => addUrlToHistory(url))
+
       return result
     } catch (e) {
+      setStatus("error")
       return toast({
         title: "Uh oh! Something went wrong.",
         description: e,
@@ -32,38 +45,52 @@ export function EvokeEmbeddings() {
     }
   }
 
-  return (
-    <ResizablePanel>
-      <AnimatePresence mode="wait">
-        <motion.div
-          animate={height ? { height } : {}}
-          style={height ? { height } : {}}
-          transition={{ type: "tween", duration: 0.5 }}
-          exit="exit"
-          className="m-auto mt-6 flex max-w-xl flex-col items-center pb-12 text-center"
-        >
-          <form onSubmit={handleSubmit}>
-            <Textarea
-              className=" h-[100px] min-w-[350px] max-w-3xl rounded-lg border-2 border-mauve-9  shadow-sm placeholder:text-mauve-11 md:min-w-[450px] "
-              placeholder="https://en.wikipedia.org/wiki/Manly_P._Hall, "
-              value={urls.join("\n")}
-              onChange={(e) => setUrls(e.target.value.split("\n"))}
-            />
+  const sortedUrls = isHydrated
+    ? [...urlHistory].sort((a, b) => a.id - b.id)
+    : []
 
-            <Button
-              disabled={loading}
-              type="submit"
-              className="mt-6 max-w-lg"
-              variant="outline"
-            >
-              {loading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : null}
-              Evoke Embeddings
-            </Button>
-          </form>
-        </motion.div>
-      </AnimatePresence>
-    </ResizablePanel>
+  return (
+    <div className="flex flex-col items-center py-2">
+      <div className="w-full max-w-4xl">
+        <div className="flex flex-col items-center justify-center">
+          <SearchInput
+            placeholder="https://react.dev/"
+            value={urls.join("\n")}
+            status={status}
+            handleChange={handleChange}
+            loading={loading}
+            handleClick={handleSubmit}
+          />
+
+          <div className="mt-4 w-full max-w-2xl ">
+            {/* <ResizablePanel> */}
+            <ScrapedSources urlHistory={sortedUrls} />
+            {/* </ResizablePanel> */}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ScrapedSources({ urlHistory }) {
+  if (!urlHistory) return null
+  return (
+    <div className="my-2 ">
+      <div className=" my-5 flex gap-2 ">
+        <Icons.link className="h-4 w-4  stroke-indigo-10 dark:stroke-mint-9" />
+
+        <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-10 dark:text-mint-9">
+          {`${urlHistory.length} ${pluralize("SOURCE", urlHistory.length)}`}
+        </p>
+      </div>
+      <LayoutGroup>
+        <motion.ul layout className=" my-5 flex flex-wrap items-center gap-2">
+          {urlHistory.map((source, i) => (
+            <LinkPill key={`${source}-${i}`} order={i} name={source.url} />
+          ))}
+        </motion.ul>
+      </LayoutGroup>
+    </div>
   )
 }

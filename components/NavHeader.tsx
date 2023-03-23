@@ -99,6 +99,7 @@ function NavItems({ items }: NavItemsProps) {
         </nav>
       ) : null}
       <CommandMenu />
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button

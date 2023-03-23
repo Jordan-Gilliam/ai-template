@@ -51,6 +51,7 @@
     "eventsource-parser": "^0.1.0",
     "framer-motion": "^10.6.0",
     "gpt3-tokenizer": "^1.1.5",
+    "immer": "^9.0.19",
     "lucide-react": "0.105.0-alpha.4",
     "next": "^13.1.6",
     "next-themes": "^0.2.1",
@@ -67,7 +68,8 @@
     "swr": "^2.1.0",
     "tailwind-merge": "^1.8.0",
     "tailwindcss-animate": "^1.0.5",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zustand": "^4.3.6"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",

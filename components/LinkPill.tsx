@@ -1,13 +1,25 @@
-import { getHostShortName, getLastUrlSegment } from "@/lib/utils"
+import { motion } from "framer-motion"
+import { formatLongUrl } from "@/lib/urls"
+
+// const staggerMenuItems = stagger(0.1, { startDelay: 0.15 })
 
 export function LinkPill({ order, name }) {
-  const url = name.includes("http") ? name.replace(/^-+/g, "") : `${name}`
-  const lastUrlSegment = getLastUrlSegment(url)
-  const host = getHostShortName(url)
+  console.log("url", name)
+  const maxPathLength = 15
+  const shortUrl = formatLongUrl(name, maxPathLength)
 
   return (
-    <li className=" group block max-w-lg cursor-pointer rounded-full ">
-      <div className="group flex items-center gap-x-2 divide-x divide-mauve-9 rounded-full border border-mauve-9  bg-transparent p-2  transition duration-300 group-hover:border-pink-10">
+    <motion.li
+      layout
+      initial="initial"
+      className=" group block max-w-lg cursor-pointer rounded-full "
+    >
+      <motion.a
+        href={name}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex items-center gap-x-2 divide-x divide-mauve-9 rounded-full border border-mauve-9  bg-transparent p-2  transition duration-300 group-hover:border-pink-10"
+      >
         <div className="divide-zinc-200 border-zinc-200 bg-transparent pl-2 transition duration-300 ">
           <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-mauve-11 transition duration-300 selection:bg-mint-8 selection:text-white group-hover:text-indigo-9 dark:group-hover:text-mint-10 ">
             {order + 1}
@@ -19,11 +31,11 @@ export function LinkPill({ order, name }) {
               <div className="overflow-hidden rounded-full"></div>
             </div>
             <div className="font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-mint-8 selection:text-white group-hover:text-indigo-9 dark:group-hover:text-mint-10 ">
-              {`${host}/${lastUrlSegment}`}
+              {shortUrl}
             </div>
           </div>
         </div>
-      </div>
-    </li>
+      </motion.a>
+    </motion.li>
   )
 }
