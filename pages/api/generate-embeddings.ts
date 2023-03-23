@@ -39,7 +39,9 @@ async function getDocuments(urls: string[]) {
     const response = await fetch(url)
     const html = await response.text()
     const $ = cheerio.load(html)
+    // const articleText = $("#user-starred-repos").text()
     const articleText = $("body").text()
+    console.log(articleText)
 
     // Divide the content into chunks of the defined document size
     const chunks = splitTextIntoChunks(articleText, docSize)
@@ -47,6 +49,8 @@ async function getDocuments(urls: string[]) {
     // Add the chunks to the documents array
     chunks.forEach((chunk) => documents.push({ url, body: chunk }))
   }
+
+  console.log(documents)
 
   return documents
 }
@@ -66,15 +70,15 @@ function splitTextIntoChunks(text: string, chunkSize: number) {
 }
 
 async function processAndStoreDocument(url: string, input: string) {
-  console.log("\nDocument length: \n", input.length)
-  console.log("\nURL: \n", url)
+  // console.log("\nDocument length: \n", input.length)
+  // console.log("\nURL: \n", url)
 
   const embeddingResponse = await openAi.createEmbedding({
     model: "text-embedding-ada-002",
     input,
   })
 
-  console.log("\nembeddingResponse: \n", embeddingResponse)
+  // console.log("\nembeddingResponse: \n", embeddingResponse)
 
   const [{ embedding }] = embeddingResponse.data.data
 

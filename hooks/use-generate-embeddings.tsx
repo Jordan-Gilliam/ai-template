@@ -28,6 +28,7 @@ async function sendRequest(url, { arg }: { arg: { urls: string[] } }) {
 export const useGenerateEmbeddings = () => {
   const { trigger, error, isMutating } = useSWRMutation(
     "/api/generate-embeddings",
+    // "/api/generate-puppet",
     sendRequest
   )
 
