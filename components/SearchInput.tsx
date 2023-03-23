@@ -21,13 +21,14 @@ export function SearchInput({
   return (
     <div className="flex w-full max-w-lg items-center space-x-2">
       <InputButton
-        className=" relative rounded-full py-8 pr-16   ring-2 dark:ring-teal-900/20"
+        className="  relative  rounded-full py-8 pr-16  ring-2 dark:ring-teal-900/20"
         value={value}
         onKeyDown={handleKeyDown}
         onChange={handleChange}
         placeholder={placeholder}
+        enterKeyHint="go"
       >
-        <div className="relative -ml-10 flex items-center justify-center">
+        <div className="relative -ml-10 hidden items-center justify-center md:flex">
           <div className="absolute  ml-4 w-14 rounded-r-full    ">
             <motion.button
               animate={status}
@@ -36,7 +37,7 @@ export function SearchInput({
               type="submit"
               onClick={handleClick}
               className={cn(
-                "group z-10 -ml-px inline-flex items-center rounded-full bg-mauve-1 p-3 text-sm",
+                "group z-10 -ml-px inline-flex items-center rounded-full bg-mauve-1 p-3 text-sm md:block",
                 "font-semibold text-mauve-12 shadow-sm ring-1 ring-inset ring-mauve-8",
                 "hover:ring-indigo-10 focus:scale-105 focus:shadow focus:outline-none focus:ring-2 focus:ring-inset  focus:ring-mauve-9 focus:transition focus:duration-300",
                 "dark:hover:ring-mint-10 "
@@ -93,9 +94,9 @@ function PlusIcon(props) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <motion.line
         variants={checkIconVariants}
