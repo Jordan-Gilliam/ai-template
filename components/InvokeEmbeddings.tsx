@@ -16,8 +16,6 @@ export function InvokeEmbeddings() {
   const [submittedQ, setSubmittedQ] = useState("")
   const { loading, answer, trigger, error } = useGetEmbeddings()
 
-  console.log("invoke EERRR", error)
-
   const generateAnswer = async (e: any) => {
     e.preventDefault()
     if (!userQ) {
@@ -54,29 +52,34 @@ export function InvokeEmbeddings() {
             /> */}
             {/* <div className=" min-w-[350px] md:min-w-[500px] lg:min-w-[550px]"> */}
             <InputButton
-              className="   ring-mauve-7"
+              // className=" relative rounded-full py-8 pr-16   ring-2 ring-teal-800/20"
+              className=" relative rounded-full py-8 pr-16   ring-2 dark:ring-teal-900/20"
               value={userQ}
               onChange={(e) => setUserQ(e.target.value)}
               placeholder={"e.g. Teach me about Manly P Hall"}
             >
-              <button
-                disabled={loading}
-                type="submit"
-                onClick={(e) => generateAnswer(e)}
-                className="group relative -ml-px inline-flex h-14 items-center gap-x-1.5 rounded-r-full bg-transparent  px-3 py-2 text-sm font-semibold text-mauve-12 shadow-sm ring-2 ring-inset ring-mauve-9 hover:ring-indigo-10 focus:outline-none focus:ring-indigo-10 dark:hover:ring-mint-10 dark:focus:ring-mint-10 "
-              >
-                {loading ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <PlusIcon
-                    className="-ml-0.5 h-5 w-5 text-mauve-12 group-hover:text-indigo-9 dark:group-hover:text-mint-9"
-                    aria-hidden="true"
-                  />
-                )}
-                {/* <span className="pr-1 group-hover:text-indigo-9 dark:group-hover:text-mint-9">
+              <div className="relative -ml-10 flex items-center justify-center">
+                <div className="absolute  ml-4 w-14 rounded-r-full    ">
+                  <button
+                    disabled={loading}
+                    type="submit"
+                    onClick={(e) => generateAnswer(e)}
+                    className=" group z-10  -ml-px  inline-flex items-center rounded-full bg-mauve-1  px-3 py-3 text-sm font-semibold text-mauve-12 shadow-sm ring-1 ring-inset ring-mauve-9 hover:ring-indigo-10 focus:outline-none focus:ring-indigo-10 dark:hover:ring-mint-10 dark:focus:ring-mint-10 "
+                  >
+                    {loading ? (
+                      <Loader2 className="-ml-0.5 h-7 w-7 animate-spin text-indigo-9 group-hover:text-indigo-9 dark:text-mint-10 dark:group-hover:text-mint-9" />
+                    ) : (
+                      <PlusIcon
+                        className="-ml-0.5 h-7 w-7 text-indigo-9 group-hover:text-indigo-9 dark:text-mint-10 dark:group-hover:text-mint-9"
+                        aria-hidden="true"
+                      />
+                    )}
+                    {/* <span className="pr-1 group-hover:text-indigo-9 dark:group-hover:text-mint-9">
                   Invoke
                 </span> */}
-              </button>
+                  </button>
+                </div>
+              </div>
             </InputButton>
             {/* </div> */}
           </div>
