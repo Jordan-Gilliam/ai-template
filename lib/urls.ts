@@ -8,7 +8,7 @@ function isValidUrl(urlString: string): boolean {
 }
 
 function removeLeadingDash(pathPart: string): string {
-  return pathPart.startsWith("-") ? pathPart.substring(1) : pathPart
+  return pathPart.startsWith(` - `) ? pathPart.substring(1) : pathPart
 }
 
 function getSecondLevelDomain(hostname: string): string {
@@ -30,7 +30,8 @@ function shortenLastPathPart(pathPart: string, maxLength: number): string {
 export function formatLongUrl(longUrl: string, maxLength: number = 15): string {
   if (!isValidUrl(longUrl)) return "Invalid URL"
 
-  const url = new URL(longUrl)
+  const cleanUrl = removeLeadingDash(longUrl)
+  const url = new URL(cleanUrl)
   const hostname = getSecondLevelDomain(url.hostname)
   const pathParts = url.pathname.split("/").filter((part) => part !== "")
   let lastPathPart = pathParts[pathParts.length - 1]

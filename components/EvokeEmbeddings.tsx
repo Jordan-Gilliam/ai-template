@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { LayoutGroup, motion } from "framer-motion"
-import useMeasure from "react-use-measure"
 import { pluralize } from "@/lib/utils"
 import { LinkPill } from "@/components/LinkPill"
 import { SearchInput } from "@/components/SearchInput"
@@ -64,7 +63,7 @@ export function EvokeEmbeddings() {
 
           <div className="mt-4 w-full max-w-2xl ">
             {/* <ResizablePanel> */}
-            <ScrapedSources urlHistory={sortedUrls} />
+            {sortedUrls ? <ScrapedSources urlHistory={sortedUrls} /> : null}
             {/* </ResizablePanel> */}
           </div>
         </div>
@@ -79,7 +78,6 @@ function ScrapedSources({ urlHistory }) {
     <div className="my-2 ">
       <div className=" my-5 flex gap-2 ">
         <Icons.link className="h-4 w-4  stroke-indigo-10 dark:stroke-mint-9" />
-
         <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-10 dark:text-mint-9">
           {`${urlHistory.length} ${pluralize("SOURCE", urlHistory.length)}`}
         </p>

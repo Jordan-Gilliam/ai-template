@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app"
-import { Work_Sans as FontSans } from "@next/font/google"
-import { Aboreto } from "@next/font/google"
+// import { Work_Sans as FontSans } from "@next/font/google"
+import { Aboreto, Work_Sans as FontSans } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import { ThemeProvider } from "next-themes"
 import { SWRConfig } from "swr"
