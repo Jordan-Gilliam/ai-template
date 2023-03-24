@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse, PageConfig } from "next"
 import { splitDocumentsFromFile } from "@/loaders/document"
-import { getFileText } from "@/loaders/formidable"
+import { getFileText } from "@/loaders/parse"
 import { OpenAIEmbeddings } from "langchain/embeddings"
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 import { PineconeStore } from "langchain/vectorstores"
