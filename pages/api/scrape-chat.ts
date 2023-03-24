@@ -1,7 +1,8 @@
+// import { buildScrapePrompt } from "@/loaders/prompts"
 import GPT3Tokenizer from "gpt3-tokenizer"
 import { Configuration } from "openai"
+import { supabaseClient } from "@/config/supabase"
 import { OpenAIStream, OpenAIStreamPayload } from "@/lib/OpenAIStream"
-import { supabaseClient } from "@/lib/embeddings-supabase"
 
 const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 
@@ -36,7 +37,7 @@ export default async function handler(req: Request) {
   const documents = await matchDocuments(embedding)
   const contextText = buildContextText(documents)
 
-  const messages = buildMessages(question, contextText)
+  const messages = buildScrapePrompt(question, contextText)
   const payload: OpenAIStreamPayload = createPayload(messages)
 
   const stream = await OpenAIStream(payload)
@@ -100,14 +101,28 @@ function buildContextText(documents: any[]) {
   return contextText
 }
 
-function buildMessages(question: string, contextText: string) {
+function createPayload(messages: any[]): OpenAIStreamPayload {
+  return {
+    model: "gpt-3.5-turbo-0301",
+    messages: messages,
+    temperature: 0,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+    max_tokens: 2000,
+    stream: true,
+    n: 1,
+  }
+}
+
+function buildScrapePrompt(question: string, contextText: string) {
   // systemContent: Instructions for the assistant on how to behave and respond
-  const systemContent = `You are a helpful assistant. When given CONTEXT, you answer questions using only that information,
+  const systemContent = `You are a helpful assistant. When given {context}, you answer questions using only that information,
     and you always format your output in markdown. You include code snippets if relevant. If you are unsure and the answer
-    is not explicitly written in the CONTEXT provided, you say
-    "Sorry, I don't know how to help with that." If the CONTEXT includes
+    is not explicitly written in the {context} provided, you say
+    "Sorry, I don't know how to help with that." If the {context} includes
     source URLs, include them under a SOURCES heading at the end of your response. Always include all of the relevant source URLs
-    from the CONTEXT, but never list a URL more than once (ignore trailing forward slashes when comparing for uniqueness). Never include URLs that are not in the CONTEXT sections. Never make up URLs`
+    from the CONTEXT, but never list a URL more than once (ignore trailing forward slashes when comparing for uniqueness). Never include URLs that are not in the {context} sections. Never make up URLs`
 
   // userContent: A sample of the user's input with context
   const userSampleQuestion = `CONTEXT:
@@ -156,18 +171,4 @@ function buildMessages(question: string, contextText: string) {
       content: userMessage,
     },
   ]
-}
-
-function createPayload(messages: any[]): OpenAIStreamPayload {
-  return {
-    model: "gpt-3.5-turbo-0301",
-    messages: messages,
-    temperature: 0,
-    top_p: 1,
-    frequency_penalty: 0,
-    presence_penalty: 0,
-    max_tokens: 2000,
-    stream: true,
-    n: 1,
-  }
 }

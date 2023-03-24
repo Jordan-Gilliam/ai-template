@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { EvokeEmbeddings } from "@/components/EvokeEmbeddings"
-import { InvokeEmbeddings } from "@/components/InvokeEmbeddings"
 import { Layout } from "@/components/Layouts"
+import { ScrapeChat } from "@/components/chat/ScrapeChat"
+import { ScrapeIngest } from "@/components/chat/ScrapeIngest"
 
 function ToggleHeading({ text, embedding }) {
   const activeHeading = text == embedding
@@ -19,7 +19,7 @@ function ToggleHeading({ text, embedding }) {
   )
 }
 
-export default function DomainSpecificEmbeddingPage() {
+export default function ScrapePage() {
   const [embedding, setEmbedding] = useState("EVOKE")
   const [animateOnce, setAnimateOnce] = useState(true)
 
@@ -74,7 +74,7 @@ export default function DomainSpecificEmbeddingPage() {
                     Paste a list of comma separated URLs below to generate
                     embeddings
                   </p>
-                  <EvokeEmbeddings />
+                  <ScrapeIngest />
                 </div>
               ) : (
                 <div className=" w-full ">
@@ -82,7 +82,7 @@ export default function DomainSpecificEmbeddingPage() {
                     This chat leverages the embedded knowledge provided by you
                   </p>
 
-                  <InvokeEmbeddings />
+                  <ScrapeChat />
                 </div>
               )}
             </motion.div>

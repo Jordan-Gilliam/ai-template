@@ -25,9 +25,9 @@ async function sendRequest(url, { arg }: { arg: { urls: string[] } }) {
   }
 }
 
-export const useGenerateEmbeddings = () => {
+export const useScrapeIngestMutation = () => {
   const { trigger, error, isMutating } = useSWRMutation(
-    "/api/generate-embeddings",
+    "/api/scrape-ingest",
     // "/api/generate-puppet",
     sendRequest
   )

@@ -27,4 +27,62 @@ const QA_PROMPT = new PromptTemplate({
   inputVariables: ["question", "context"],
 })
 
-export { CONDENSE_PROMPT, QA_PROMPT }
+function buildScrapePrompt(question: string, contextText: string) {
+  // systemContent: Instructions for the assistant on how to behave and respond
+  const systemContent = `You are a helpful assistant. When given {context}, you answer questions using only that information,
+    and you always format your output in markdown. You include code snippets if relevant. If you are unsure and the answer
+    is not explicitly written in the {context} provided, you say
+    "Sorry, I don't know how to help with that." If the {context} includes
+    source URLs, include them under a SOURCES heading at the end of your response. Always include all of the relevant source URLs
+    from the CONTEXT, but never list a URL more than once (ignore trailing forward slashes when comparing for uniqueness). Never include URLs that are not in the {context} sections. Never make up URLs`
+
+  // userContent: A sample of the user's input with context
+  const userSampleQuestion = `CONTEXT:
+    Next.js is a React framework for creating production-ready web applications. It provides a variety of methods for fetching data, a built-in router, and a Next.js Compiler for transforming and minifying JavaScript code. It also includes a built-in Image Component and Automatic Image Optimization for resizing, optimizing, and serving images in modern formats.
+    SOURCE: nextjs.org/docs/faq
+    
+    QUESTION: 
+    what is nextjs?`
+
+  // assistantContent: A sample of the assistant's response to the user's question
+  const assistantSampleAnswer = `Next.js is a framework for building production-ready web applications using React. It offers various data fetching options, comes equipped with an integrated router, and features a Next.js compiler for transforming and minifying JavaScript. Additionally, it has an inbuilt Image Component and Automatic Image Optimization that helps resize, optimize, and deliver images in modern formats.
+  
+    \`\`\`js
+    function HomePage() {
+      return <div>Welcome to Next.js!</div>
+    }
+    
+    export default HomePage
+    \`\`\`
+    
+    SOURCES:
+    https://nextjs.org/docs/faq`
+
+  // userMessage: The user's input for the current question with context
+  const userMessage = `CONTEXT:
+    ${contextText}
+    
+    USER QUESTION: 
+    ${question}`
+
+  return [
+    {
+      role: "system",
+      content: systemContent,
+    },
+    {
+      role: "user",
+      content: userSampleQuestion,
+    },
+    {
+      role: "assistant",
+      content: assistantSampleAnswer,
+    },
+    {
+      role: "user",
+      content: userMessage,
+    },
+  ]
+}
+
+export { CONDENSE_PROMPT, QA_PROMPT, buildScrapePrompt }

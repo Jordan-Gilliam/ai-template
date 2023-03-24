@@ -15,6 +15,7 @@
   "dependencies": {
     "@next/font": "^13.2.4",
     "@pinecone-database/pinecone": "^0.0.10",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@radix-ui/react-accessible-icon": "^1.0.1",
     "@radix-ui/react-accordion": "^1.1.0",
     "@radix-ui/react-alert-dialog": "^1.0.2",
@@ -54,7 +55,7 @@
     "framer-motion": "^10.6.0",
     "gpt3-tokenizer": "^1.1.5",
     "immer": "^9.0.19",
-    "langchain": "^0.0.39",
+    "langchain": "0.0.33",
     "lucide-react": "0.105.0-alpha.4",
     "next": "^13.1.6",
     "next-themes": "^0.2.1",

@@ -9,7 +9,7 @@ import {
 } from "langchain/document_loaders"
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 
-export const createDocuments = async (fileText: string) => {
+export const splitDocumentsFromFile = async (fileText: string) => {
   const rawDocs = new Document({ pageContent: fileText })
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 2000,
@@ -35,11 +35,8 @@ export const createDocumentsFromJsonFile = async (url: string) => {
   return docs
 }
 
+// TODO
 export const createDocumentsFromCSVFile = async (url: string) => {
-  // id,text
-  //1,This is a sentence.
-  //2,This is another sentence.
-
   const loader = new CSVLoader(
     "src/document_loaders/example_data/example.csv",
     "text"
@@ -54,8 +51,8 @@ export const createDocumentsFromPDFFile = async (json: any) => {
   return docs
 }
 
-export const createDocumentsFromTxtFile = async (url: string) => {
-  const loader = new TextLoader("src/document_loaders/example_data/example.txt")
+export const createDocumentsFromTxtFile = async (file: string) => {
+  const loader = new TextLoader(file)
   const docs = await loader.load()
   return docs
 }

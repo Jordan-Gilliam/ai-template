@@ -1,7 +1,6 @@
 import type { NextApiRequest } from "next"
-import { createDocumentsFromJsonFile } from "./document"
-import { getTextContentFromPDF } from "./pdf"
 import formidable from "formidable"
+import pdfParse from "pdf-parse"
 import { Writable } from "stream"
 
 const formidableConfig = {
@@ -11,6 +10,12 @@ const formidableConfig = {
   maxFields: 7,
   allowEmptyFiles: false,
   multiples: false,
+}
+
+export const getTextContentFromPDF = async (pdfBuffer) => {
+  // TODO: pass metadata
+  const { text } = await pdfParse(pdfBuffer)
+  return text
 }
 
 export const formidablePromise = (

@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { FileEmbeddings } from "@/components/FileEmbeddings"
-import { InvokeEmbeddings } from "@/components/InvokeEmbeddings"
 import { Layout } from "@/components/Layouts"
+import { FileChat } from "@/components/chat/FileChat"
+import { FileUpload } from "@/components/chat/FileUpload"
 
 function ToggleHeading({ text, embedding }) {
   const activeHeading = text == embedding
@@ -19,7 +19,7 @@ function ToggleHeading({ text, embedding }) {
   )
 }
 
-export default function DomainSpecificEmbeddingPage() {
+export default function FilePage() {
   const [embedding, setEmbedding] = useState("EVOKE")
   const [animateOnce, setAnimateOnce] = useState(true)
 
@@ -71,11 +71,9 @@ export default function DomainSpecificEmbeddingPage() {
               {embedding === "EVOKE" ? (
                 <div className="">
                   <p className="mb-6 -mt-4 max-w-xl text-center text-mauve-12 md:text-lg">
-                    Paste a list of comma separated URLs below to generate
-                    embeddings using the OpenAI API, and add the embeddings to
-                    the Supabase embeddings table.
+                    Upload your pdf to Pinecone as a vector
                   </p>
-                  <FileEmbeddings />
+                  <FileUpload />
                 </div>
               ) : (
                 <div className=" w-full ">
@@ -83,7 +81,7 @@ export default function DomainSpecificEmbeddingPage() {
                     This chat leverages the embedded knowledge provided by you
                   </p>
 
-                  <InvokeEmbeddings />
+                  <FileChat />
                 </div>
               )}
             </motion.div>

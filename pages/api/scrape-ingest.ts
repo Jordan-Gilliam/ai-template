@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import * as cheerio from "cheerio"
 import { Configuration, OpenAIApi } from "openai"
-import { supabaseClient } from "@/lib/embeddings-supabase"
+import { supabaseClient } from "@/config/supabase"
 
 // Embedding document sizes
 const docSize = 1000
@@ -70,15 +70,10 @@ function splitTextIntoChunks(text: string, chunkSize: number) {
 }
 
 async function processAndStoreDocument(url: string, input: string) {
-  // console.log("\nDocument length: \n", input.length)
-  // console.log("\nURL: \n", url)
-
   const embeddingResponse = await openAi.createEmbedding({
     model: "text-embedding-ada-002",
     input,
   })
-
-  // console.log("\nembeddingResponse: \n", embeddingResponse)
 
   const [{ embedding }] = embeddingResponse.data.data
 

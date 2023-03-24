@@ -4,18 +4,18 @@ import { pluralize } from "@/lib/utils"
 import { LinkPill } from "@/components/LinkPill"
 import { SearchInput } from "@/components/SearchInput"
 import { Icons } from "@/components/icons"
-import { useGenerateEmbeddings } from "@/hooks/use-generate-embeddings"
+import { useScrapeIngestMutation } from "@/hooks/use-scrape-ingest"
 import { toast } from "@/hooks/use-toast"
 import { useHasHydrated, useUrlHistory } from "@/hooks/use-url-history"
 
-export function EvokeEmbeddings() {
+export function ScrapeIngest() {
   const [urls, setUrls] = useState<string[]>([])
   const [status, setStatus] = useState("idle")
 
   const isHydrated = useHasHydrated()
   const { urlHistory, addUrlToHistory } = useUrlHistory()
 
-  const { loading, trigger } = useGenerateEmbeddings()
+  const { loading, trigger } = useScrapeIngestMutation()
 
   function handleChange(e) {
     setStatus("typing")

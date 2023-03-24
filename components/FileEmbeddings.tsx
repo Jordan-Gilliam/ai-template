@@ -1,154 +1,142 @@
-import React, { useCallback, useState } from "react"
-import { Bot, Loader2, Send, UploadCloud, User } from "lucide-react"
-import { useDropzone } from "react-dropzone"
+import React, { useMemo, useRef, useState } from "react"
+import { fetchEventSource } from "@microsoft/fetch-event-source"
+import { Document } from "langchain/document"
+import { Bot, Loader2, Send, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+
+export type Message = {
+  type: "apiMessage" | "userMessage"
+  message: string
+  isStreaming?: boolean
+  sourceDocs?: Document[]
+}
 
 const DEFAULT_QUESTION = ""
 
 export function FileEmbeddings() {
-  const [files, setFiles] = useState(null)
-  const [question, setQuestion] = useState(DEFAULT_QUESTION)
-  const [namespace, setNamespace] = useState("")
-  const [isUploading, setIsUploading] = useState(false)
-  const [isAsking, setIsAsking] = useState(false)
-  const [chatHistory, setChatHistory] = useState([])
+  const [query, setQuery] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const handleNamespaceChange = (e) => {
-    setNamespace(e.target.value)
-  }
-  const handleQueryChange = (e) => {
-    setQuestion(e.target.value)
-  }
-
-  const onDrop = useCallback((acceptedFiles) => {
-    setFiles(acceptedFiles)
-  }, [])
-
-  const handleUpload = useCallback(async () => {
-    const formData = new FormData()
-    Array.from(files).forEach((file: File) => {
-      formData.append("file", file)
-    })
-
-    setIsUploading(true)
-    await fetch("/api/document-ingest", {
-      method: "post",
-      body: formData,
-      headers: {
-        namespace: !!namespace ? namespace : undefined,
+  const [error, setError] = useState<string | null>(null)
+  const [messageState, setMessageState] = useState<{
+    messages: Message[]
+    pending?: string
+    history: [string, string][]
+    pendingSourceDocs?: Document[]
+  }>({
+    messages: [
+      {
+        message: "Hi, what would you like to learn about this legal case?",
+        type: "apiMessage",
       },
-    })
-    setIsUploading(false)
-  }, [files])
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "application/pdf": [".pdf"],
-      "application/json": [".json"],
-      "text/plain": [".txt", ".md"],
-    },
-    multiple: false,
-    maxFiles: 1,
+    ],
+    history: [],
+    pendingSourceDocs: [],
   })
 
-  const handleSubmit = useCallback(async () => {
-    if (!question) {
+  const { messages, pending, history, pendingSourceDocs } = messageState
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+
+  async function handleSubmit(e: any) {
+    e.preventDefault()
+
+    setError(null)
+
+    if (!query) {
+      alert("Please input a question")
       return
     }
-    setIsAsking(true)
-    setQuestion("")
-    setChatHistory([
-      ...chatHistory,
-      {
-        from: "user",
-        content: question,
-      },
-    ])
+
+    const question = query.trim()
+
+    setMessageState((state) => ({
+      ...state,
+      messages: [
+        ...state.messages,
+        {
+          type: "userMessage",
+          message: question,
+        },
+      ],
+      pending: undefined,
+    }))
+
+    setLoading(true)
+    setQuery("")
+    setMessageState((state) => ({ ...state, pending: "" }))
+
+    const ctrl = new AbortController()
+
     try {
-      const response = await fetch("/api/document-chat", {
-        body: JSON.stringify({
-          question,
-          chatHistory: chatHistory.reduce((prev, curr) => {
-            prev += curr.content
-            return prev
-          }, ""),
-          namespace: !!namespace ? namespace : undefined,
-        }),
+      fetchEventSource("/api/document-chat", {
         method: "POST",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question,
+          history,
+        }),
+        signal: ctrl.signal,
+        onmessage: (event) => {
+          if (event.data === "[DONE]") {
+            setMessageState((state) => ({
+              history: [...state.history, [question, state.pending ?? ""]],
+              messages: [
+                ...state.messages,
+                {
+                  type: "apiMessage",
+                  message: state.pending ?? "",
+                  sourceDocs: state.pendingSourceDocs,
+                },
+              ],
+              pending: undefined,
+              pendingSourceDocs: undefined,
+            }))
+            setLoading(false)
+            ctrl.abort()
+          } else {
+            const data = JSON.parse(event.data)
+            if (data.sourceDocs) {
+              setMessageState((state) => ({
+                ...state,
+                pendingSourceDocs: data.sourceDocs,
+              }))
+            } else {
+              setMessageState((state) => ({
+                ...state,
+                pending: (state.pending ?? "") + data.data,
+              }))
+            }
+          }
         },
       })
-      const answer = await response.json()
-
-      setChatHistory((currentChatHistory) => [
-        ...currentChatHistory,
-        {
-          from: "bot",
-          content: answer.text,
-        },
-      ])
-
-      setIsAsking(false)
     } catch (error) {
-      console.log(error)
+      setLoading(false)
+      setError("An error occurred while fetching the data. Please try again.")
+      console.log("error", error)
     }
-  }, [question, chatHistory])
+  }
+
+  const chatMessages = useMemo(() => {
+    return [
+      ...messages,
+      ...(pending
+        ? [
+            {
+              type: "apiMessage",
+              message: pending,
+              sourceDocs: pendingSourceDocs,
+            },
+          ]
+        : []),
+    ]
+  }, [messages, pending, pendingSourceDocs])
 
   return (
-    <section className="container flex justify-items-stretch gap-6 pt-6 pb-8 md:py-10">
-      <div className="flex min-w-[500px] flex-col items-start gap-2 ">
-        <h2 className="mt-10 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
-          Upload a PDF
-        </h2>
-        <div
-          className="min-w-full rounded-md border border-slate-200 p-0 dark:border-slate-700"
-          {...getRootProps()}
-        >
-          <div className="flex min-h-[150px] cursor-pointer items-center justify-center p-10">
-            <input {...getInputProps()} />
-
-            {files ? (
-              <p>{files[0].name}</p>
-            ) : (
-              <>
-                {isDragActive ? (
-                  <p>Drop the files here ...</p>
-                ) : (
-                  <p>
-                    Drag and drop a file(.pdf, .txt, .md) here, or click to
-                    select file
-                  </p>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-        <div className="flex min-w-full">
-          <label className="flex " htmlFor="namespace">
-            Namespace: {namespace}
-          </label>
-          <input
-            type="text"
-            onChange={handleNamespaceChange}
-            className="mr-1 min-w-fit rounded-md border border-gray-400 pl-2 text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-          />
-        </div>
-
-        <div className="self-start">
-          <Button disabled={!files || isUploading} onClick={handleUpload}>
-            {!isUploading ? (
-              <UploadCloud className="mr-2 h-4 w-4" />
-            ) : (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Upload
-          </Button>
-        </div>
-      </div>
-
+    <section className="container flex flex-col justify-items-stretch gap-6 pt-6 pb-8 md:py-10">
       <div className="flex grow flex-col items-start gap-2">
         <h2 className="mt-10 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
           Ask me anything about the PDF
@@ -156,37 +144,37 @@ export function FileEmbeddings() {
 
         <div className="w-full">
           <div className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex min-h-[300px] flex-col space-y-4 overflow-y-auto rounded border border-gray-400 p-4">
-            {chatHistory.map((chat, index) => {
+            {chatMessages.map((chat, index) => {
               return (
                 <div className="chat-message" key={index}>
                   <div
                     className={cn(
                       "flex",
                       "items-end",
-                      chat.from === "bot" && "justify-end"
+                      chat.type === "apiMessage" && "justify-end"
                     )}
                   >
                     <div
                       className={cn(
                         "order-2 mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs",
-                        chat.from === "bot" && "order-1"
+                        chat.type === "apiMessage" && "order-1"
                       )}
                     >
                       <div>
                         <span
                           className={cn(
                             "inline-block rounded-lg bg-gray-300 px-4 py-2 text-gray-600",
-                            chat.from === "user" &&
+                            chat.type === "apiMessage" &&
                               "rounded-bl-none bg-gray-300 text-gray-600",
-                            chat.from === "bot" &&
+                            chat.type === "apiMessage" &&
                               "rounded-br-none bg-blue-600 text-white"
                           )}
                         >
-                          {chat.content}
+                          {chat.message}
                         </span>
                       </div>
                     </div>
-                    {chat.from === "user" ? (
+                    {chat.type !== "apiMessage" ? (
                       <User className="order-1 h-4 w-4" />
                     ) : (
                       <Bot className="order-1 h-4 w-4" />
@@ -197,32 +185,39 @@ export function FileEmbeddings() {
             })}
           </div>
 
-          <form>
-            <div className="mb-2 pt-4 sm:mb-0">
-              <div className="relative flex">
-                <input
-                  type="text"
-                  value={question}
-                  placeholder={DEFAULT_QUESTION}
-                  onChange={handleQueryChange}
+          <div className="mb-2 pt-4 sm:mb-0">
+            <div className="relative">
+              <form onSubmit={handleSubmit} className="flex w-full">
+                <textarea
+                  disabled={loading}
+                  ref={textAreaRef}
+                  autoFocus={false}
+                  rows={1}
+                  maxLength={512}
+                  id="userInput"
+                  name="userInput"
+                  placeholder={
+                    loading
+                      ? "Waiting for response..."
+                      : "What is this legal case about?"
+                  }
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                   className="mr-2 w-full rounded-md border border-gray-400 pl-2 text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                 />
-                <div className="items-center sm:flex">
-                  <Button
-                    onClick={handleSubmit}
-                    disabled={!question}
-                    type="submit"
-                  >
-                    {!isAsking ? (
+
+                <div className="items-center ">
+                  <Button disabled={loading} type="submit">
+                    {!loading ? (
                       <Send className="h-4 w-4" />
                     ) : (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     )}
                   </Button>
                 </div>
-              </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </section>
