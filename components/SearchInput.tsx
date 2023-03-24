@@ -37,10 +37,11 @@ export function SearchInput({
               type="submit"
               onClick={handleClick}
               className={cn(
-                "group z-10 -ml-px inline-flex items-center justify-center rounded-full bg-mauve-1 p-3 text-sm md:block",
-                "font-semibold text-mauve-12 shadow-sm ring-1 ring-inset ring-mauve-8",
-                "hover:scale-105 hover:ring-indigo-10 focus:scale-110 focus:shadow focus:outline-none focus:ring-2 focus:ring-inset  focus:ring-mauve-9 focus:transition focus:duration-300",
-                "dark:hover:ring-mauve-8 "
+                "group z-10  inline-flex items-center justify-center rounded-full bg-mauve-1 p-3 text-sm md:block",
+                "font-semibold text-mauve-12 shadow-sm ring-1 ring-inset ring-mauve-6",
+                "hover:scale-105 hover:shadow hover:ring-inset hover:ring-mauve-7 hover:transition hover:duration-300",
+                "focus:scale-105 focus:shadow focus:outline-none focus:ring-inset focus:ring-mauve-8 focus:transition focus:duration-300",
+                "dark:ring-mauve-6 dark:hover:shadow-[#1B1B25] dark:hover:ring-mauve-8"
               )}
             >
               <AnimatePresence>
