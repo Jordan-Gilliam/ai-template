@@ -25,6 +25,11 @@
 - Conversational chatGPT sandbox with in chat memory
 - Markdown Renderer built in for code snippets
 
+
+### 3. Domain-Specific File Chat - [perplexity clone]
+
+> Coming soon
+
 ## Domain-Specific Overview: `/pages/embed`
 
 ChatGPT is a great tool for answering general questions, but it falls short when it comes to answering domain-specific questions as it often makes up answers to fill its knowledge gaps and doesn't cite sources. To solve this issue, this starter app uses embeddings coupled with vector search. This app shows how OpenAI's GPT-3 API can be used to create conversational interfaces for domain-specific knowledge.
