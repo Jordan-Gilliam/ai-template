@@ -39,7 +39,7 @@ export const useUrlHistory = create<UrlStore>()(
         }),
     })),
     {
-      name: "merc-local-store",
+      name: "mercury-local-store-namespace",
       storage: createJSONStorage(() => localStorage),
     }
   )

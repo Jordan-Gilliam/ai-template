@@ -1,4 +1,4 @@
-import { NavItem } from "@/types/nav"
+import { NavItem } from "@/types"
 
 interface SiteConfig {
   name: string
@@ -15,16 +15,16 @@ export const siteConfig: SiteConfig = {
   description: "Unlock the secrets of any website",
   mainNav: [
     {
-      title: "Home",
-      href: "/",
+      title: "Pinecone",
+      href: "/pinecone",
+    },
+    {
+      title: "Supabase",
+      href: "/supabase",
     },
     {
       title: "Chat",
       href: "/chat",
-    },
-    {
-      title: "Domain Specific",
-      href: "/embed",
     },
   ],
   links: {

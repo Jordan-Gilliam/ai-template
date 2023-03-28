@@ -4,18 +4,25 @@ import { pluralize } from "@/lib/utils"
 import { LinkPill } from "@/components/LinkPill"
 import { SearchInput } from "@/components/SearchInput"
 import { Icons } from "@/components/icons"
-import { useGenerateEmbeddings } from "@/hooks/use-generate-embeddings"
+import { useScrapeIngest } from "@/hooks/use-scrape-ingest"
 import { toast } from "@/hooks/use-toast"
 import { useHasHydrated, useUrlHistory } from "@/hooks/use-url-history"
 
-export function EvokeEmbeddings() {
+type Props = {
+  namespace?: string
+}
+
+export function ScrapeIngest({ namespace }: Props) {
   const [urls, setUrls] = useState<string[]>([])
   const [status, setStatus] = useState("idle")
 
   const isHydrated = useHasHydrated()
   const { urlHistory, addUrlToHistory } = useUrlHistory()
 
-  const { loading, trigger } = useGenerateEmbeddings()
+  const api = !!namespace
+    ? "pinecone-scrape-ingest-webpage"
+    : "supabase-scrape-ingest-webpage"
+  const { loading, trigger } = useScrapeIngest(api)
 
   function handleChange(e) {
     setStatus("typing")
@@ -30,7 +37,7 @@ export function EvokeEmbeddings() {
       })
     }
     try {
-      const result = await trigger({ urls })
+      const result = await trigger({ urls, namespace })
       setStatus("complete")
       urls.map((url) => addUrlToHistory(url))
 
@@ -62,9 +69,7 @@ export function EvokeEmbeddings() {
           />
 
           <div className="mt-4 w-full max-w-2xl ">
-            {/* <ResizablePanel> */}
             {sortedUrls ? <ScrapedSources urlHistory={sortedUrls} /> : null}
-            {/* </ResizablePanel> */}
           </div>
         </div>
       </div>

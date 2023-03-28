@@ -17,11 +17,6 @@ async function sendRequest(url, { arg }: { arg: { question: string } }) {
       title: "You need to configure API Keys to use this app",
       description: response.statusText,
     })
-    // const error = new Error("An error occurred while fetching the data.")
-    // Attach extra info to the error object.
-    // error.status = response.status
-
-    // throw error
   }
 
   const data = response.body
@@ -44,9 +39,9 @@ async function sendRequest(url, { arg }: { arg: { question: string } }) {
   return result
 }
 
-export const useGetEmbeddings = () => {
+export const useSupabaseQuery = () => {
   const { data, trigger, error, isMutating } = useSWRMutation(
-    "/api/get-embeddings",
+    "/api/supabase-query",
     sendRequest
   )
 

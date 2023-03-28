@@ -1,23 +1,12 @@
 import { cn } from "@/lib/utils"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
 
-// import Balancer from "react-wrap-balancer"
-
 type ChatGPTAgent = "user" | "system" | "assistant"
 
 export interface ChatGPTMessage {
   role: ChatGPTAgent
   content: string
 }
-
-// util helper to convert new lines to <br /> tags
-// const convertNewLines = (text: string) =>
-//   text.split("\n").map((line, i) => (
-//     <span key={i}>
-//       {line}
-//       <br />
-//     </span>
-//   ))
 
 export function ChatLine({ role = "assistant", content }: ChatGPTMessage) {
   if (!content) {

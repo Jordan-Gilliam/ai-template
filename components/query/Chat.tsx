@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react"
-import { ChatLine, LoadingChatLine } from "./ChatLine"
-import { type ChatGPTMessage } from "./ChatLine"
 import { useCookies } from "react-cookie"
+import {
+  type ChatGPTMessage,
+  ChatLine,
+  LoadingChatLine,
+} from "@/components/ChatLine"
+import "@/components/ChatLine"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/hooks/use-toast"
 
@@ -14,37 +18,6 @@ export const initialMessages: ChatGPTMessage[] = [
     content: "Hi! I am a friendly AI assistant. Ask me anything!",
   },
 ]
-
-const InputMessage = ({ input, setInput, sendMessage }: any) => (
-  <div className="clear-both mt-6 flex">
-    <input
-      type="text"
-      aria-label="chat input"
-      required
-      className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-mauve-1 px-3 py-[calc(theme(spacing.2)-1px)] text-mauve-12 shadow-md shadow-zinc-800/5 placeholder:text-mauve-11 focus:border-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-500/10 sm:text-sm"
-      value={input}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          sendMessage(input)
-          setInput("")
-        }
-      }}
-      onChange={(e) => {
-        setInput(e.target.value)
-      }}
-    />
-    <Button
-      type="submit"
-      className="ml-4 flex-none"
-      onClick={() => {
-        sendMessage(input)
-        setInput("")
-      }}
-    >
-      Say
-    </Button>
-  </div>
-)
 
 export function Chat({ apiPath }: { apiPath: string }) {
   const [chatMessages, setChatMessages] =
@@ -140,3 +113,34 @@ export function Chat({ apiPath }: { apiPath: string }) {
     </div>
   )
 }
+
+const InputMessage = ({ input, setInput, sendMessage }: any) => (
+  <div className="clear-both mt-6 flex">
+    <input
+      type="text"
+      aria-label="chat input"
+      required
+      className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-mauve-1 px-3 py-[calc(theme(spacing.2)-1px)] text-mauve-12 shadow-md shadow-zinc-800/5 placeholder:text-mauve-11 focus:border-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-500/10 sm:text-sm"
+      value={input}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          sendMessage(input)
+          setInput("")
+        }
+      }}
+      onChange={(e) => {
+        setInput(e.target.value)
+      }}
+    />
+    <Button
+      type="submit"
+      className="ml-4 flex-none"
+      onClick={() => {
+        sendMessage(input)
+        setInput("")
+      }}
+    >
+      Say
+    </Button>
+  </div>
+)

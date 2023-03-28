@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { EvokeEmbeddings } from "@/components/EvokeEmbeddings"
-import { InvokeEmbeddings } from "@/components/InvokeEmbeddings"
 import { Layout } from "@/components/Layouts"
+import { ScrapeIngest } from "@/components/ingest/Scrape"
+import { SupabaseQuery } from "@/components/query/SupabaseQuery"
 
 function ToggleHeading({ text, embedding }) {
   const activeHeading = text == embedding
@@ -19,12 +19,12 @@ function ToggleHeading({ text, embedding }) {
   )
 }
 
-export default function DomainSpecificEmbeddingPage() {
-  const [embedding, setEmbedding] = useState("EVOKE")
+export default function SupabaseEmbeddingPage() {
+  const [embedding, setEmbedding] = useState("EMBED")
   const [animateOnce, setAnimateOnce] = useState(true)
 
   function toggleEmbedding() {
-    setEmbedding(embedding === "EVOKE" ? "INVOKE" : "EVOKE")
+    setEmbedding(embedding === "EMBED" ? "QUERY" : "EMBED")
     setAnimateOnce(false)
   }
 
@@ -39,7 +39,7 @@ export default function DomainSpecificEmbeddingPage() {
       <div className="  flex min-h-screen  flex-col gap-3 px-3">
         <div className="my-6">
           <div className="flex items-center justify-center md:gap-3">
-            <ToggleHeading text="EVOKE" embedding={embedding} />
+            <ToggleHeading text="EMBED" embedding={embedding} />
             <button
               className="transition duration-150 hover:scale-105"
               onClick={toggleEmbedding}
@@ -48,19 +48,19 @@ export default function DomainSpecificEmbeddingPage() {
                 className={cn(animateOnce ? "animate-pulse" : "")}
                 alt={embedding}
                 src={
-                  embedding === "EVOKE"
+                  embedding === "EMBED"
                     ? "/logo-down-indigo.webp"
                     : "/merc-logo-down-aqua.webp"
                 }
                 variants={imageVariants}
-                animate={{ rotateX: embedding === "EVOKE" ? 0 : 180 }}
+                animate={{ rotateX: embedding === "EMBED" ? 0 : 180 }}
                 height={250}
                 width={250}
               />
             </button>
 
             <div className="flex flex-col items-center justify-center">
-              <ToggleHeading text="INVOKE" embedding={embedding} />
+              <ToggleHeading text="QUERY" embedding={embedding} />
             </div>
           </div>
         </div>
@@ -68,13 +68,13 @@ export default function DomainSpecificEmbeddingPage() {
         <div className="col-span-8 row-span-3 items-center justify-center">
           <LayoutGroup>
             <motion.div className=" flex w-full flex-col items-center justify-center">
-              {embedding === "EVOKE" ? (
+              {embedding === "EMBED" ? (
                 <div className="w-full">
                   <p className="mb-6 -mt-4 text-center text-mauve-12 md:text-lg">
                     Paste a list of comma separated URLs below to generate
                     embeddings
                   </p>
-                  <EvokeEmbeddings />
+                  <ScrapeIngest />
                 </div>
               ) : (
                 <div className=" w-full ">
@@ -82,7 +82,7 @@ export default function DomainSpecificEmbeddingPage() {
                     This chat leverages the embedded knowledge provided by you
                   </p>
 
-                  <InvokeEmbeddings />
+                  <SupabaseQuery />
                 </div>
               )}
             </motion.div>
