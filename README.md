@@ -33,7 +33,6 @@ ChatGPT is a great tool for answering general questions, but it falls short when
 
 This app uses embeddings to generate a vector representation of a document and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which generates a response. The response is then streamed back to the user.
 
-
 <h2 align="center">
   <br>
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-lab-light.png" alt=""></a>
@@ -57,6 +56,7 @@ This app uses embeddings to generate a vector representation of a document and t
 - The GTP-3 response is then streamed back to the user.
 
 ## Chat Overview: `/pages/chat`
+
 > `[model gpt-3.5-turbo]`
 
 The OpenAI API chat feature uses a machine learning model to generate responses to user input. It can be fine-tuned on specific datasets and scenarios to create chatbots that provide contextually-relevant and effective responses.
@@ -81,7 +81,12 @@ The OpenAI API chat feature uses a machine learning model to generate responses 
 - Automatic import sorting with `@ianvs/prettier-plugin-sort-imports`
 
 ## Getting Started
+
 > 🍴 Huge thanks to [@gannonh](https://github.com/gannonh) most of the scraping and embedding logic came from his [gpt3.5-turbo-pgvector repo](https://github.com/gannonh/gpt3.5-turbo-pgvector)
+
+### Set-up Pinecone
+
+- Visit [pinecone](https://pinecone.io/) to create and retrieve your API keys, and also retrieve your environment and index name from the dashboard.
 
 ### Set-up Supabase
 
@@ -170,7 +175,6 @@ npm run dev
 
 - Open http://localhost:3000 in your browser to view the app.
 
-
 <h2 align="center">
   <br>
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-evoke.png" alt=""></a>
@@ -181,13 +185,13 @@ npm run dev
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-invoke.png" alt=""></a>
 </h2>
 
-
 <h2 align="center">
   <br>
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home-light.png" alt=""></a>
 </h2>
 
-## Inspiration: 
+## Inspiration:
+
 - https://www.perplexity.ai/
 - https://builtbyjesse.com/
 - https://ui.shadcn.com/docs

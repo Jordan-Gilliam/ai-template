@@ -1,8 +1,17 @@
+import * as React from "react"
+import { children } from "cheerio/lib/api/traversing"
 import { AnimatePresence, motion } from "framer-motion"
+import { ChevronsUpDown, Plus, X } from "lucide-react"
 import { pluralize } from "@/lib/utils"
 import { DocumentSourcePill, LinkPill } from "@/components/LinkPill"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
 import { Icons } from "@/components/icons"
+import { Button } from "@/components/ui/button"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 
 function AnimatedQuestion({ submittedQ }) {
   const fadeIn = {
@@ -40,7 +49,7 @@ function Answer({ submittedQ, content, error }) {
         </p>
       </div>
       <div className="mb-3 ">
-        {!error && content ? (
+        {!error && !!content ? (
           <MarkdownRenderer content={content} />
         ) : (
           <LoadingLine />
@@ -83,14 +92,48 @@ function DocumentSources({ sources }) {
       </div>
       <motion.ul layout className=" my-5 flex flex-col gap-3  ">
         {sources.map((doc, i) => (
-          <DocumentSourcePill
-            key={`document-${i}`}
-            order={i}
-            name={doc.pageContent}
-          />
+          <CollapsibleSource order={i} name={doc.pageContent}>
+            <DocumentSourcePill
+              key={`document-${i}`}
+              order={i}
+              name={doc.pageContent}
+            />
+          </CollapsibleSource>
         ))}
       </motion.ul>
     </div>
+  )
+}
+
+export function CollapsibleSource({ order, name, children }) {
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  const shortName = name.split(" ")[0]
+  return (
+    <Collapsible
+      key={`collapse-source-${order}`}
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      className=" space-y-2"
+    >
+      <div className="flex items-center justify-between space-x-4 px-4">
+        <h4 className="text-sm font-semibold">
+          [{order + 1}] {shortName}
+        </h4>
+        <CollapsibleTrigger asChild>
+          <Button variant="ghost" size="sm" className="w-9 p-0">
+            <ChevronsUpDown className="h-4 w-4" />
+            <span className="sr-only">Toggle</span>
+          </Button>
+        </CollapsibleTrigger>
+      </div>
+
+      <CollapsibleContent className="space-y-2">
+        <div className="rounded-md border border-mauve-8 px-4 py-3 font-mono text-sm ">
+          {children}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   )
 }
 

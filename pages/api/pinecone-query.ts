@@ -12,6 +12,34 @@ function prepareResponse(res: NextApiResponse) {
   })
 }
 
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { namespace } = req.headers
+  console.log("namespace", namespace)
+
+  if (!req.body.question) {
+    return res.status(400).json({ message: "No question in the request" })
+  }
+
+  const pinecone = await initPinecone()
+  const index = pinecone.Index(process.env.PINECONE_INDEX_NAME)
+  const namespaceConfig = !!namespace ? namespace : "default-namespace"
+
+  const vectorStore = await PineconeStore.fromExistingIndex(
+    index,
+    new OpenAIEmbeddings({}),
+    "text",
+    // @ts-ignore
+    namespaceConfig
+    // namespace ? namespace : process.env.PINECONE_NAMESPACE
+  )
+
+  prepareResponse(res)
+  await createChainAndSendResponse(req, res, vectorStore)
+}
+
 async function createChainAndSendResponse(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -44,31 +72,6 @@ async function createChainAndSendResponse(
     sendData("[DONE]")
     res.end()
   }
-}
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { namespace } = req.body
-
-  if (!req.body.question) {
-    return res.status(400).json({ message: "No question in the request" })
-  }
-
-  const pinecone = await initPinecone()
-  const index = pinecone.Index(process.env.PINECONE_INDEX_NAME)
-
-  const vectorStore = await PineconeStore.fromExistingIndex(
-    index,
-    new OpenAIEmbeddings({}),
-    "text",
-    process.env.PINECONE_NAMESPACE ?? "new-namespace"
-    // namespace ? namespace : process.env.PINECONE_NAMESPACE
-  )
-
-  prepareResponse(res)
-  await createChainAndSendResponse(req, res, vectorStore)
 }
 
 // export default async function handler(

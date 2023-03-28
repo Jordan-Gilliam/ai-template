@@ -72,9 +72,18 @@ interface NavItemsProps {
 function NavItems({ items }: NavItemsProps) {
   return (
     <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="hidden items-center space-x-2 md:flex">
-        <Image height={42} width={42} src="/logo-down.svg" alt="logo" />
-
+      {/* <div className="relative "> */}
+      <Link href="/" className=" flex items-center space-x-2">
+        <div className="md:h-13 relative h-8 w-12">
+          <Image
+            // layout="fill" // required
+            // objectFit="cover" // change to suit your needs"
+            fill
+            className="absolute"
+            src="/logo-down.svg"
+            alt="logo"
+          />
+        </div>
         <span className="hidden font-aboreto font-bold sm:inline-block">
           {siteConfig.name}
         </span>
@@ -100,7 +109,7 @@ function NavItems({ items }: NavItemsProps) {
       ) : null}
       <CommandMenu />
 
-      <DropdownMenu>
+      {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
@@ -127,7 +136,7 @@ function NavItems({ items }: NavItemsProps) {
               )
           )}
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
     </div>
   )
 }

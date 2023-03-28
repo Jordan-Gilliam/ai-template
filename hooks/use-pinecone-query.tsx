@@ -10,24 +10,24 @@ export type Message = {
 }
 
 type FileChatHook = {
-  userQ: string
-  setUserQ: React.Dispatch<React.SetStateAction<string>>
+  userQuestion: string
+  setUserQuestion: React.Dispatch<React.SetStateAction<string>>
   status: string
   messages: Message[]
   setStatus: React.Dispatch<React.SetStateAction<string>>
   pendingSourceDocs?: Document[]
   history: [string, string][]
-  pending?: string
+  answerStream?: string
   generateAnswer: (e: any) => Promise<void>
 }
 
-export function useFileChat(): FileChatHook {
-  const [userQ, setUserQ] = useState("")
+export function usePineconeQuery(namespace): FileChatHook {
+  const [userQuestion, setUserQuestion] = useState("")
   const [status, setStatus] = useState("idle")
 
   const [messageState, setMessageState] = useState<{
     messages: Message[]
-    pending?: string
+    answerStream?: string
     question?: string
     history: [string, string][]
     pendingSourceDocs?: Document[]
@@ -37,18 +37,18 @@ export function useFileChat(): FileChatHook {
     pendingSourceDocs: [],
   })
 
-  const { messages, pending, history, pendingSourceDocs } = messageState
+  const { messages, answerStream, history, pendingSourceDocs } = messageState
 
   //   TODO: Make this more generic
   async function generateAnswer(e: any) {
     e.preventDefault()
 
-    if (!userQ) {
+    if (!userQuestion) {
       alert("Please input a question")
       return
     }
 
-    const question = userQ.trim()
+    const question = userQuestion.trim()
 
     setMessageState((state) => ({
       ...state,
@@ -59,20 +59,21 @@ export function useFileChat(): FileChatHook {
           message: question,
         },
       ],
-      pending: undefined,
+      answerStream: undefined,
     }))
 
     setStatus("loading")
-    setUserQ("")
-    setMessageState((state) => ({ ...state, pending: "" }))
+    setUserQuestion("")
+    setMessageState((state) => ({ ...state, answerStream: "" }))
 
     const ctrl = new AbortController()
 
     try {
-      fetchEventSource("/api/file-chat", {
+      fetchEventSource("/api/pinecone-query", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          namespace: !!namespace ? namespace : "default-namespace",
         },
         body: JSON.stringify({
           question,
@@ -82,18 +83,18 @@ export function useFileChat(): FileChatHook {
         onmessage: (event) => {
           if (event.data === "[DONE]") {
             setMessageState((state) => ({
-              history: [...state.history, [question, state.pending ?? ""]],
+              history: [...state.history, [question, state.answerStream ?? ""]],
               messages: [
                 ...state.messages,
                 {
                   type: "apiMessage",
-                  message: state.pending ?? "",
+                  message: state.answerStream ?? "",
                   question: state.question ?? "",
                   sourceDocs: state.pendingSourceDocs,
                 },
               ],
 
-              pending: undefined,
+              answerStream: undefined,
               pendingSourceDocs: undefined,
             }))
 
@@ -101,13 +102,13 @@ export function useFileChat(): FileChatHook {
             ctrl.abort()
           } else {
             const data = JSON.parse(event.data)
+
             if (data.sourceDocs) {
               setMessageState((state) => ({
                 ...state,
                 pendingSourceDocs: data.sourceDocs,
               }))
-            }
-            if (data.question) {
+            } else if (data.question) {
               setMessageState((state) => ({
                 ...state,
                 question: data.question,
@@ -115,7 +116,7 @@ export function useFileChat(): FileChatHook {
             } else {
               setMessageState((state) => ({
                 ...state,
-                pending: (state.pending ?? "") + data.data,
+                answerStream: (state.answerStream ?? "") + data.data,
               }))
             }
           }
@@ -128,11 +129,11 @@ export function useFileChat(): FileChatHook {
   }
 
   return {
-    userQ,
-    setUserQ,
+    userQuestion,
+    setUserQuestion,
     status,
     setStatus,
-    pending,
+    answerStream,
     pendingSourceDocs,
     history,
     messages,

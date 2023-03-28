@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { Toaster } from "react-hot-toast"
 import { Layout } from "@/components/Layouts"
-import { Chat } from "@/components/chat/Chat"
+import { Chat } from "@/components/query/Chat"
 
 function ChatPage() {
   return (

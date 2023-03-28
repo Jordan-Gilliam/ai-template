@@ -1,13 +1,19 @@
 import useSWRMutation from "swr/mutation"
 import { toast } from "@/hooks/use-toast"
 
-async function sendRequest(url, { arg }: { arg: { urls: string[] } }) {
+async function sendRequest(
+  url,
+  { arg }: { arg: { urls: string[]; namespace: string } }
+) {
   console.log("urls", arg.urls)
-  const { urls } = arg
+  const { urls, namespace } = arg
 
   const response = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      namespace: !!namespace ? namespace : "default-namespace",
+    },
     body: JSON.stringify({ urls }),
   })
 
@@ -25,10 +31,9 @@ async function sendRequest(url, { arg }: { arg: { urls: string[] } }) {
   }
 }
 
-export const useScrapeIngestMutation = () => {
+export const useScrapeIngest = (url: string) => {
   const { trigger, error, isMutating } = useSWRMutation(
-    "/api/scrape-ingest",
-    // "/api/generate-puppet",
+    `/api/${url}`,
     sendRequest
   )
 

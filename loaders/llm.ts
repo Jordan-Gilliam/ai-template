@@ -31,6 +31,8 @@ export const makePdfChain = (
 
   return new ChatVectorDBQAChain({
     vectorstore,
+    // inputKey: "input",
+    // outputKey: "output",
     combineDocumentsChain: docChain,
     questionGeneratorChain: questionGenerator,
     returnSourceDocuments: true,

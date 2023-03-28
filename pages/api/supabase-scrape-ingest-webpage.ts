@@ -41,7 +41,6 @@ async function getDocuments(urls: string[]) {
     const $ = cheerio.load(html)
     // const articleText = $("#user-starred-repos").text()
     const articleText = $("body").text()
-    console.log(articleText)
 
     // Divide the content into chunks of the defined document size
     const chunks = splitTextIntoChunks(articleText, docSize)
@@ -49,8 +48,6 @@ async function getDocuments(urls: string[]) {
     // Add the chunks to the documents array
     chunks.forEach((chunk) => documents.push({ url, body: chunk }))
   }
-
-  console.log(documents)
 
   return documents
 }

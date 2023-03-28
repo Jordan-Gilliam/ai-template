@@ -16,9 +16,12 @@ if (
 }
 
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { namespace } = req.headers
+  const namespaceConfig = !!namespace ? namespace : "default-namespace"
+  console.log("header", namespace)
   try {
     const docs = await processDocuments(req)
-    await storeDocumentsInPinecone(docs)
+    await storeDocumentsInPinecone(docs, namespaceConfig)
     res.status(200).json({ message: "Success" })
   } catch (error) {
     console.log("error", error)
@@ -37,7 +40,7 @@ async function processDocuments(req: NextApiRequest) {
   return docs
 }
 
-async function storeDocumentsInPinecone(docs: any) {
+async function storeDocumentsInPinecone(docs: any, namespace) {
   const pinecone = await initPinecone()
   const embeddings = new OpenAIEmbeddings()
   const index = pinecone.Index(process.env.PINECONE_INDEX_NAME)
@@ -45,12 +48,13 @@ async function storeDocumentsInPinecone(docs: any) {
   const chunkSize = 50
   for (let i = 0; i < docs.length; i += chunkSize) {
     const chunk = docs.slice(i, i + chunkSize)
+
     await PineconeStore.fromDocuments(
       index,
       chunk,
       embeddings,
       "text",
-      process.env.PINECONE_NAMESPACE ?? "new-namespace"
+      namespace
     )
   }
 }

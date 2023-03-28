@@ -1,18 +1,18 @@
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { cn, getContentAndSources } from "@/lib/utils"
-import { Answer, Sources } from "@/components/Peplexity"
+import { Answer, Sources } from "@/components/Perplexity"
 import ResizablePanel from "@/components/ResizablePanel"
 import { SearchInput } from "@/components/SearchInput"
-import { useScrapeChatMutation } from "@/hooks/use-scrape-chat"
+import { useSupabaseQuery } from "@/hooks/use-supabase-query"
 import { toast } from "@/hooks/use-toast"
 
-export function ScrapeChat() {
+export function SupabaseQuery() {
   const [userQ, setUserQ] = useState("")
   const [submittedQ, setSubmittedQ] = useState("")
   const [status, setStatus] = useState("idle")
 
-  const { loading, answer, trigger, error } = useScrapeChatMutation()
+  const { loading, answer, trigger, error } = useSupabaseQuery()
 
   const generateAnswer = async (e: any) => {
     e.preventDefault()
@@ -57,7 +57,7 @@ export function ScrapeChat() {
             loading={loading}
             handleClick={handleSubmit}
             status={status}
-            placeholder="What are React Server Components?"
+            placeholder="Query Embeddings"
           />
         </div>
         <ResizablePanel>
@@ -66,13 +66,10 @@ export function ScrapeChat() {
               <motion.div className="my-10 space-y-10">
                 <div
                   className={cn(
-                    "bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md",
-                    "hover:border-accent-focus cursor-copy text-left transition",
+                    "bg-neutral border-neutral-focus overflow-x-auto rounded-xl border p-4 shadow-md",
+                    "hover:border-accent-focus text-left transition",
                     loading ? "animate-pulse" : ""
                   )}
-                  onClick={() => {
-                    navigator.clipboard.writeText(answer)
-                  }}
                 >
                   <Answer
                     submittedQ={submittedQ}

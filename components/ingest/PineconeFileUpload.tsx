@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from "react"
 import { Document } from "langchain/document"
-import { Loader2, UploadCloud } from "lucide-react"
+import { File, Loader2, UploadCloud } from "lucide-react"
 import { useDropzone } from "react-dropzone"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 export type Message = {
@@ -11,7 +12,7 @@ export type Message = {
   sourceDocs?: Document[]
 }
 
-export function FileUpload() {
+export function PineconeFileUpload({ namespace }) {
   const [files, setFiles] = useState(null)
 
   const [isUploading, setIsUploading] = useState(false)
@@ -27,13 +28,12 @@ export function FileUpload() {
     })
 
     setIsUploading(true)
-    await fetch("/api/file-ingest", {
+    await fetch("/api/pinecone-ingest-file", {
       method: "post",
       body: formData,
-      // TODO: Add dynamic namespace
-      // headers: {
-      //   namespace: !!namespace ? namespace : "pdf-test",
-      // },
+      headers: {
+        namespace: !!namespace ? namespace : "default-namespace",
+      },
     })
     setIsUploading(false)
   }, [files])
@@ -42,37 +42,40 @@ export function FileUpload() {
     onDrop,
     accept: {
       "application/pdf": [".pdf"],
-      "application/json": [".json"],
-      "text/plain": [".txt", ".md"],
+      // "application/json": [".json"],
+      // "text/plain": [".txt", ".md"],
     },
     multiple: false,
     maxFiles: 1,
   })
 
   return (
-    <div className="flex max-w-3xl flex-col items-center">
+    <div className="flex flex-col items-center">
       <div
-        className="min-w-full rounded-md border border-slate-200 p-0 dark:border-slate-700"
+        className={cn(
+          "min-w-full cursor-pointer rounded-xl border-2 p-6 text-mauve-12  ",
+          "shadow-sm ring-1 ring-inset ring-mauve-2 placeholder:text-mauve-11",
+          "focus:bg-mauve-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-mauve-2",
+          "disabled:cursor-not-allowed disabled:opacity-50 dark:border-black dark:text-mauve-12 sm:leading-6  md:text-xl"
+        )}
         {...getRootProps()}
       >
-        <div className="mt-12 flex items-center justify-center">
+        <div className=" flex items-center justify-center">
           {files ? (
             <p>{files[0].name}</p>
           ) : (
-            <>
+            <div className="flex flex-col items-center justify-center ">
               {isDragActive ? (
                 <p>Drop the files here ...</p>
               ) : (
-                <p>
-                  Drag and drop a file(.pdf, .txt, .md) here, or click to select
-                  file
-                </p>
+                <p className="px-6">Drag and drop pdf file here</p>
               )}
-            </>
+              <File className="mt-6 h-8 w-8 stroke-mauve-8" />
+            </div>
           )}
         </div>
-        <div className="flex min-h-[100px] cursor-pointer items-center justify-center p-10">
-          <input {...getInputProps()} />
+        <div className="flex  cursor-pointer items-center justify-center ">
+          <input {...getInputProps()} className="h-full" />
         </div>
       </div>
 

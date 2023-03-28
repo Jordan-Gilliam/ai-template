@@ -45,10 +45,10 @@ export function DocumentSourcePill({ order, name }) {
     <motion.li
       layout
       initial="initial"
-      className=" group mb-4 block  cursor-pointer border-b border-mauve-7"
+      className=" group mb-4 block  cursor-pointer "
     >
-      <motion.div className="group flex items-center gap-x-2 divide-x divide-mauve-9 rounded-xl   bg-transparent p-2  transition duration-300 group-hover:border-pink-10">
-        <div className="divide-zinc-200 border-zinc-200 bg-transparent pl-2 transition duration-300 ">
+      <motion.div className="group flex items-center gap-x-2 divide-x divide-mauve-8 rounded-xl   bg-transparent p-2  transition duration-300 group-hover:border-pink-10">
+        <div className="divide-mauve-8 border-mauve-8 bg-transparent pl-2 transition duration-300 ">
           <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-mauve-11 transition duration-300 selection:bg-mint-8 selection:text-white group-hover:text-indigo-9 dark:group-hover:text-mint-10 ">
             {order + 1}
           </div>

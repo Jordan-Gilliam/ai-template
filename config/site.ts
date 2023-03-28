@@ -15,16 +15,12 @@ export const siteConfig: SiteConfig = {
   description: "Unlock the secrets of any website",
   mainNav: [
     {
-      title: "Home",
-      href: "/",
+      title: "Pinecone",
+      href: "/pinecone",
     },
     {
-      title: "Scrape",
-      href: "/scrape",
-    },
-    {
-      title: "File",
-      href: "/file",
+      title: "Supabase",
+      href: "/supabase",
     },
     {
       title: "Chat",

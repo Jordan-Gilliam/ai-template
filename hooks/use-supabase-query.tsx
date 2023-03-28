@@ -39,9 +39,9 @@ async function sendRequest(url, { arg }: { arg: { question: string } }) {
   return result
 }
 
-export const useScrapeChatMutation = () => {
+export const useSupabaseQuery = () => {
   const { data, trigger, error, isMutating } = useSWRMutation(
-    "/api/scrape-chat",
+    "/api/supabase-query",
     sendRequest
   )
 
