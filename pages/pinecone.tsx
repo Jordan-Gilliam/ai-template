@@ -5,7 +5,7 @@ import { Card } from "@/components/Card"
 import { Layout } from "@/components/Layouts"
 import { NamespaceInput } from "@/components/NamespaceInput"
 import { PineconeFileUpload } from "@/components/ingest/PineconeFileUpload"
-import { Scrape } from "@/components/ingest/Scrape"
+import { UrlScraper } from "@/components/ingest/UrlScraper"
 import { PineconeQuery } from "@/components/query/PineconeQuery"
 
 function ToggleHeading({ text, embedding }) {
@@ -106,7 +106,7 @@ export default function PineconeEmbeddingPage() {
                             description: "Scrape URLs to generate embeddings",
                           }}
                         >
-                          <Scrape namespace={namespace} />
+                          <UrlScraper namespace={namespace} />
                         </Card>
                       </div>
                     </div>

@@ -14,7 +14,7 @@ type Props = {
   namespace?: string
 }
 
-export function Scrape({ namespace }: Props) {
+export function UrlScraper({ namespace }: Props) {
   const [urls, setUrls] = useState<string[]>([])
   const [status, setStatus] = useState("idle")
 
