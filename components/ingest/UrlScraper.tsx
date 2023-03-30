@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useScrapeIngest } from "@/hooks/use-scrape-ingest"
 import { toast } from "@/hooks/use-toast"
-import { useHasHydrated, useUrlHistory } from "@/hooks/use-url-history"
 
 type Props = {
   namespace?: string
@@ -13,9 +12,6 @@ type Props = {
 function UrlScraper({ namespace }: Props) {
   const [urls, setUrls] = useState<string[]>([])
   const [status, setStatus] = useState("idle")
-
-  const isHydrated = useHasHydrated()
-  const { urlHistory, addUrlToHistory } = useUrlHistory()
 
   const api = !!namespace
     ? "pinecone-scrape-ingest-webpage"
@@ -38,7 +34,6 @@ function UrlScraper({ namespace }: Props) {
     try {
       const result = await trigger({ urls, namespace })
       setStatus("complete")
-      urls.map((url) => addUrlToHistory(url))
 
       return result
     } catch (e) {
@@ -49,10 +44,6 @@ function UrlScraper({ namespace }: Props) {
       })
     }
   }
-
-  const sortedUrls = isHydrated
-    ? [...urlHistory].sort((a, b) => a.id - b.id)
-    : []
 
   return (
     <div className="flex  h-48 flex-col items-center justify-between ">

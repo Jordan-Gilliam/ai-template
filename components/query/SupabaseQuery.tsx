@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { cn, getContentAndSources } from "@/lib/utils"
-import { Answer, Sources } from "@/components/Perplexity"
+import { Answer } from "@/components/Perplexity"
 import ResizablePanel from "@/components/ResizablePanel"
 import { SearchInput } from "@/components/SearchInput"
 import { useSupabaseQuery } from "@/hooks/use-supabase-query"
@@ -76,7 +76,6 @@ export function SupabaseQuery() {
                     content={content}
                     error={error}
                   />
-                  <Sources sources={sources} />
                 </div>
               </motion.div>
             </AnimatePresence>

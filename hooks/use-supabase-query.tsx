@@ -48,6 +48,7 @@ export const useSupabaseQuery = () => {
   return {
     loading: isMutating,
     answer: data,
+
     error,
     trigger,
   }

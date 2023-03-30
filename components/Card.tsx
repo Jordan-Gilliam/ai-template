@@ -38,7 +38,7 @@ export const Card = ({
           {cardDetails.description}
         </p>
       </div>
-      {/* <div className="flex   w-full items-center justify-center bg-neutral-900/0 px-4 md:px-8"> */}
+
       <div className="mt-2 backdrop-blur-none">{children}</div>
     </div>
   )
