@@ -19,24 +19,34 @@ export function ChatLine({ role = "assistant", content }: ChatGPTMessage) {
         role != "assistant" ? "float-right clear-both" : "float-left clear-both"
       }
     >
-      <div className="!important w-full max-w-5xl">
-        <div className="float-right mb-5 rounded-lg bg-mauve-1 px-4 py-5 shadow-lg ring-1 ring-mauve-8 sm:px-6">
+      <div className="!important max-w-md overflow-x-hidden md:w-full md:max-w-5xl">
+        <div className="float-right mb-5 rounded-xl border border-neutral-700/40 bg-white/70 px-4 py-5 shadow-sm ring-1 ring-neutral-300/60 dark:border-neutral-500/30 dark:bg-black/40 dark:ring-neutral-500/60 sm:px-6">
           <div className="flex space-x-3">
             <div className="flex-1 gap-4">
-              <p className="text-left font-aboreto text-xl font-bold text-mauve-11">
+              <p className="text-left font-aboreto text-xl font-bold text-neutral-600 dark:text-neutral-400">
                 <a href="#" className="hover:underline">
                   {role == "assistant" ? "AI" : "You"}
                 </a>
               </p>
               <div
                 className={cn(
-                  "text-mauve-12",
+                  "text-neutral-900 dark:text-neutral-100",
                   role == "assistant"
                     ? "text-left font-semibold"
                     : "text-mauve-12"
                 )}
               >
-                <MarkdownRenderer content={content} />
+                <MarkdownRenderer
+                  className="max-w-xs text-sm"
+                  content={content}
+                />
+                {/* <div className="md:hidden">{content}</div> */}
+                {/* <div className="md:hidden">
+                  <MarkdownRenderer
+                    className="max-w-xs text-sm"
+                    content={content}
+                  />
+                </div> */}
               </div>
             </div>
           </div>

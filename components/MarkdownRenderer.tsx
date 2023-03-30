@@ -60,7 +60,7 @@ const MarkdownComponents: object = {
     return match ? (
       <SyntaxHighlighter
         style={syntaxTheme}
-        customStyles={{ fontSize: "10px" }}
+        customStyles={{ fontSize: "8px" }}
         language={match[1]}
         PreTag="div"
         className="codeStyle"
@@ -81,11 +81,14 @@ const MarkdownComponents: object = {
 
 type Props = {
   content: string
+  className?: string
 }
 
-const MarkdownRenderer: React.FC<Props> = ({ content }) => {
+const MarkdownRenderer: React.FC<Props> = ({ content, className }) => {
   return (
-    <ReactMarkdown components={MarkdownComponents}>{content}</ReactMarkdown>
+    <ReactMarkdown className={className} components={MarkdownComponents}>
+      {content}
+    </ReactMarkdown>
   )
 }
 

@@ -56,25 +56,30 @@ export function PineconeQuery({ namespace }) {
 
   useEffect(() => {
     if (status === "complete") {
-      window.setTimeout(() => scrollToBottom(), 400)
+      window.setTimeout(() => scrollToBottom(), 500)
     }
   }, [chatMessages, status])
 
   return (
     <section className="container flex flex-col justify-items-stretch gap-6  pb-8 md:pb-10">
       <div className="flex flex-col items-center justify-center gap-2">
-        <div className="max-w-4xl md:min-w-[750px]">
+        <div className="w-full max-w-4xl md:min-w-[750px]">
           <ResizablePanel>
             {aiAnswer &&
               aiAnswer.map((answer, i) => {
+                const isCurrentAnswer = aiAnswer.length - 1 === i
                 return (
                   <AnimatePresence mode="wait" key={`answer-${i}`}>
                     <motion.div className="my-10 space-y-10">
                       <motion.div
                         className={cn(
-                          "bg-neutral border-neutral-focus  overflow-x-auto rounded-xl border p-4 shadow-md",
+                          "border-neutral-focus  overflow-x-auto rounded-xl border bg-neutral-100/50 p-4 shadow-md backdrop-blur ",
                           "hover:border-accent-focus text-left transition",
-                          status === "loading" ? "animate-pulse" : ""
+                          "dark:border-black/30 dark:bg-black/50",
+                          // status === "loading" ? "animate-pulse" : "",
+                          isCurrentAnswer && status !== "loading"
+                            ? "border border-teal-200 transition duration-150 dark:border-teal-700"
+                            : ""
                         )}
                       >
                         <Answer
@@ -82,7 +87,9 @@ export function PineconeQuery({ namespace }) {
                           error={status === "error"}
                           submittedQ={answer.question}
                         />
-                        <DocumentSources sources={answer.sourceDocs} />
+                        {answer.sourceDocs && (
+                          <DocumentSources sources={answer.sourceDocs} />
+                        )}
                       </motion.div>
                     </motion.div>
                   </AnimatePresence>

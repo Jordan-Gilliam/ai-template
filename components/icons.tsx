@@ -1,12 +1,15 @@
 import {
   ArrowDownRight,
+  Globe,
   Laptop,
   Link,
+  Loader2,
   type Icon as LucideIcon,
   LucideProps,
   Moon,
   SunMedium,
   Twitter,
+  UploadCloud,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -18,6 +21,9 @@ export const Icons = {
   twitter: Twitter,
   link: Link,
   arrowDR: ArrowDownRight,
+  upload: UploadCloud,
+  web: Globe,
+  loading: Loader2,
 
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>

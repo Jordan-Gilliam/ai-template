@@ -1,7 +1,7 @@
 import React from "react"
 import Head from "next/head"
 import Image from "next/image"
-import { Layout } from "@/components/Layouts"
+import { PageLayout } from "@/components/Layouts"
 import { Icons } from "@/components/icons"
 
 export default function HomePage() {
@@ -18,7 +18,7 @@ export default function HomePage() {
   }, [])
 
   return (
-    <Layout>
+    <PageLayout>
       <Head>
         <title>Mercury</title>
         <meta
@@ -28,7 +28,7 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="container grid items-center gap-6  px-3 pt-6 pb-8 md:px-12 md:py-10">
+      <section className="container mt-8 grid items-center gap-6 px-3 pt-6 pb-8 md:px-12 md:py-10">
         <div className="mt-6 flex max-w-[980px] flex-col items-center gap-2 md:items-start">
           <Image
             alt="merc-logo-turned"
@@ -36,7 +36,7 @@ export default function HomePage() {
             className=" hover:scale-110 hover:transition hover:duration-100 md:ml-8 md:rotate-[-30deg]"
             height={200}
             width={200}
-            src="/merc-logo-og.webp"
+            src="/merc-logo-down-aqua.webp"
           />
           <h1>
             <span className="font-aboreto text-6xl leading-tight tracking-tight lg:text-8xl">
@@ -58,10 +58,10 @@ export default function HomePage() {
         </p>
       </section>
       <div className="ml-12 flex items-center justify-center md:ml-20 md:gap-20">
-        <Icons.mercury className="fill-[#FEE9DF] dark:fill-mauve-1 dark:stroke-sky-9" />
-        <Icons.mercury className="fill-mauve-12  stroke-violet-12 dark:fill-transparent" />
-        <Icons.mercury className="fill-[#e1fbf4] dark:fill-mauve-1 dark:stroke-orange-9" />
+        <Icons.mercury className="fill-[#FEE9DF]  dark:fill-transparent dark:stroke-mint-4" />
+        <Icons.mercury className="fill-mauve-12  stroke-violet-5 dark:fill-transparent" />
+        <Icons.mercury className="fill-[#e1fbf4]  dark:fill-transparent dark:stroke-mint-6" />
       </div>
-    </Layout>
+    </PageLayout>
   )
 }

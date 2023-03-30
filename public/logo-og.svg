@@ -1,0 +1,30 @@
+<svg width="506" height="441" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter x="-4.3%" y="-4.3%" width="105.2%" height="105.3%" filterUnits="objectBoundingBox" id="b">
+      <feGaussianBlur in="SourceGraphic"/>
+    </filter>
+    <filter x="-5.6%" y="-5.8%" width="107.9%" height="108.4%" filterUnits="objectBoundingBox" id="c">
+      <feMorphology radius="4.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"/>
+      <feOffset dx="-13" dy="-9" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix values="0 0 0 0 0.0784313725 0 0 0 0 0.894117647 0 0 0 0 0.698039216 0 0 0 1 0" in="shadowOffsetOuter1"/>
+    </filter>
+    <filter x="-6.1%" y="-6.4%" width="108.9%" height="109.6%" filterUnits="objectBoundingBox" id="f">
+      <feMorphology radius="3" in="SourceAlpha" result="shadowSpreadInner1"/>
+      <feGaussianBlur stdDeviation="3" in="shadowSpreadInner1" result="shadowBlurInner1"/>
+      <feOffset dx="8" dy="9" in="shadowBlurInner1" result="shadowOffsetInner1"/>
+      <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"/>
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" in="shadowInnerInner1"/>
+    </filter>
+    <pattern id="e" patternUnits="objectBoundingBox" y="-7.22748815%" height="107.227488%" width="100%">
+      <use xlink:href="#a" transform="scale(.94336)"/>
+    </pattern>
+    <path d="M230.98589 5 5 427l483-2.125577L230.98589 5Zm.786288 94L394 369.715687 82 376 231.772178 99Z" id="d"/>
+  </defs>
+  <g filter="url(#b)" transform="rotate(-180 246.5 216)" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+    <use fill="#000" filter="url(#c)" xlink:href="#d"/>
+    <use fill="url(#e)" xlink:href="#d"/>
+    <use fill="#000" filter="url(#f)" xlink:href="#d"/>
+    <use stroke="#1A1523" stroke-width="9" xlink:href="#d"/>
+  </g>
+</svg>

@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { Layout } from "@/components/Layouts"
-import { ScrapeIngest } from "@/components/ingest/Scrape"
+import { PageLayout } from "@/components/Layouts"
+import { UrlScraper } from "@/components/ingest/UrlScraper"
 import { SupabaseQuery } from "@/components/query/SupabaseQuery"
 
 function ToggleHeading({ text, embedding }) {
@@ -35,7 +35,7 @@ export default function SupabaseEmbeddingPage() {
   }
 
   return (
-    <Layout>
+    <PageLayout>
       <div className="  flex min-h-screen  flex-col gap-3 px-3">
         <div className="my-6">
           <div className="flex items-center justify-center md:gap-3">
@@ -74,7 +74,7 @@ export default function SupabaseEmbeddingPage() {
                     Paste a list of comma separated URLs below to generate
                     embeddings
                   </p>
-                  <ScrapeIngest />
+                  <UrlScraper />
                 </div>
               ) : (
                 <div className=" w-full ">
@@ -89,6 +89,6 @@ export default function SupabaseEmbeddingPage() {
           </LayoutGroup>
         </div>
       </div>
-    </Layout>
+    </PageLayout>
   )
 }

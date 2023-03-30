@@ -7,20 +7,11 @@ import { cn } from "@/lib/utils"
 import { CommandMenu } from "@/components/CommandMenu"
 import { ThemeToggle } from "@/components/Layouts"
 import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
 import { buttonVariants } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 export function NavHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-b-mauve-7 backdrop-blur-lg   ">
+    <header className="sticky top-0 z-40 w-full border-b border-b-mauve-7 backdrop-blur   ">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <NavItems items={siteConfig.mainNav} />
         <div className="flex flex-1 items-center justify-end space-x-4">
@@ -74,13 +65,14 @@ function NavItems({ items }: NavItemsProps) {
     <div className="flex gap-6 md:gap-10">
       {/* <div className="relative "> */}
       <Link href="/" className=" flex items-center space-x-2">
-        <div className="md:h-13 relative h-8 w-12">
+        <div className="md:h-13 relative h-8 w-10">
           <Image
             // layout="fill" // required
             // objectFit="cover" // change to suit your needs"
             fill
             className="absolute"
-            src="/logo-down.svg"
+            src="/logo-og.svg"
+            // src="/merc-logo-down-aqua.webp"
             alt="logo"
           />
         </div>
