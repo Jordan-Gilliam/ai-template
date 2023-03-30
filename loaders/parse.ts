@@ -67,7 +67,7 @@ const convertFileToString = async (file: formidable.File, chunks) => {
       throw new Error("Unsupported file type.")
   }
 
-  return fileText
+  return { fileText, fileName: file.originalFilename ?? "fallback-filename" }
 }
 
 export const getFileText = async (req: NextApiRequest) => {

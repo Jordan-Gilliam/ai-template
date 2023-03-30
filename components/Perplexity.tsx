@@ -1,7 +1,7 @@
 import * as React from "react"
-import { children } from "cheerio/lib/api/traversing"
 import { AnimatePresence, motion } from "framer-motion"
-import { ChevronsUpDown, Plus, X } from "lucide-react"
+import { ChevronsUpDown, ListIcon, Plus, X } from "lucide-react"
+import { formatLongUrl } from "@/lib/utils"
 import { pluralize } from "@/lib/utils"
 import { DocumentSourcePill, LinkPill } from "@/components/LinkPill"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
@@ -43,8 +43,8 @@ function Answer({ submittedQ, content, error }) {
     <>
       <AnimatedQuestion submittedQ={submittedQ} />
       <div className="mt-5 flex items-center gap-2">
-        <Icons.arrowDR className="h-6 w-6 stroke-indigo-10 dark:stroke-mint-9" />
-        <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-10 dark:text-mint-9">
+        <Icons.arrowDR className="h-6 w-6 stroke-teal-10 dark:stroke-teal-9" />
+        <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-teal-10 dark:text-teal-9">
           MERCURIAL
         </p>
       </div>
@@ -64,15 +64,15 @@ function Sources({ sources }) {
   return (
     <div className="my-2 border-t border-mauve-7">
       <div className=" my-5 flex gap-2 ">
-        <Icons.link className="h-4 w-4  stroke-indigo-10 dark:stroke-mint-9" />
+        <Icons.link className="h-4 w-4  stroke-teal-10 dark:stroke-teal-9" />
 
-        <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-10 dark:text-mint-9">
+        <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-teal-10 dark:text-teal-9">
           {`${sources.length} ${pluralize("SOURCE", sources.length)}`}
         </p>
       </div>
       <motion.ul layout className=" my-5 flex gap-2 ">
-        {sources.map((url, i) => (
-          <LinkPill key={`${url}-${i}`} order={i} name={url} />
+        {sources.map((source, i) => (
+          <LinkPill key={`${source}-${i}`} order={i} source={source} />
         ))}
       </motion.ul>
     </div>
@@ -80,35 +80,65 @@ function Sources({ sources }) {
 }
 
 function DocumentSources({ sources }) {
+  const [isList, setIsList] = React.useState(false)
   if (!sources) return null
   return (
     <div className="my-2 border-t border-mauve-7">
-      <div className=" my-5 flex gap-2 ">
-        <Icons.link className="h-4 w-4  stroke-indigo-10 dark:stroke-mint-9" />
+      <Collapsible
+        open={isList}
+        onOpenChange={setIsList}
+        className=" space-y-2"
+      >
+        <div className="flex items-center justify-between space-x-4 px-4">
+          <div className="flex gap-2">
+            <Icons.link className="h-4 w-4  stroke-teal-10 dark:stroke-teal-9" />
 
-        <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-10 dark:text-mint-9">
-          {`${sources.length} ${pluralize("SOURCE", sources.length)}`}
-        </p>
-      </div>
-      <motion.ul layout className=" my-5 flex flex-col gap-3  ">
-        {sources.map((doc, i) => (
-          <CollapsibleSource order={i} name={doc.pageContent}>
-            <DocumentSourcePill
-              key={`document-${i}`}
+            <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-teal-10 dark:text-teal-9">
+              {`${sources.length} ${pluralize("SOURCE", sources.length)}`}
+            </p>
+          </div>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="mt-2 w-9 p-0">
+              <ListIcon className="h-4 w-4" />
+              <span className="sr-only">Toggle</span>
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        <motion.ul className="mb-2 flex gap-2">
+          {sources.map((source, i) => (
+            <LinkPill
+              key={`${source.metadata.type}-${i}`}
               order={i}
-              name={doc.pageContent}
+              source={source}
             />
-          </CollapsibleSource>
-        ))}
-      </motion.ul>
+          ))}
+        </motion.ul>
+        <CollapsibleContent className="mt-2 space-y-2">
+          <div className="rounded-md border border-mauve-8 px-4 py-3 text-sm ">
+            <motion.ul layout className=" my-2 flex flex-col gap-3  ">
+              {sources.map((source, i) => (
+                <DocumentSourcePill
+                  key={`document-${i}`}
+                  order={i}
+                  name={source.pageContent}
+                />
+              ))}
+            </motion.ul>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   )
 }
 
-export function CollapsibleSource({ order, name, children }) {
+export function CollapsibleSource({ order, source, children }) {
   const [isOpen, setIsOpen] = React.useState(false)
 
-  const shortName = name.split(" ")[0]
+  const maxPathLength = 15
+  const formattedSource =
+    source.metadata.type === "scrape"
+      ? formatLongUrl(source.metadata.source, maxPathLength)
+      : source.metadata.source
   return (
     <Collapsible
       key={`collapse-source-${order}`}
@@ -118,7 +148,7 @@ export function CollapsibleSource({ order, name, children }) {
     >
       <div className="flex items-center justify-between space-x-4 px-4">
         <h4 className="text-sm font-semibold">
-          [{order + 1}] {shortName}
+          [{order + 1}] {formattedSource}
         </h4>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm" className="w-9 p-0">

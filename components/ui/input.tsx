@@ -1,5 +1,4 @@
 import * as React from "react"
-import { BookIcon, PlusIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export interface InputProps
@@ -8,21 +7,26 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
     return (
-      <input
-        // className={cn(
-        //   "flex h-14 w-full rounded-md border-2 border-mauve-10 bg-transparent py-2 px-3 text-sm placeholder:text-mauve-11 focus:outline-none focus:ring-2  focus:ring-mauve-1 focus:ring-offset-2 focus:ring-offset-mauve-8 disabled:cursor-not-allowed disabled:opacity-50 dark:text-mauve-12",
-        //   className
-        // )}
+      <div
         className={cn(
-          "block h-14 w-full rounded-xl border-2 bg-transparent py-1.5 pl-6 text-lg font-semibold text-mauve-12",
-          "shadow-sm ring-1 ring-inset ring-mauve-2 placeholder:text-mauve-11",
-          "focus:bg-mauve-1 focus:outline-none  focus:ring-2 focus:ring-inset focus:ring-mauve-2",
-          "disabled:cursor-not-allowed disabled:opacity-50 dark:border-black dark:text-mauve-12 sm:leading-6  md:text-xl",
-          className
+          " input-shadow-glow relative before:pointer-events-none before:absolute before:-inset-1 before:rounded-[11px] ",
+          "before:border before:border-teal-500/40 before:opacity-0 before:ring-2 before:ring-teal-300/20  before:transition ",
+          "dark:before:border-teal-400/40 dark:before:ring-teal-900/20",
+          " after:pointer-events-none after:absolute after:inset-px after:rounded-[7px] after:shadow-white/5 after:transition",
+          "focus-within:before:opacity-100 focus-within:after:shadow-teal-500/100 dark:after:shadow-white/5 dark:focus-within:after:shadow-teal-500/20"
         )}
-        ref={ref}
-        {...props}
-      />
+      >
+        <input
+          className={cn(
+            " input-shadow rounded-lg  !outline-none",
+            "relative border border-black/5 bg-white px-7 py-3.5 text-base shadow-black/5  placeholder:text-neutral-400 ",
+
+            " dark:bg-black/60 dark:text-neutral-200 dark:shadow-black/10 dark:placeholder:text-neutral-500 dark:focus:bg-black/70"
+          )}
+          ref={ref}
+          {...props}
+        />
+      </div>
     )
   }
 )
@@ -32,22 +36,26 @@ const InputButton = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <div className="mt-2 flex w-full rounded-md ">
-        <div className="relative w-full ">
+        <div
+          className={cn(
+            " relative w-full before:pointer-events-none before:absolute before:-inset-1 before:rounded-[9991px] before:border before:border-teal-500/20 before:opacity-0 before:transition dark:before:border-teal-400/70 dark:before:ring-2 dark:before:ring-teal-900/40",
+            " input-shadow-glow after:pointer-events-none after:absolute after:inset-px after:rounded-[9987px] after:shadow-white/5 after:transition",
+            "focus-within:before:opacity-100 focus-within:after:shadow-teal-500/100 dark:after:shadow-white/5 dark:focus-within:after:shadow-teal-500/20"
+          )}
+        >
           <input
             type="search"
             autoComplete="false"
-            // className={cn(
-            //   "block h-14 w-full rounded-l-full border-2 bg-mauve-1 py-1.5 pl-6 text-lg font-semibold text-mauve-12",
-            //   "shadow-sm ring-1 ring-inset ring-mauve-2 placeholder:text-mauve-10",
-            //   "focus:bg-transparent focus:outline-none  focus:ring-2 focus:ring-inset focus:ring-mauve-2",
-            //   "disabled:cursor-not-allowed disabled:opacity-50 dark:border-black dark:text-mauve-12 sm:leading-6  md:text-xl",
-            //   className
-            // )}
             className={cn(
-              "block h-14 w-full rounded-l-full border-2 bg-transparent py-1.5 pl-6 text-lg font-semibold text-mauve-12",
-              "shadow-sm ring-1 ring-inset ring-mauve-2 placeholder:text-mauve-11",
-              "focus:bg-mauve-1 focus:outline-none  focus:ring-2 focus:ring-inset focus:ring-mauve-2",
-              "disabled:cursor-not-allowed disabled:opacity-50 dark:border-black dark:text-mauve-12 sm:leading-6  md:text-xl",
+              "w-full    pl-6 text-lg font-semibold",
+              " focus:outline-none  focus:ring-2 focus:ring-inset focus:ring-mauve-2",
+              "disabled:cursor-not-allowed disabled:opacity-50   sm:leading-6 ",
+              "dark:border dark:border-black/40 ",
+              " input-shadow rounded-[9988px]  !outline-none",
+              "relative border border-black/5 bg-white/80 px-7 py-4  shadow-black/5 placeholder:text-neutral-400  focus:bg-white ",
+              // " dark:bg-neutral-950/50 dark:text-neutral-200 dark:shadow-black/10 dark:placeholder:text-neutral-500",
+              " dark:bg-black/60 dark:text-neutral-200 dark:shadow-black/10 dark:placeholder:text-neutral-500",
+              "dark:focus:bg-black/70",
               className
             )}
             ref={ref}

@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { Card } from "@/components/Card"
 import { Layout } from "@/components/Layouts"
 import { NamespaceInput } from "@/components/NamespaceInput"
 import { PineconeFileUpload } from "@/components/ingest/PineconeFileUpload"
-import { ScrapeIngest } from "@/components/ingest/Scrape"
+import { Scrape } from "@/components/ingest/Scrape"
 import { PineconeQuery } from "@/components/query/PineconeQuery"
 
 function ToggleHeading({ text, embedding }) {
@@ -22,12 +23,12 @@ function ToggleHeading({ text, embedding }) {
 }
 
 export default function PineconeEmbeddingPage() {
-  const [embedding, setEmbedding] = useState("EMBED")
+  const [embedding, setEmbedding] = useState("TRAIN")
   const [namespace, setNamespace] = useState("default-namespace")
   const [animateOnce, setAnimateOnce] = useState(true)
 
   function toggleEmbedding() {
-    setEmbedding(embedding === "EMBED" ? "QUERY" : "EMBED")
+    setEmbedding(embedding === "TRAIN" ? "QUERY" : "TRAIN")
     setAnimateOnce(false)
   }
 
@@ -39,10 +40,10 @@ export default function PineconeEmbeddingPage() {
 
   return (
     <Layout>
-      <div className="  flex min-h-screen flex-col items-center  gap-3 px-3">
+      <div className=" flex  flex-col items-center gap-3  px-3 ">
         <div className="my-6">
           <div className="flex items-center justify-center md:gap-3">
-            <ToggleHeading text="EMBED" embedding={embedding} />
+            <ToggleHeading text="TRAIN" embedding={embedding} />
             <button
               className="transition duration-150 hover:scale-105"
               onClick={toggleEmbedding}
@@ -51,14 +52,14 @@ export default function PineconeEmbeddingPage() {
                 className={cn(animateOnce ? "animate-pulse" : "")}
                 alt={embedding}
                 src={
-                  embedding === "EMBED"
-                    ? "/merc-logo-down-purple.webp"
+                  embedding === "TRAIN"
+                    ? "/merc-logo-down-aqua.webp"
                     : "/merc-logo-down-aqua.webp"
                 }
                 variants={imageVariants}
-                animate={{ rotateX: embedding === "EMBED" ? 0 : 180 }}
-                height={250}
-                width={250}
+                animate={{ rotateX: embedding === "TRAIN" ? 0 : 180 }}
+                height={200}
+                width={200}
               />
             </button>
 
@@ -71,7 +72,7 @@ export default function PineconeEmbeddingPage() {
         <div className=" flex flex-col items-center">
           <LayoutGroup>
             <motion.div className=" flex w-full flex-col items-center  ">
-              {embedding === "EMBED" ? (
+              {embedding === "TRAIN" ? (
                 <>
                   <div className="mb-5 items-center md:max-w-2xl">
                     <div className="w-full">
@@ -82,22 +83,31 @@ export default function PineconeEmbeddingPage() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col items-center justify-between divide-y-2 divide-dashed divide-mauve-7  md:mt-6 md:flex-row md:items-start md:divide-x-2 md:divide-y-0">
+                  <div className="flex flex-col items-center justify-between md:mt-6 md:flex-row md:items-start ">
                     <div className="  pt-4 md:mx-4 md:mt-0 md:max-w-2xl">
-                      <p className=" text-mauve-12 md:text-center md:text-lg">
-                        Upload your pdf to Pinecone as a vector
-                      </p>
-                      <div className=" mt-6 w-full">
-                        <PineconeFileUpload namespace={namespace} />
+                      <div className="  w-full">
+                        <Card
+                          cardDetails={{
+                            name: "Upload",
+                            description:
+                              "Upload your pdf to Pinecone as a vector",
+                          }}
+                        >
+                          <PineconeFileUpload namespace={namespace} />
+                        </Card>
                       </div>
                     </div>
 
                     <div className=" px-6 pt-4 md:mx-4 md:mt-0 md:max-w-2xl">
-                      <p className="  text-mauve-12 md:text-center md:text-lg">
-                        Scrape URLs to generate embeddings
-                      </p>
-                      <div className="mt-2 w-full">
-                        <ScrapeIngest namespace={namespace} />
+                      <div className=" w-full">
+                        <Card
+                          cardDetails={{
+                            name: "Scrape",
+                            description: "Scrape URLs to generate embeddings",
+                          }}
+                        >
+                          <Scrape namespace={namespace} />
+                        </Card>
                       </div>
                     </div>
                   </div>

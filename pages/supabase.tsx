@@ -2,7 +2,7 @@ import { useState } from "react"
 import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { Layout } from "@/components/Layouts"
-import { ScrapeIngest } from "@/components/ingest/Scrape"
+import { Scrape } from "@/components/ingest/Scrape"
 import { SupabaseQuery } from "@/components/query/SupabaseQuery"
 
 function ToggleHeading({ text, embedding }) {
@@ -74,7 +74,7 @@ export default function SupabaseEmbeddingPage() {
                     Paste a list of comma separated URLs below to generate
                     embeddings
                   </p>
-                  <ScrapeIngest />
+                  <Scrape />
                 </div>
               ) : (
                 <div className=" w-full ">

@@ -21,7 +21,8 @@ export function SearchInput({
   return (
     <div className="flex w-full max-w-lg items-center space-x-2">
       <InputButton
-        className="relative rounded-full py-8 pr-16 ring-2 dark:ring-teal-900/20"
+        // className="relative rounded-full py-8 pr-16 ring-1 dark:ring-purple-900/40 dark:focus:ring-teal-800/50"
+        className="relative  py-5 pr-10  "
         value={value}
         onKeyDown={handleKeyDown}
         onChange={handleChange}
@@ -46,10 +47,10 @@ export function SearchInput({
             >
               <AnimatePresence>
                 {loading ? (
-                  <Loader2 className="-ml-0.5 h-7 w-7 animate-spin text-indigo-9 group-hover:text-indigo-9 dark:text-mint-10 dark:group-hover:text-mint-9" />
+                  <Loader2 className="-ml-0.5 h-7 w-7 animate-spin text-teal-500/80 group-hover:text-teal-500  dark:text-teal-500/80 dark:group-hover:text-teal-500" />
                 ) : status === "typing" || status === "idle" ? (
                   <PlusIcon
-                    className="-ml-0.5 h-7 w-7 text-indigo-9 group-hover:text-indigo-9  dark:text-mint-10 dark:group-hover:text-mint-9"
+                    className="-ml-0.5 h-7 w-7 text-teal-500/80 group-hover:text-teal-500  dark:text-teal-400/80 dark:group-hover:text-teal-400"
                     aria-hidden="true"
                   />
                 ) : (
@@ -70,7 +71,7 @@ function CheckIcon(props) {
       {...props}
       fill="none"
       viewBox="0 0 24 24"
-      className="-ml-0.5 h-7 w-7 text-indigo-9 group-hover:text-indigo-9 dark:text-mint-10 dark:group-hover:text-mint-9"
+      className="-ml-0.5 h-7 w-7 text-teal-9 group-hover:text-teal-9 dark:text-teal-10 dark:group-hover:text-teal-9"
       stroke="currentColor"
       strokeWidth={3}
     >

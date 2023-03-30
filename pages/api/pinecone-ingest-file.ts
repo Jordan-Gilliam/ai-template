@@ -9,8 +9,7 @@ import { initPinecone } from "@/config/pinecone"
 if (
   !process.env.PINECONE_ENVIRONMENT ||
   !process.env.PINECONE_API_KEY ||
-  !process.env.PINECONE_INDEX_NAME ||
-  !process.env.PINECONE_NAMESPACE
+  !process.env.PINECONE_INDEX_NAME
 ) {
   throw new Error("Pinecone environment or api key vars missing")
 }

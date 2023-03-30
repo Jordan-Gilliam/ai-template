@@ -14,7 +14,7 @@ body,
   font-size: 10px;
 }
 
-.fancy-bg2 {
+.fancy-bg1 {
   background-image: radial-gradient(
       circle 800px at 700px 200px,
       var(--plum3),
@@ -33,4 +33,65 @@ body,
       var(--pink2),
       transparent
     );
+}
+
+.fancy-bg2 {
+  background-image: radial-gradient(
+      circle 800px at 700px 200px,
+      var(--purple2),
+      transparent
+    ),
+    radial-gradient(
+      circle 600px at calc(100% - 300px) 300px,
+      var(--mint1),
+      transparent
+    ),
+    radial-gradient(circle 800px at right center, var(--violet1), transparent),
+    /* radial-gradient(circle 800px at right bottom, var(--sky1), transparent), */
+      radial-gradient(
+        circle 800px at calc(50% - 600px) calc(100% - 100px),
+        var(--crimson1),
+        var(--violet3),
+        transparent
+      );
+}
+
+input,
+textarea {
+  @apply caret-violet-9;
+}
+
+.shadow-box2 {
+  box-shadow: 0 0 50px -12px rgba(208, 121, 249, 0.3);
+}
+.shadow-box {
+  box-shadow: 0 0 50px -12px rgba(121, 247, 249, 0.3);
+}
+
+.input-shadow {
+  --tw-shadow: 0px 1px 0px -1px var(--tw-shadow-color),
+    0px 1px 1px -1px var(--tw-shadow-color),
+    0px 1px 2px -1px var(--tw-shadow-color),
+    0px 2px 4px -2px var(--tw-shadow-color),
+    0px 3px 6px -3px var(--tw-shadow-color);
+  --tw-shadow-colored: 0px 1px 0px -1px var(--tw-shadow-color),
+    0px 1px 1px -1px var(--tw-shadow-color),
+    0px 1px 2px -1px var(--tw-shadow-color),
+    0px 2px 4px -2px var(--tw-shadow-color),
+    0px 3px 6px -3px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.dark .input-shadow-glow::after {
+  --tw-shadow: inset 0px 0px 0px 1px var(--tw-shadow-color),
+    inset 0px 1px 0px var(--tw-shadow-color);
+  --tw-shadow-colored: inset 0px 0px 0px 1px var(--tw-shadow-color),
+    inset 0px 1px 0px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.border {
+  background-clip: padding-box;
 }

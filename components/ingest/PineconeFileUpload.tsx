@@ -50,13 +50,16 @@ export function PineconeFileUpload({ namespace }) {
   })
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex h-48 flex-col items-center">
       <div
         className={cn(
-          "min-w-full cursor-pointer rounded-xl border-2 p-6 text-mauve-12  ",
-          "shadow-sm ring-1 ring-inset ring-mauve-2 placeholder:text-mauve-11",
-          "focus:bg-mauve-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-mauve-2",
-          "disabled:cursor-not-allowed disabled:opacity-50 dark:border-black dark:text-mauve-12 sm:leading-6  md:text-xl"
+          "min-w-[300px] cursor-pointer  p-6 text-mauve-12  ",
+          // "shadow-sm ring-1 ring-inset ring-mauve-2 placeholder:text-mauve-11",
+          // "focus:bg-mauve-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-mauve-2",
+          // "disabled:cursor-not-allowed disabled:opacity-50 dark:border-black dark:text-mauve-12 sm:leading-6  md:text-xl"
+          " input-shadow rounded-lg  !outline-none",
+          "relative border border-black/5 bg-white px-7  text-base shadow-black/5  placeholder:text-neutral-400 ",
+          " dark:bg-neutral-950/50 dark:focus:bg-neutral-950/60 dark:text-neutral-200 dark:shadow-black/10 dark:placeholder:text-neutral-500"
         )}
         {...getRootProps()}
       >
@@ -70,11 +73,11 @@ export function PineconeFileUpload({ namespace }) {
               ) : (
                 <p className="px-6">Drag and drop pdf file here</p>
               )}
-              <File className="mt-6 h-8 w-8 stroke-mauve-8" />
             </div>
           )}
         </div>
         <div className="flex  cursor-pointer items-center justify-center ">
+          <File className="mt-3 h-8 w-8 stroke-mauve-8" />
           <input {...getInputProps()} className="h-full" />
         </div>
       </div>
@@ -82,7 +85,8 @@ export function PineconeFileUpload({ namespace }) {
       <Button
         disabled={!files || isUploading}
         onClick={handleUpload}
-        className="mt-4"
+        className=" mt-auto bg-neutral-300/70 px-16 py-3.5 hover:bg-neutral-400/50 dark:bg-neutral-700/50 dark:hover:bg-neutral-750/50"
+        variant="ghost"
       >
         {!isUploading ? (
           <UploadCloud className="mr-2 h-4 w-4" />
