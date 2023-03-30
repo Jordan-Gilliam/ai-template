@@ -47,18 +47,23 @@ body,
       transparent
     ),
     radial-gradient(circle 800px at right center, var(--violet1), transparent),
-    /* radial-gradient(circle 800px at right bottom, var(--sky1), transparent), */
+    /* radial-gradient(circle 800px at right bottom, var(--teal4), transparent), */
       radial-gradient(
-        circle 800px at calc(50% - 600px) calc(100% - 100px),
-        var(--crimson1),
-        var(--violet3),
+        circle 800px at calc(50% + 700px) calc(100% + 100px),
+        var(--mint8),
         transparent
-      );
+      ),
+    radial-gradient(
+      circle 800px at calc(50% - 600px) calc(100% - 100px),
+      var(--crimson1),
+      var(--violet3),
+      transparent
+    );
 }
 
 input,
 textarea {
-  @apply caret-violet-9;
+  @apply caret-teal-400;
 }
 
 .shadow-box2 {

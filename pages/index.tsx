@@ -1,7 +1,7 @@
 import React from "react"
 import Head from "next/head"
 import Image from "next/image"
-import { Layout } from "@/components/Layouts"
+import { PageLayout } from "@/components/Layouts"
 import { Icons } from "@/components/icons"
 
 export default function HomePage() {
@@ -18,7 +18,7 @@ export default function HomePage() {
   }, [])
 
   return (
-    <Layout>
+    <PageLayout>
       <Head>
         <title>Mercury</title>
         <meta
@@ -28,7 +28,7 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="container mt-16 grid items-center gap-6 px-3 pt-6 pb-8 md:px-12 md:py-10">
+      <section className="container mt-8 grid items-center gap-6 px-3 pt-6 pb-8 md:px-12 md:py-10">
         <div className="mt-6 flex max-w-[980px] flex-col items-center gap-2 md:items-start">
           <Image
             alt="merc-logo-turned"
@@ -62,6 +62,6 @@ export default function HomePage() {
         <Icons.mercury className="fill-mauve-12  stroke-violet-5 dark:fill-transparent" />
         <Icons.mercury className="fill-[#e1fbf4]  dark:fill-transparent dark:stroke-mint-6" />
       </div>
-    </Layout>
+    </PageLayout>
   )
 }

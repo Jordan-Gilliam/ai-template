@@ -21,7 +21,7 @@ export const Card = ({
       onMouseEnter={() => setHighlight(true)}
       onMouseLeave={() => setHighlight(false)}
       className={cn(
-        "flex min-h-[350px] w-full flex-col items-center rounded-2xl bg-transparent pt-7 backdrop-blur-xl dark:border-black/30 dark:bg-black/50 ",
+        "flex min-h-[350px] w-96 flex-col items-center rounded-2xl bg-transparent pt-7 backdrop-blur dark:border-black/30 dark:bg-neutral-800/30  md:w-full ",
         {
           "border border-neutral-900/50 shadow-lg transition duration-150 dark:border-neutral-700/50 ":
             !highlight,
@@ -39,7 +39,7 @@ export const Card = ({
         </p>
       </div>
       {/* <div className="flex   w-full items-center justify-center bg-neutral-900/0 px-4 md:px-8"> */}
-      <div className="mt-2">{children}</div>
+      <div className="mt-2 backdrop-blur-none">{children}</div>
     </div>
   )
 }

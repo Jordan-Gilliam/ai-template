@@ -3,6 +3,16 @@ import { Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { InputButton } from "@/components/ui/input"
 
+type SearchProps = {
+  value: string
+  status: string
+  handleChange: (e) => void
+  handleClick: (e) => void
+  loading: boolean
+  placeholder: string
+  className?: string
+}
+
 export function SearchInput({
   value,
   status,
@@ -10,7 +20,8 @@ export function SearchInput({
   handleClick,
   loading,
   placeholder,
-}) {
+  className,
+}: SearchProps) {
   function handleKeyDown(e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
@@ -22,7 +33,7 @@ export function SearchInput({
     <div className="flex w-full max-w-lg items-center space-x-2">
       <InputButton
         // className="relative rounded-full py-8 pr-16 ring-1 dark:ring-purple-900/40 dark:focus:ring-teal-800/50"
-        className="relative  py-5 pr-10  "
+        className={cn("relative  py-5 pr-10  ", className)}
         value={value}
         onKeyDown={handleKeyDown}
         onChange={handleChange}
@@ -49,10 +60,7 @@ export function SearchInput({
                 {loading ? (
                   <Loader2 className="-ml-0.5 h-7 w-7 animate-spin text-teal-500/80 group-hover:text-teal-500  dark:text-teal-500/80 dark:group-hover:text-teal-500" />
                 ) : status === "typing" || status === "idle" ? (
-                  <PlusIcon
-                    className="-ml-0.5 h-7 w-7 text-teal-500/80 group-hover:text-teal-500  dark:text-teal-400/80 dark:group-hover:text-teal-400"
-                    aria-hidden="true"
-                  />
+                  <PlusIcon aria-hidden="true" />
                 ) : (
                   <CheckIcon />
                 )}
@@ -71,7 +79,8 @@ function CheckIcon(props) {
       {...props}
       fill="none"
       viewBox="0 0 24 24"
-      className="-ml-0.5 h-7 w-7 text-teal-9 group-hover:text-teal-9 dark:text-teal-10 dark:group-hover:text-teal-9"
+      // className="-ml-0.5 h-7 w-7 text-teal-9 group-hover:text-teal-9 dark:text-teal-10 dark:group-hover:text-teal-9"
+      className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400/80 dark:group-hover:text-teal-400"
       stroke="currentColor"
       strokeWidth={3}
     >
@@ -91,6 +100,7 @@ function PlusIcon(props) {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
+      className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400/80 dark:group-hover:text-teal-400"
       width="24"
       height="24"
       viewBox="0 0 24 24"

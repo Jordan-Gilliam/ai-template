@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
+import { SearchInput } from "../SearchInput"
 import { useCookies } from "react-cookie"
+import { cn } from "@/lib/utils"
 import {
   type ChatGPTMessage,
   ChatLine,
   LoadingChatLine,
 } from "@/components/ChatLine"
 import "@/components/ChatLine"
-import { Button } from "@/components/ui/button"
 import { toast } from "@/hooks/use-toast"
 
 const COOKIE_NAME = "nextjs-example-ai-chat-gpt3"
@@ -23,7 +24,8 @@ export function Chat({ apiPath }: { apiPath: string }) {
   const [chatMessages, setChatMessages] =
     useState<ChatGPTMessage[]>(initialMessages)
   const [input, setInput] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [highlight, setHighlight] = useState(false)
+  const [status, setStatus] = useState("idle")
   const [cookie, setCookie] = useCookies([COOKIE_NAME])
 
   useEffect(() => {
@@ -34,9 +36,15 @@ export function Chat({ apiPath }: { apiPath: string }) {
     }
   }, [cookie, setCookie])
 
+  function handleChange(e) {
+    setStatus("typing")
+    return setInput(e.target.value)
+  }
+
   // send message to API /api/chat endpoint
   const sendMessage = async (message: string) => {
-    setLoading(true)
+    setStatus("loading")
+    setInput("")
     const newMessages = [
       ...chatMessages,
       { role: "user", content: message } as ChatGPTMessage,
@@ -58,6 +66,7 @@ export function Chat({ apiPath }: { apiPath: string }) {
     console.log("Edge function returned.")
 
     if (!response.ok) {
+      setStatus("error")
       return toast({
         title: "Chat API Error",
         description: response.statusText,
@@ -88,59 +97,47 @@ export function Chat({ apiPath }: { apiPath: string }) {
         { role: "assistant", content: lastMessage } as ChatGPTMessage,
       ])
 
-      setLoading(false)
+      setStatus("complete")
     }
   }
 
   return (
-    <div className="rounded-2xl border-mauve-8  lg:border lg:p-6">
-      {chatMessages.map(({ content, role }, index) => (
-        <ChatLine key={index} role={role} content={content} />
-      ))}
+    <div className="mx-auto">
+      <div
+        onMouseEnter={() => setHighlight(true)}
+        onMouseLeave={() => setHighlight(false)}
+        className={cn(
+          " rounded-2xl bg-transparent p-2 dark:border-black/30 md:p-6 md:backdrop-blur-xl ",
+          {
+            "border border-neutral-900/50 transition duration-150 dark:border-neutral-700/50 md:shadow ":
+              !highlight,
+            " border border-teal-900/30   transition duration-150 ": highlight,
+          }
+        )}
+      >
+        {chatMessages.map(({ content, role }, index) => (
+          <ChatLine key={index} role={role} content={content} />
+        ))}
 
-      {loading && <LoadingChatLine />}
+        {status === "loading" && <LoadingChatLine />}
 
-      {chatMessages.length < 2 && (
-        <span className="clear-both mx-auto flex grow text-mauve-11">
-          Type a message to start the conversation
-        </span>
-      )}
-      <InputMessage
-        input={input}
-        setInput={setInput}
-        sendMessage={sendMessage}
-      />
+        {chatMessages.length < 2 && (
+          <span className="clear-both mx-auto flex grow text-mauve-11">
+            Type a message to start the conversation
+          </span>
+        )}
+        <div className="clear-both mt-6 flex items-center justify-center">
+          <SearchInput
+            className=""
+            value={input}
+            handleChange={handleChange}
+            loading={status === "loading"}
+            handleClick={() => sendMessage(input)}
+            status={status}
+            placeholder="ask anything"
+          />
+        </div>
+      </div>
     </div>
   )
 }
-
-const InputMessage = ({ input, setInput, sendMessage }: any) => (
-  <div className="clear-both mt-6 flex">
-    <input
-      type="text"
-      aria-label="chat input"
-      required
-      className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-mauve-1 px-3 py-[calc(theme(spacing.2)-1px)] text-mauve-12 shadow-md shadow-zinc-800/5 placeholder:text-mauve-11 focus:border-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-500/10 sm:text-sm"
-      value={input}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          sendMessage(input)
-          setInput("")
-        }
-      }}
-      onChange={(e) => {
-        setInput(e.target.value)
-      }}
-    />
-    <Button
-      type="submit"
-      className="ml-4 flex-none"
-      onClick={() => {
-        sendMessage(input)
-        setInput("")
-      }}
-    >
-      Say
-    </Button>
-  </div>
-)

@@ -20,8 +20,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className={cn(
             " input-shadow rounded-lg  !outline-none",
             "relative border border-black/5 bg-white px-7 py-3.5 text-base shadow-black/5  placeholder:text-neutral-400 ",
-
-            " dark:bg-black/60 dark:text-neutral-200 dark:shadow-black/10 dark:placeholder:text-neutral-500 dark:focus:bg-black/70"
+            " dark:bg-black/80 dark:text-white dark:shadow-black/10 dark:placeholder:text-neutral-300 dark:focus:bg-black"
           )}
           ref={ref}
           {...props}

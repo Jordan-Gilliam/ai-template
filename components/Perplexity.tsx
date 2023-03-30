@@ -1,9 +1,7 @@
 import * as React from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { ChevronsUpDown, ListIcon, Plus, X } from "lucide-react"
-import { formatLongUrl } from "@/lib/utils"
-import { pluralize } from "@/lib/utils"
-import { DocumentSourcePill, LinkPill } from "@/components/LinkPill"
+import { ChevronsUpDown, ListIcon } from "lucide-react"
+import { cn, formatLongUrl, pluralize } from "@/lib/utils"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
@@ -12,6 +10,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { useToggle } from "@/hooks/use-toggle"
 
 function AnimatedQuestion({ submittedQ }) {
   const fadeIn = {
@@ -59,6 +58,18 @@ function Answer({ submittedQ, content, error }) {
   )
 }
 
+const animateList = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+}
+
 function Sources({ sources }) {
   if (!sources) return null
   return (
@@ -70,9 +81,14 @@ function Sources({ sources }) {
           {`${sources.length} ${pluralize("SOURCE", sources.length)}`}
         </p>
       </div>
-      <motion.ul layout className=" my-5 flex gap-2 ">
+      <motion.ul
+        variants={animateList}
+        initial="hidden"
+        animate="visible"
+        className=" my-5 flex gap-2 "
+      >
         {sources.map((source, i) => (
-          <LinkPill key={`${source}-${i}`} order={i} source={source} />
+          <SourcePill key={`${source}-${i}`} order={i} source={source} />
         ))}
       </motion.ul>
     </div>
@@ -80,59 +96,135 @@ function Sources({ sources }) {
 }
 
 function DocumentSources({ sources }) {
-  const [isList, setIsList] = React.useState(false)
+  const [isOpen, toggleIsOpen] = useToggle()
+
   if (!sources) return null
   return (
-    <div className="my-2 border-t border-mauve-7">
-      <Collapsible
-        open={isList}
-        onOpenChange={setIsList}
-        className=" space-y-2"
-      >
-        <div className="flex items-center justify-between space-x-4 px-4">
-          <div className="flex gap-2">
-            <Icons.link className="h-4 w-4  stroke-teal-10 dark:stroke-teal-9" />
+    <AnimatePresence>
+      <motion.div className="my-2 border-t border-mauve-7">
+        <Collapsible
+          open={isOpen}
+          onOpenChange={toggleIsOpen}
+          className=" space-y-2"
+        >
+          <div className="flex items-center justify-between space-x-4 px-4">
+            <div className="flex gap-2">
+              <Icons.link className="h-4 w-4  stroke-teal-10 dark:stroke-teal-9" />
 
-            <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-teal-10 dark:text-teal-9">
-              {`${sources.length} ${pluralize("SOURCE", sources.length)}`}
-            </p>
+              <p className=" font-aboreto text-sm font-bold leading-tight tracking-wide text-teal-10 dark:text-teal-9">
+                {`${sources.length} ${pluralize("SOURCE", sources.length)}`}
+              </p>
+            </div>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm" className="mt-2 w-9 p-0">
+                <ListIcon className="h-4 w-4" />
+                <span className="sr-only">Toggle</span>
+              </Button>
+            </CollapsibleTrigger>
           </div>
-          <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" className="mt-2 w-9 p-0">
-              <ListIcon className="h-4 w-4" />
-              <span className="sr-only">Toggle</span>
-            </Button>
-          </CollapsibleTrigger>
+          <motion.ul
+            variants={animateList}
+            initial="hidden"
+            animate="visible"
+            className="animateList flex flex-wrap gap-2 after:mb-2"
+          >
+            {sources.map((source, i) => (
+              <SourcePill
+                key={`${source.metadata.type}-${i}`}
+                order={i}
+                source={source}
+              />
+            ))}
+          </motion.ul>
+          <CollapsibleContent className="mt-2 space-y-2">
+            <div className="rounded-md border border-mauve-8 px-4 py-3 text-sm ">
+              <motion.ul layout className=" my-2 flex flex-col gap-3  ">
+                {sources.map((source, i) => (
+                  <SourceContent
+                    key={`document-${i}`}
+                    order={i}
+                    name={source.pageContent}
+                  />
+                ))}
+              </motion.ul>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+const animateItem = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+}
+function SourcePill({ order, source }) {
+  const maxPathLength = 15
+
+  const formattedSource =
+    source.metadata.type === "scrape"
+      ? formatLongUrl(source.metadata.source, maxPathLength)
+      : source.metadata.source
+
+  if (source.metadata.type === "scrape") {
+    return (
+      <motion.li
+        variants={animateItem}
+        className=" group block max-w-lg cursor-pointer rounded-full "
+      >
+        <motion.a
+          href={source.metadata.source}
+          target="_blank"
+          rel="noopener noreferrer"
+          // className="group flex items-center gap-x-1 divide-x divide-mauve-9 rounded-full border border-mauve-9 bg-transparent  p-1 transition duration-300  group-hover:border-pink-10 md:gap-x-2 md:p-2"
+          className="group flex items-center gap-x-1 divide-x divide-neutral-500 rounded-full border border-neutral-700/50 bg-transparent p-1 transition duration-300  group-hover:border-violet-10 dark:border-neutral-400/50 md:gap-x-2 md:p-2"
+        >
+          <div className="divide-zinc-200 border-zinc-200 bg-transparent transition duration-300 md:pl-2 ">
+            <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-mauve-11 transition duration-300 selection:bg-teal-8 selection:text-white group-hover:text-teal-9 dark:group-hover:text-teal-11 ">
+              {order + 1}
+            </div>
+          </div>
+          <div className="px-1 md:px-3">
+            <div className="flex items-center  divide-mauve-1 border-mauve-6 bg-transparent transition duration-300 ">
+              <div className="font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-teal-9 dark:group-hover:text-teal-11 ">
+                {formattedSource}
+              </div>
+            </div>
+          </div>
+        </motion.a>
+      </motion.li>
+    )
+  }
+
+  return (
+    <motion.li
+      variants={animateItem}
+      className="group block max-w-lg cursor-default rounded-full "
+    >
+      <motion.div className="group flex items-center gap-x-1 divide-x divide-neutral-500 rounded-full border border-neutral-700/50 bg-transparent p-1 transition duration-300  group-hover:border-violet-10 dark:border-neutral-400/50 md:gap-x-2 md:p-2">
+        <div className="divide-zinc-200 border-zinc-200 bg-transparent pl-1.5 transition duration-300 md:pl-2 ">
+          <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-mauve-11 transition duration-300 selection:bg-teal-8 selection:text-white group-hover:text-teal-9 dark:group-hover:text-teal-10 ">
+            {order + 1}
+          </div>
         </div>
-        <motion.ul className="mb-2 flex gap-2">
-          {sources.map((source, i) => (
-            <LinkPill
-              key={`${source.metadata.type}-${i}`}
-              order={i}
-              source={source}
-            />
-          ))}
-        </motion.ul>
-        <CollapsibleContent className="mt-2 space-y-2">
-          <div className="rounded-md border border-mauve-8 px-4 py-3 text-sm ">
-            <motion.ul layout className=" my-2 flex flex-col gap-3  ">
-              {sources.map((source, i) => (
-                <DocumentSourcePill
-                  key={`document-${i}`}
-                  order={i}
-                  name={source.pageContent}
-                />
-              ))}
-            </motion.ul>
+        <div className="px-1 md:px-3">
+          <div className="flex items-center  divide-mauve-1 border-mauve-6 bg-transparent transition duration-300 ">
+            <div className="font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-teal-9 dark:group-hover:text-teal-10 ">
+              {formattedSource}
+            </div>
           </div>
-        </CollapsibleContent>
-      </Collapsible>
-    </div>
+        </div>
+      </motion.div>
+    </motion.li>
   )
 }
 
 export function CollapsibleSource({ order, source, children }) {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, toggleIsOpen] = useToggle()
 
   const maxPathLength = 15
   const formattedSource =
@@ -143,7 +235,7 @@ export function CollapsibleSource({ order, source, children }) {
     <Collapsible
       key={`collapse-source-${order}`}
       open={isOpen}
-      onOpenChange={setIsOpen}
+      onOpenChange={toggleIsOpen}
       className=" space-y-2"
     >
       <div className="flex items-center justify-between space-x-4 px-4">
@@ -151,7 +243,7 @@ export function CollapsibleSource({ order, source, children }) {
           [{order + 1}] {formattedSource}
         </h4>
         <CollapsibleTrigger asChild>
-          <Button variant="ghost" size="sm" className="w-9 p-0">
+          <Button variant="subtle" size="sm" className="w-9 p-0 ">
             <ChevronsUpDown className="h-4 w-4" />
             <span className="sr-only">Toggle</span>
           </Button>
@@ -164,6 +256,64 @@ export function CollapsibleSource({ order, source, children }) {
         </div>
       </CollapsibleContent>
     </Collapsible>
+  )
+}
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 1.5 } },
+  exit: { opacity: 0, transition: { duration: 0.02 } },
+}
+
+function AnimatedParagraph({ key, content, isOpen }) {
+  return (
+    <AnimatePresence key={key}>
+      {content && (
+        <motion.p
+          key={content}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={fadeIn}
+          className={cn(
+            " max-w-[240px] font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-violet-9 dark:group-hover:text-violet-11 md:max-w-full  ",
+            isOpen ? "" : "line-clamp-5"
+          )}
+        >
+          {content}
+        </motion.p>
+      )}
+    </AnimatePresence>
+  )
+}
+
+function SourceContent({ order, name }) {
+  const [isOpen, toggleIsOpen] = useToggle()
+  console.log(isOpen)
+
+  return (
+    <motion.li
+      variants={fadeIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      key={order}
+      className=" group mb-4 block  cursor-pointer "
+      onClick={toggleIsOpen}
+    >
+      <div className="group flex items-center gap-x-2 rounded-xl  bg-transparent  transition duration-300 group-hover:border-pink-10">
+        <div className=" bg-transparent pr-2 transition duration-300 ">
+          <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-mauve-11 transition duration-300 selection:bg-teal-8 selection:text-white group-hover:text-teal-9 dark:group-hover:text-teal-10 ">
+            {order + 1}
+          </div>
+        </div>
+        <div className="mr-2 mb-2">
+          <div className="flex items-center gap-x-1 bg-transparent transition duration-300 ">
+            <AnimatedParagraph key={order} isOpen={isOpen} content={name} />
+          </div>
+        </div>
+      </div>
+    </motion.li>
   )
 }
 

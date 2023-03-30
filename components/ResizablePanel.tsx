@@ -13,7 +13,7 @@ export default function ResizablePanel({
       animate={height ? { height } : {}}
       style={height ? { height } : {}}
       className="relative w-full overflow-hidden"
-      transition={{ type: "spring", bounce: 0.25 }}
+      transition={{ type: "spring", bounce: 0.15 }}
     >
       <div ref={ref} className={height ? "absolute inset-x-0" : "relative"}>
         {children}

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/Card"
-import { Layout } from "@/components/Layouts"
+import { PageLayout } from "@/components/Layouts"
 import { NamespaceInput } from "@/components/NamespaceInput"
 import { PineconeFileUpload } from "@/components/ingest/PineconeFileUpload"
 import { UrlScraper } from "@/components/ingest/UrlScraper"
@@ -22,7 +22,7 @@ function ToggleHeading({ text, embedding }) {
   )
 }
 
-export default function PineconeEmbeddingPage() {
+export default function Pinecone() {
   const [embedding, setEmbedding] = useState("TRAIN")
   const [namespace, setNamespace] = useState("default-namespace")
   const [animateOnce, setAnimateOnce] = useState(true)
@@ -39,8 +39,8 @@ export default function PineconeEmbeddingPage() {
   }
 
   return (
-    <Layout>
-      <div className=" flex  flex-col items-center gap-3  px-3 ">
+    <PageLayout>
+      <div className="  flex flex-col items-center gap-3  px-3 ">
         <div className="my-6">
           <div className="flex items-center justify-center md:gap-3">
             <ToggleHeading text="TRAIN" embedding={embedding} />
@@ -69,7 +69,7 @@ export default function PineconeEmbeddingPage() {
           </div>
         </div>
 
-        <div className=" flex flex-col items-center">
+        <div className="mb-6 flex flex-col items-center">
           <LayoutGroup>
             <motion.div className=" flex w-full flex-col items-center  ">
               {embedding === "TRAIN" ? (
@@ -125,6 +125,6 @@ export default function PineconeEmbeddingPage() {
           </LayoutGroup>
         </div>
       </div>
-    </Layout>
+    </PageLayout>
   )
 }

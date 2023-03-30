@@ -15,7 +15,7 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
-function Layout({ children }: LayoutProps) {
+function PageLayout({ children }: LayoutProps) {
   return (
     <>
       <NavHeader />
@@ -79,4 +79,4 @@ function ThemeToggle() {
   )
 }
 
-export { Layout, Logo, FancyBackground, ThemeToggle }
+export { PageLayout, Logo, FancyBackground, ThemeToggle }
