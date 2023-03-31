@@ -49,4 +49,42 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
-export { Button, buttonVariants }
+const GlowButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, disabled, size, ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          " relative w-full before:pointer-events-none before:absolute before:-inset-1 before:rounded-[11px] before:border before:border-teal-500/20 before:opacity-0   before:transition dark:before:border-teal-400/70 dark:before:ring-2 dark:before:ring-teal-900/40",
+          " input-shadow-glow after:pointer-events-none after:absolute after:inset-px after:rounded-[7px] after:shadow-white/5 after:transition",
+          !disabled &&
+            "focus-within:before:opacity-100 focus-within:after:shadow-teal-500/100 dark:after:shadow-white/5 dark:focus-within:after:shadow-teal-500/20",
+          !disabled &&
+            "hover:before:opacity-100 hover:after:shadow-teal-500/100  dark:hover:after:shadow-teal-500/20"
+        )}
+      >
+        <button
+          className={cn(
+            "w-full font-semibold shadow-md",
+            !disabled &&
+              " focus:outline-none  focus:ring-1 focus:ring-inset focus:ring-neutral-800/10",
+            !disabled &&
+              " hover:outline-none  hover:ring-1 hover:ring-inset  hover:ring-neutral-800/10",
+            "disabled:cursor-not-allowed disabled:opacity-80   sm:leading-6 ",
+            "dark:border dark:border-black/40 ",
+            " input-shadow rounded-lg  !outline-none",
+            "relative border border-black/5 bg-white/80 px-3.5 py-2 text-black shadow-black/5 placeholder:text-neutral-800  focus:bg-white ",
+            " dark:bg-black/60 dark:text-white dark:shadow-black/10 dark:placeholder:text-neutral-500",
+            !disabled && "dark:hover:bg-black/70 dark:focus:bg-black/70",
+            disabled && "cursor-default",
+            className
+          )}
+          ref={ref}
+          {...props}
+        />
+      </div>
+    )
+  }
+)
+GlowButton.displayName = "GlowButton"
+
+export { Button, GlowButton, buttonVariants }

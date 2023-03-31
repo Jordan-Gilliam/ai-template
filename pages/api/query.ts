@@ -17,7 +17,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { namespace } = req.headers
-  console.log("namespace", namespace)
 
   if (!req.body.question) {
     return res.status(400).json({ message: "No question in the request" })

@@ -9,7 +9,7 @@ export function NamespaceInput({ value, handleChange, placeholder }) {
       </Label>
 
       <Input
-        id="namespace"
+        // id="namespace"
         value={value}
         onChange={handleChange}
         // type="text"

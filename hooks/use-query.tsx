@@ -69,7 +69,7 @@ export function usePineconeQuery(namespace): FileChatHook {
     const ctrl = new AbortController()
 
     try {
-      fetchEventSource("/api/pinecone-query", {
+      fetchEventSource("/api/query", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,10 +1,9 @@
 import { useState } from "react"
 import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
+import { GlowButton } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useScrapeIngest } from "@/hooks/use-scrape-ingest"
+import { useScrapeEmbed } from "@/hooks/use-scrape-embed"
 import { toast } from "@/hooks/use-toast"
-import { useHasHydrated, useUrlHistory } from "@/hooks/use-url-history"
 
 type Props = {
   namespace?: string
@@ -14,14 +13,11 @@ function UrlScraper({ namespace }: Props) {
   const [urls, setUrls] = useState<string[]>([])
   const [status, setStatus] = useState("idle")
 
-  const isHydrated = useHasHydrated()
-  const { urlHistory, addUrlToHistory } = useUrlHistory()
-
   const api = !!namespace
     ? "pinecone-scrape-ingest-webpage"
     : "supabase-scrape-ingest-webpage"
 
-  const { loading, trigger } = useScrapeIngest(api)
+  const { loading, trigger } = useScrapeEmbed(api)
 
   function handleChange(e) {
     setStatus("typing")
@@ -35,10 +31,15 @@ function UrlScraper({ namespace }: Props) {
         title: "Please enter a url",
       })
     }
+
+    if (!namespace) {
+      return toast({
+        title: "Please enter a pinecone namespace",
+      })
+    }
     try {
       const result = await trigger({ urls, namespace })
       setStatus("complete")
-      urls.map((url) => addUrlToHistory(url))
 
       return result
     } catch (e) {
@@ -49,10 +50,6 @@ function UrlScraper({ namespace }: Props) {
       })
     }
   }
-
-  const sortedUrls = isHydrated
-    ? [...urlHistory].sort((a, b) => a.id - b.id)
-    : []
 
   return (
     <div className="flex  h-48 flex-col items-center justify-between ">
@@ -77,19 +74,21 @@ function UrlScraper({ namespace }: Props) {
 
 function LoadingButton({ loading, handleSubmit, disabled }) {
   return (
-    <Button
+    <GlowButton
       disabled={disabled}
-      className=" bg-neutral-300/70 px-16 py-3.5 hover:bg-neutral-400/50 dark:bg-neutral-700/50 dark:hover:bg-neutral-750/50"
+      className=""
       variant="ghost"
       onClick={handleSubmit}
     >
-      {!loading ? (
-        <Icons.web className="mr-2 h-4 w-4" />
-      ) : (
-        <Icons.loading className="mr-2 h-4 w-4 animate-spin" />
-      )}
-      Scrape
-    </Button>
+      <div className="flex items-center px-6 py-1">
+        {!loading ? (
+          <Icons.web className="mr-2 h-4 w-4" />
+        ) : (
+          <Icons.loading className="mr-2 h-4 w-4 animate-spin" />
+        )}
+        Scrape
+      </div>
+    </GlowButton>
   )
 }
 

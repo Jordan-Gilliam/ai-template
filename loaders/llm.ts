@@ -21,7 +21,6 @@ export const makePdfChain = (
         ? CallbackManager.fromHandlers({
             async handleLLMNewToken(token) {
               onTokenStream(token)
-              console.log(token)
             },
           })
         : undefined,

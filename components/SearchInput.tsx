@@ -32,7 +32,6 @@ export function SearchInput({
   return (
     <div className="flex w-full max-w-lg items-center space-x-2">
       <InputButton
-        // className="relative rounded-full py-8 pr-16 ring-1 dark:ring-purple-900/40 dark:focus:ring-teal-800/50"
         className={cn("relative  py-5 pr-10  ", className)}
         value={value}
         onKeyDown={handleKeyDown}
@@ -79,7 +78,6 @@ function CheckIcon(props) {
       {...props}
       fill="none"
       viewBox="0 0 24 24"
-      // className="-ml-0.5 h-7 w-7 text-teal-9 group-hover:text-teal-9 dark:text-teal-10 dark:group-hover:text-teal-9"
       className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400/80 dark:group-hover:text-teal-400"
       stroke="currentColor"
       strokeWidth={3}
