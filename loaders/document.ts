@@ -11,7 +11,7 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 
 export const splitDocumentsFromFile = async (file) => {
   const { fileText, fileName } = file
-  console.log(fileText, fileName)
+
   const rawDocs = new Document({
     pageContent: fileText,
     metadata: { source: fileName, type: "file" },

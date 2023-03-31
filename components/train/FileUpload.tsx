@@ -4,7 +4,8 @@ import { File } from "lucide-react"
 import { useDropzone } from "react-dropzone"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
+import { GlowButton } from "@/components/ui/button"
+import { toast } from "@/hooks/use-toast"
 
 export type Message = {
   type: "apiMessage" | "userMessage"
@@ -13,7 +14,7 @@ export type Message = {
   sourceDocs?: Document[]
 }
 
-export function PineconeFileUpload({ namespace }) {
+export function FileUpload({ namespace }) {
   const [files, setFiles] = useState(null)
 
   const [isUploading, setIsUploading] = useState(false)
@@ -23,6 +24,11 @@ export function PineconeFileUpload({ namespace }) {
   }, [])
 
   const handleUpload = useCallback(async () => {
+    if (!namespace) {
+      return toast({
+        title: "Please enter a pinecone namespace",
+      })
+    }
     const formData = new FormData()
     Array.from(files).forEach((file: File) => {
       formData.append("file", file)
@@ -57,7 +63,7 @@ export function PineconeFileUpload({ namespace }) {
           "min-w-[300px] cursor-pointer  p-6 text-mauve-12  ",
           " input-shadow rounded-lg  !outline-none",
           "relative border border-black/5 bg-white px-7  text-base shadow-black/5  placeholder:text-neutral-400 ",
-          " dark:bg-neutral-950/50 dark:focus:bg-neutral-950/60 dark:text-neutral-200 dark:shadow-black/10 dark:placeholder:text-neutral-500"
+          " dark:bg-black/90 dark:text-neutral-200 dark:shadow-black/10 dark:placeholder:text-neutral-500 dark:focus:bg-neutral-950/60"
         )}
         {...getRootProps()}
       >
@@ -80,29 +86,28 @@ export function PineconeFileUpload({ namespace }) {
         </div>
       </div>
 
-      <LoadingButton
-        loading={isUploading}
-        handleSubmit={handleUpload}
-        disabled={!files || isUploading}
-      />
+      <div className="mt-auto ">
+        <LoadingButton
+          loading={isUploading}
+          handleSubmit={handleUpload}
+          disabled={!files || isUploading}
+        />
+      </div>
     </div>
   )
 }
 
 function LoadingButton({ loading, handleSubmit, disabled }) {
   return (
-    <Button
-      disabled={disabled}
-      className=" mt-auto bg-neutral-300/70 px-16 py-3.5 hover:bg-neutral-400/50 dark:bg-neutral-700/50 dark:hover:bg-neutral-750/50"
-      variant="ghost"
-      onClick={handleSubmit}
-    >
-      {!loading ? (
-        <Icons.upload className="mr-2 h-4 w-4" />
-      ) : (
-        <Icons.loading className="mr-2 h-4 w-4 animate-spin" />
-      )}
-      Scrape
-    </Button>
+    <GlowButton disabled={disabled} onClick={handleSubmit}>
+      <div className="flex items-center px-6 py-1">
+        {!loading ? (
+          <Icons.upload className="mr-2 h-4 w-4" />
+        ) : (
+          <Icons.loading className="mr-2 h-4 w-4 animate-spin" />
+        )}
+        Upload
+      </div>
+    </GlowButton>
   )
 }

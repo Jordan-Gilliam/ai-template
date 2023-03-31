@@ -5,7 +5,6 @@ async function sendRequest(
   url,
   { arg }: { arg: { urls: string[]; namespace: string } }
 ) {
-  console.log("urls", arg.urls)
   const { urls, namespace } = arg
 
   const response = await fetch(url, {
@@ -31,7 +30,7 @@ async function sendRequest(
   }
 }
 
-export const useScrapeIngest = (url: string) => {
+export const useScrapeEmbed = (url: string) => {
   const { trigger, error, isMutating } = useSWRMutation(
     `/api/${url}`,
     sendRequest

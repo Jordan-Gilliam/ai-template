@@ -35,7 +35,7 @@ body,
     );
 }
 
-.fancy-bg2 {
+.dark .fancy-bg2 {
   background-image: radial-gradient(
       circle 800px at 700px 200px,
       var(--purple2),

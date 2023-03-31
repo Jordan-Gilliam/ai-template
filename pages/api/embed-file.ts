@@ -17,7 +17,7 @@ if (
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { namespace } = req.headers
   const namespaceConfig = !!namespace ? namespace : "default-namespace"
-  console.log("header", namespace)
+
   try {
     const docs = await processDocuments(req)
     await storeDocumentsInPinecone(docs, namespaceConfig)

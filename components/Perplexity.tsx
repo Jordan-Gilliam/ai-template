@@ -95,6 +95,12 @@ function Sources({ sources }) {
   )
 }
 
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+  exit: { opacity: 0, transition: { duration: 0.02 } },
+}
+
 function DocumentSources({ sources }) {
   const [isOpen, toggleIsOpen] = useToggle()
 
@@ -126,7 +132,7 @@ function DocumentSources({ sources }) {
             variants={animateList}
             initial="hidden"
             animate="visible"
-            className="animateList flex flex-wrap gap-2 after:mb-2"
+            className="flex flex-wrap gap-2 after:mb-2"
           >
             {sources.map((source, i) => (
               <SourcePill
@@ -138,7 +144,13 @@ function DocumentSources({ sources }) {
           </motion.ul>
           <CollapsibleContent className="mt-2 space-y-2">
             <div className="rounded-md border border-mauve-8 px-4 py-3 text-sm ">
-              <motion.ul layout className=" my-2 flex flex-col gap-3  ">
+              <motion.ul
+                // layout
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                className=" my-2 flex flex-col gap-3  "
+              >
                 {sources.map((source, i) => (
                   <SourceContent
                     key={`document-${i}`}
@@ -259,20 +271,15 @@ export function CollapsibleSource({ order, source, children }) {
   )
 }
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 1.5 } },
-  exit: { opacity: 0, transition: { duration: 0.02 } },
-}
-
-function AnimatedParagraph({ key, content, isOpen }) {
+function AnimatedParagraph({ content, isOpen }) {
   return (
-    <AnimatePresence key={key}>
+    <AnimatePresence>
       {content && (
         <motion.p
           key={content}
           initial="hidden"
           animate="visible"
+          // layout
           exit="exit"
           variants={fadeIn}
           className={cn(
@@ -289,13 +296,13 @@ function AnimatedParagraph({ key, content, isOpen }) {
 
 function SourceContent({ order, name }) {
   const [isOpen, toggleIsOpen] = useToggle()
-  console.log(isOpen)
 
   return (
     <motion.li
       variants={fadeIn}
       initial="hidden"
       animate="visible"
+      // layout
       exit="exit"
       key={order}
       className=" group mb-4 block  cursor-pointer "
@@ -307,9 +314,9 @@ function SourceContent({ order, name }) {
             {order + 1}
           </div>
         </div>
-        <div className="mr-2 mb-2">
+        <div className="mb-2 mr-2">
           <div className="flex items-center gap-x-1 bg-transparent transition duration-300 ">
-            <AnimatedParagraph key={order} isOpen={isOpen} content={name} />
+            <AnimatedParagraph isOpen={isOpen} content={name} />
           </div>
         </div>
       </div>

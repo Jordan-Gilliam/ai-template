@@ -13,20 +13,7 @@ interface SiteConfig {
 export const siteConfig: SiteConfig = {
   name: "Mercury",
   description: "Unlock the secrets of any website",
-  mainNav: [
-    {
-      title: "Pinecone",
-      href: "/pinecone",
-    },
-    {
-      title: "Supabase",
-      href: "/supabase",
-    },
-    {
-      title: "Chat",
-      href: "/chat",
-    },
-  ],
+  mainNav: [],
   links: {
     twitter: "https://twitter.com/nolansym",
     github: "https://github.com/Jordan-Gilliam/ai-template",
