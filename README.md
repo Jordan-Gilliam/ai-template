@@ -1,6 +1,6 @@
 <h1 align="center">
 
-<a href="https://github.com/Jordan-Gilliam/ai-template"><img width="300" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-og.svg" alt=""></a>
+<a href="https://github.com/Jordan-Gilliam/ai-template"><img width="300" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-indigo.webp" alt=""></a>
 
 </h1>
 
@@ -8,9 +8,12 @@
 
 <i>A Chat GPT Embedding Template</i>
 
- <h1 align="center">
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home.png" alt=""></a>
-</h1>
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-read-1.png" alt=""></a>
+</h2>
+
+
 
 ## Chat with any Document or Website
 
@@ -21,14 +24,13 @@
 - Train on documents you upload
 - Cites sources
 
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-lab-light.png" alt=""></a>
-</h2>
 
 ## Train:
 
-> `[model gpt-3.5-turbo]`
+<h2 align="center">
+  <br>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-dark-train.png" alt=""></a>
+</h2>
 
 #### 1. Creating and storing the embeddings: `/api/embed-webpage`
 
@@ -42,25 +44,33 @@
 - OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
 - The embeddings are stored in a Pinecone namespace.
 
-#### 2. Responding to queries: `/api/query`
+## Query:
+
+#### Responding to queries: `/api/query`
 
 - A single embedding is generated from the user prompt.
 - The embedding is used to perform a similarity search against the vector database.
 - The results of the similarity search are used to construct a prompt for GPT-3.
 - The GTP-3 response is then streamed back to the user.
 
+
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-chat-3.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-2.gif" alt=""></a>
 </h2>
+
 
 ## Getting Started
 
-> 🍴 Huge thanks to [@gannonh](https://github.com/gannonh) most of the scraping and embedding logic came from his [gpt3.5-turbo-pgvector repo](https://github.com/gannonh/gpt3.5-turbo-pgvector)
+
 
 ### Set-up Pinecone
 
 - Visit [pinecone](https://pinecone.io/) to create and retrieve your API keys, and also retrieve your environment and index name from the dashboard.
+
+### Set-up OpenAi API
+
+- Visit [openai](https://platform.openai.com/account/api-keys) to create and copy your API key
 
 ### Set-up local environment
 
@@ -132,18 +142,20 @@ Open http://localhost:3000 in your browser to view the app.
 
 <h2 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-evoke.png" alt=""></a>
+  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-light.png" alt=""></a>
 </h2>
 
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-invoke.png" alt=""></a>
-</h2>
 
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-home-light.png" alt=""></a>
-</h2>
+## Inspiration:
+
+> 🍴 Huge thanks to [@gannonh](https://github.com/gannonh) most of the scraping and embedding logic came from his [gpt3.5-turbo-pgvector repo](https://github.com/gannonh/gpt3.5-turbo-pgvector)
+
+- https://www.perplexity.ai/
+- https://builtbyjesse.com/
+- https://ui.shadcn.com/docs
+- https://meodai.github.io/poline/
+- https://github.com/gannonh/gpt3.5-turbo-pgvector
+- https://github.com/vercel/examples/tree/main/solutions/ai-chatgpt
 
 ## How embeddings work:
 
@@ -152,12 +164,3 @@ ChatGPT is a great tool for answering general questions, but it falls short when
 <b>Embeddings</b> are vectors of floating-point numbers that represent the "relatedness" of text strings. They are very useful for tasks like ranking search results, clustering, and classification. In text embeddings, a high cosine similarity between two embedding vectors indicates that the corresponding text strings are highly related.
 
 This app uses embeddings to generate a vector representation of a document and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which generates a response. The response is then streamed back to the user.
-
-## Inspiration:
-
-- https://www.perplexity.ai/
-- https://builtbyjesse.com/
-- https://ui.shadcn.com/docs
-- https://meodai.github.io/poline/
-- https://github.com/gannonh/gpt3.5-turbo-pgvector
-- https://github.com/vercel/examples/tree/main/solutions/ai-chatgpt
