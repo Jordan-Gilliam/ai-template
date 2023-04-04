@@ -1,8 +1,6 @@
 import * as React from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
 import { useTheme } from "next-themes"
-import useMeasure from "react-use-measure"
 import { NavHeader } from "@/components/NavHeader"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
