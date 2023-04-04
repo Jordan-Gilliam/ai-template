@@ -24,6 +24,7 @@ const fontSans = Space_Grotesk({
 
 const fontAboretoSans = Aboreto({
   weight: "400",
+  subsets: ["latin"],
   preload: true,
   variable: "--font-aboreto",
 })
