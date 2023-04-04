@@ -148,7 +148,8 @@ Open http://localhost:3000 in your browser to view the app.
 
 ## Inspiration:
 
-> 🍴 Huge thanks to [@gannonh](https://github.com/gannonh) most of the scraping and embedding logic came from his [gpt3.5-turbo-pgvector repo](https://github.com/gannonh/gpt3.5-turbo-pgvector)
+> 🍴 Huge thanks to [@gannonh](https://github.com/gannonh) and [@mayooear](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) for their fantastic work that helped inspire this template. 
+
 
 - https://www.perplexity.ai/
 - https://builtbyjesse.com/
