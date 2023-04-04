@@ -63,7 +63,7 @@ export default function Pinecone() {
                 alt={embedding}
                 src={
                   embedding === "TRAIN"
-                    ? "/merc-logo-down-aqua.webp"
+                    ? "/logo-down-indigo.webp"
                     : "/merc-logo-down-aqua.webp"
                 }
                 variants={imageVariants}
