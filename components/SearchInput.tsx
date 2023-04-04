@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { Loader2 } from "lucide-react"
+import { Loader } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { InputButton } from "@/components/ui/input"
 
@@ -57,7 +57,7 @@ export function SearchInput({
             >
               <AnimatePresence>
                 {loading ? (
-                  <Loader2 className="-ml-0.5 h-7 w-7 animate-spin text-teal-500/80 group-hover:text-teal-500  dark:text-teal-500/80 dark:group-hover:text-teal-500" />
+                  <Loader className="-ml-0.5 h-7 w-7 animate-spin text-teal-500/80 group-hover:text-teal-500  dark:text-teal-400 dark:group-hover:text-teal-300" />
                 ) : status === "typing" || status === "idle" ? (
                   <PlusIcon aria-hidden="true" />
                 ) : (
@@ -78,7 +78,7 @@ function CheckIcon(props) {
       {...props}
       fill="none"
       viewBox="0 0 24 24"
-      className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400/80 dark:group-hover:text-teal-400"
+      className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400 dark:group-hover:text-teal-300"
       stroke="currentColor"
       strokeWidth={3}
     >
@@ -98,7 +98,7 @@ function PlusIcon(props) {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400/80 dark:group-hover:text-teal-400"
+      className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400 dark:group-hover:text-teal-300"
       width="24"
       height="24"
       viewBox="0 0 24 24"

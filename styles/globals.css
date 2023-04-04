@@ -29,7 +29,7 @@ body,
     radial-gradient(circle 800px at right bottom, var(--sky1), transparent),
     radial-gradient(
       circle 800px at calc(50% - 600px) calc(100% - 100px),
-      var(--orange4),
+      var(--indigo2),
       var(--pink2),
       transparent
     );
@@ -47,12 +47,12 @@ body,
       transparent
     ),
     radial-gradient(circle 800px at right center, var(--violet1), transparent),
-    /* radial-gradient(circle 800px at right bottom, var(--teal4), transparent), */
-      radial-gradient(
-        circle 800px at calc(50% + 700px) calc(100% + 100px),
-        var(--mint8),
-        transparent
-      ),
+    radial-gradient(circle 800px at right bottom, var(--teal4), transparent),
+    radial-gradient(
+      circle 800px at calc(50% + 700px) calc(100% + 100px),
+      /* var(--mint8), */ #5eead4,
+      transparent
+    ),
     radial-gradient(
       circle 800px at calc(50% - 600px) calc(100% - 100px),
       var(--crimson1),
@@ -66,10 +66,10 @@ textarea {
   @apply caret-teal-400;
 }
 
-.shadow-box2 {
+.shadow-box {
   box-shadow: 0 0 50px -12px rgba(208, 121, 249, 0.3);
 }
-.shadow-box {
+.shadow-box2 {
   box-shadow: 0 0 50px -12px rgba(121, 247, 249, 0.3);
 }
 

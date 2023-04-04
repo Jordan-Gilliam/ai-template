@@ -62,13 +62,13 @@ export function usePineconeQuery(namespace): FileChatHook {
       answerStream: undefined,
     }))
 
-    setStatus("loading")
     setUserQuestion("")
     setMessageState((state) => ({ ...state, answerStream: "" }))
 
     const ctrl = new AbortController()
 
     try {
+      setStatus("loading")
       fetchEventSource("/api/query", {
         method: "POST",
         headers: {
@@ -109,6 +109,7 @@ export function usePineconeQuery(namespace): FileChatHook {
                 pendingSourceDocs: data.sourceDocs,
               }))
             } else if (data.question) {
+              setStatus("streaming")
               setMessageState((state) => ({
                 ...state,
                 question: data.question,

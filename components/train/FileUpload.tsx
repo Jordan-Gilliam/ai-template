@@ -35,7 +35,7 @@ export function FileUpload({ namespace }) {
     })
 
     setIsUploading(true)
-    await fetch("/api/pinecone-ingest-file", {
+    await fetch("/api/embed-file", {
       method: "post",
       body: formData,
       headers: {
@@ -60,7 +60,7 @@ export function FileUpload({ namespace }) {
     <div className="flex h-48 flex-col items-center">
       <div
         className={cn(
-          "min-w-[300px] cursor-pointer  p-6 text-mauve-12  ",
+          "min-w-[300px] cursor-pointer  p-6 text-neutral-800  ",
           " input-shadow rounded-lg  !outline-none",
           "relative border border-black/5 bg-white px-7  text-base shadow-black/5  placeholder:text-neutral-400 ",
           " dark:bg-black/90 dark:text-neutral-200 dark:shadow-black/10 dark:placeholder:text-neutral-500 dark:focus:bg-neutral-950/60"
@@ -81,7 +81,7 @@ export function FileUpload({ namespace }) {
           )}
         </div>
         <div className="flex  cursor-pointer items-center justify-center ">
-          <File className="mt-3 h-8 w-8 stroke-mauve-8" />
+          <File className="mt-3 h-8 w-8  stroke-neutral-800 dark:stroke-neutral-500" />
           <input {...getInputProps()} className="h-full" />
         </div>
       </div>

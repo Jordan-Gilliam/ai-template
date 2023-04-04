@@ -2,6 +2,7 @@ import {
   ArrowDownRight,
   Globe,
   Laptop,
+  LayoutList,
   Link,
   Loader2,
   type Icon as LucideIcon,
@@ -24,6 +25,7 @@ export const Icons = {
   upload: UploadCloud,
   web: Globe,
   loading: Loader2,
+  list: LayoutList,
 
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>

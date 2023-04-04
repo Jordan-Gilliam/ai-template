@@ -63,18 +63,9 @@ interface NavItemsProps {
 function NavItems({ items }: NavItemsProps) {
   return (
     <div className="flex gap-6 md:gap-10">
-      {/* <div className="relative "> */}
       <Link href="/" className=" flex items-center space-x-2">
         <div className="md:h-13 relative h-8 w-10">
-          <Image
-            // layout="fill" // required
-            // objectFit="cover" // change to suit your needs"
-            fill
-            className="absolute"
-            src="/logo-og.svg"
-            // src="/merc-logo-down-aqua.webp"
-            alt="logo"
-          />
+          <Image fill className="absolute" src="/logo-og.svg" alt="logo" />
         </div>
         <span className="hidden font-aboreto font-bold sm:inline-block">
           {siteConfig.name}
@@ -100,35 +91,6 @@ function NavItems({ items }: NavItemsProps) {
         </nav>
       ) : null}
       <CommandMenu />
-
-      {/* <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="-ml-4 text-base hover:bg-transparent focus:ring-0 md:hidden"
-          >
-            <span className="font-bold">Menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="start"
-          sideOffset={24}
-          className="w-[300px] overflow-scroll"
-        >
-          <DropdownMenuLabel>
-            <Link href="/" className="flex items-center"></Link>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          {items?.map(
-            (item, index) =>
-              item.href && (
-                <DropdownMenuItem key={index} asChild>
-                  <Link href={item.href}>{item.title}</Link>
-                </DropdownMenuItem>
-              )
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu> */}
     </div>
   )
 }

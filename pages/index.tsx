@@ -1,8 +1,12 @@
 import { useState } from "react"
-import { LayoutGroup, motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/Card"
-import { PageLayout } from "@/components/Layouts"
+import {
+  BackgroundColorBlur,
+  BackgroundGridPattern,
+  PageLayout,
+} from "@/components/Layouts"
 import { NamespaceInput } from "@/components/NamespaceInput"
 import { PineconeQuery } from "@/components/query/PineconeQuery"
 import { FileUpload } from "@/components/train/FileUpload"
@@ -20,6 +24,12 @@ function ToggleHeading({ text, embedding }) {
       {text}
     </h1>
   )
+}
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.35 } },
+  exit: { opacity: 0, transition: { duration: 0.02 } },
 }
 
 export default function Pinecone() {
@@ -40,9 +50,9 @@ export default function Pinecone() {
 
   return (
     <PageLayout>
-      <div className="  flex flex-col items-center gap-3  px-3 ">
-        <div className="my-6">
-          <div className="flex items-center justify-center md:gap-3">
+      <div className="   flex flex-col items-center  gap-3 px-3">
+        <div className="z-30 my-6">
+          <div className=" flex items-center justify-center md:gap-3">
             <ToggleHeading text="TRAIN" embedding={embedding} />
             <button
               className="transition duration-150 hover:scale-105"
@@ -79,58 +89,69 @@ export default function Pinecone() {
               />
             </div>
           </div>
-          <LayoutGroup>
-            <motion.div className=" flex w-full flex-col items-center  ">
-              {embedding === "TRAIN" ? (
-                <>
-                  <p className=" mt-2  max-w-lg text-center text-neutral-800 dark:text-neutral-200 md:text-lg">
-                    Set a pinecone <span className="font-bold"> namespace</span>{" "}
-                    and create vector embeddings by
-                    <span className="font-bold"> uploading</span> files or{" "}
-                    <span className="font-bold"> sraping</span> websites
-                  </p>
-                  <div className="flex flex-col items-center justify-between md:mt-6 md:flex-row md:items-start ">
-                    <div className="  pt-4 md:mx-4 md:mt-0 md:max-w-2xl">
-                      <div className="  w-full">
-                        <Card
-                          cardDetails={{
-                            name: "Upload",
-                            description:
-                              "Upload your pdf to Pinecone as a vector",
-                          }}
-                        >
-                          <FileUpload namespace={namespace} />
-                        </Card>
-                      </div>
-                    </div>
 
-                    <div className=" px-6 pt-4 md:mx-4 md:mt-0 md:max-w-2xl">
-                      <div className=" w-full">
-                        <Card
-                          cardDetails={{
-                            name: "Scrape",
-                            description: "Scrape URLs to generate embeddings",
-                          }}
-                        >
-                          <UrlScraper namespace={namespace} />
-                        </Card>
-                      </div>
+          <AnimatePresence mode="wait">
+            {embedding === "TRAIN" ? (
+              <motion.div
+                key={"TRAIN"}
+                className="  flex w-full flex-col items-center"
+                initial="hidden"
+                animate="visible"
+                // layout
+                exit="exit"
+                variants={fadeIn}
+              >
+                <p className=" mt-2  max-w-lg text-center text-neutral-800 dark:text-neutral-200 md:text-lg">
+                  Set a pinecone <span className="font-bold"> namespace</span>{" "}
+                  and create vector embeddings by
+                  <span className="font-bold"> uploading</span> files or{" "}
+                  <span className="font-bold"> sraping</span> websites
+                </p>
+                <div className="flex flex-col items-center justify-between md:mt-6 md:flex-row md:items-start ">
+                  <div className="  pt-4 md:mx-4 md:mt-0 md:max-w-2xl">
+                    <div className="  w-full">
+                      <Card
+                        cardDetails={{
+                          name: "Upload",
+                          description:
+                            "Upload your pdf to Pinecone as a vector",
+                        }}
+                      >
+                        <FileUpload namespace={namespace} />
+                      </Card>
                     </div>
                   </div>
-                </>
-              ) : (
-                <div className=" flex w-full flex-col items-center ">
-                  <p className="mb-3 mt-2 max-w-lg text-center text-neutral-800 dark:text-neutral-200 md:text-lg">
-                    Query your newly trained ai. Leverage the embedded knowledge
-                    provided by you.
-                    <span className="font-bold"> Training</span>
-                  </p>
 
-                  <PineconeQuery namespace={namespace} />
+                  <div className=" pt-4 md:mx-4 md:mt-0 md:max-w-2xl">
+                    <div className=" w-full">
+                      <Card
+                        cardDetails={{
+                          name: "Scrape",
+                          description: "Scrape URLs to generate embeddings",
+                        }}
+                      >
+                        <UrlScraper namespace={namespace} />
+                      </Card>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </motion.div>
-          </LayoutGroup>
+              </motion.div>
+            ) : (
+              <div className=" flex w-full flex-col items-center ">
+                <p className="mb-3 mt-2 max-w-lg text-center text-neutral-800 dark:text-neutral-200 md:text-lg">
+                  Query your newly trained ai. Leverage the embedded knowledge
+                  provided by you.
+                </p>
+
+                <PineconeQuery namespace={namespace} />
+              </div>
+            )}
+          </AnimatePresence>
+
+          <div className="absolute inset-0 -z-10 overflow-hidden ">
+            <BackgroundGridPattern />
+          </div>
+          <BackgroundColorBlur />
         </div>
       </div>
     </PageLayout>
