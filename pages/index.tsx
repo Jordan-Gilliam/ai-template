@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/Card"
@@ -7,10 +7,11 @@ import {
   BackgroundGridPattern,
   PageLayout,
 } from "@/components/Layouts"
-import { NamespaceInput } from "@/components/NamespaceInput"
+import { NamespaceInput, NamespaceSelector } from "@/components/NamespaceInput"
 import { PineconeQuery } from "@/components/query/PineconeQuery"
 import { FileUpload } from "@/components/train/FileUpload"
 import { UrlScraper } from "@/components/train/UrlScraper"
+import { getNamespaceKeys, usePineconeStats } from "@/hooks/use-pinecone-stats"
 
 function ToggleHeading({ text, embedding }) {
   const activeHeading = text == embedding
@@ -36,6 +37,10 @@ export default function Pinecone() {
   const [embedding, setEmbedding] = useState("TRAIN")
   const [namespace, setNamespace] = useState("")
   const [animateOnce, setAnimateOnce] = useState(true)
+  const handleNamespaceSelect = useCallback((selectedNamespace) => {
+    console.log("Selected namespace:", selectedNamespace)
+    setNamespace(selectedNamespace)
+  }, [])
 
   function toggleEmbedding() {
     setEmbedding(embedding === "TRAIN" ? "QUERY" : "TRAIN")
@@ -82,10 +87,14 @@ export default function Pinecone() {
         <div className="mb-6 flex flex-col items-center">
           <div className="mb-5 items-center md:max-w-2xl">
             <div className="w-full">
-              <NamespaceInput
+              {/* <NamespaceInput
                 value={namespace}
                 handleChange={(e) => setNamespace(e.target.value)}
                 placeholder="default"
+              /> */}
+              <NamespaceSelector
+                newNamespace={namespace}
+                onNamespaceSelect={handleNamespaceSelect}
               />
             </div>
           </div>
@@ -157,3 +166,14 @@ export default function Pinecone() {
     </PageLayout>
   )
 }
+
+// export async function getServerSideProps() {
+//   const response = await fetch("/api/stats")
+//   const data = await response.json()
+
+//   return {
+//     props: {
+//       data,
+//     },
+//   }
+// }
