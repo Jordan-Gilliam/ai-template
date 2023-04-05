@@ -6,29 +6,10 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
 import { getNamespaceKeys, usePineconeStats } from "@/hooks/use-pinecone-stats"
-
-export function NamespaceInput({ value, handleChange, placeholder }) {
-  return (
-    <div className="grid w-full items-center gap-1.5">
-      <Label className=" mb-[1.75px]" htmlFor="namespace">
-        namespace
-      </Label>
-
-      <Input
-        // id="namespace"
-        value={value}
-        onChange={handleChange}
-        // type="text"
-        placeholder={placeholder}
-      />
-    </div>
-  )
-}
 
 export function NamespaceSelector({ newNamespace, onNamespaceSelect }) {
   const [namespace, setNamespace] = useState(newNamespace)
@@ -42,8 +23,6 @@ export function NamespaceSelector({ newNamespace, onNamespaceSelect }) {
   }
 
   const handleDropdownChange = (selectedValue) => {
-    console.log(selectedValue)
-
     setNamespace(selectedValue)
     onNamespaceSelect(selectedValue)
   }
@@ -59,10 +38,8 @@ export function NamespaceSelector({ newNamespace, onNamespaceSelect }) {
         </Label>
 
         <Input
-          // id="namespace"
           value={namespace}
           onChange={handleInputChange}
-          // type="text"
           placeholder="default"
         />
       </div>
@@ -74,7 +51,6 @@ export function NamespaceSelector({ newNamespace, onNamespaceSelect }) {
 
         <Select onValueChange={handleDropdownChange}>
           <SelectTrigger
-            // className="h-14 w-[180px]"
             className={cn(
               " input-shadow h-13 w-[250px] rounded-lg !outline-none",
               "relative border border-black/5 bg-white px-7 py-3.5 text-base shadow-black/5  placeholder:text-neutral-400 ",
@@ -97,5 +73,3 @@ export function NamespaceSelector({ newNamespace, onNamespaceSelect }) {
     </div>
   )
 }
-
-export default NamespaceSelector

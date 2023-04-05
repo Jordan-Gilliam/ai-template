@@ -89,15 +89,21 @@ async function storeDocumentsInPinecone(docs: any, namespace) {
     for (let i = 0; i < docs.length; i += chunkSize) {
       const chunk = docs.slice(i, i + chunkSize)
 
-      const dbStore = await PineconeStore.fromDocuments(
-        index,
-        chunk,
-        embeddings,
-        "text",
-        namespace
-      )
+      // const dbStore = await PineconeStore.fromDocuments(
+      //   index,
+      //   chunk,
+      //   embeddings,
+      //   "text",
+      //   namespace
+      // )
 
-      return dbStore
+      const vector = await PineconeStore.fromDocuments(chunk, embeddings, {
+        pineconeIndex: index,
+        namespace,
+        textKey: "text",
+      })
+
+      return vector
     }
   } catch (error) {
     console.error("error in storeDocumentsInPinecone", error)

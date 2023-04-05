@@ -26,13 +26,22 @@ export default async function handler(
   const index = pinecone.Index(process.env.PINECONE_INDEX_NAME)
   const namespaceConfig = !!namespace ? namespace : "default-namespace"
 
+  // const vectorStore = await PineconeStore.fromExistingIndex(
+  //   index,
+  //   new OpenAIEmbeddings({}),
+  //   "text",
+  //   // @ts-ignore
+  //   namespaceConfig
+  //   // namespace ? namespace : process.env.PINECONE_NAMESPACE
+  // )
   const vectorStore = await PineconeStore.fromExistingIndex(
-    index,
     new OpenAIEmbeddings({}),
-    "text",
-    // @ts-ignore
-    namespaceConfig
-    // namespace ? namespace : process.env.PINECONE_NAMESPACE
+    {
+      pineconeIndex: index,
+      textKey: "text",
+      // @ts-ignore
+      namespace,
+    }
   )
 
   prepareResponse(res)

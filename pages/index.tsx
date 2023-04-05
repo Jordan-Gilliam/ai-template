@@ -7,11 +7,10 @@ import {
   BackgroundGridPattern,
   PageLayout,
 } from "@/components/Layouts"
-import { NamespaceInput, NamespaceSelector } from "@/components/NamespaceInput"
+import { NamespaceSelector } from "@/components/NamespaceInput"
 import { PineconeQuery } from "@/components/query/PineconeQuery"
 import { FileUpload } from "@/components/train/FileUpload"
 import { UrlScraper } from "@/components/train/UrlScraper"
-import { getNamespaceKeys, usePineconeStats } from "@/hooks/use-pinecone-stats"
 
 function ToggleHeading({ text, embedding }) {
   const activeHeading = text == embedding
@@ -87,11 +86,6 @@ export default function Pinecone() {
         <div className="mb-6 flex flex-col items-center">
           <div className="mb-5 items-center md:max-w-2xl">
             <div className="w-full">
-              {/* <NamespaceInput
-                value={namespace}
-                handleChange={(e) => setNamespace(e.target.value)}
-                placeholder="default"
-              /> */}
               <NamespaceSelector
                 newNamespace={namespace}
                 onNamespaceSelect={handleNamespaceSelect}

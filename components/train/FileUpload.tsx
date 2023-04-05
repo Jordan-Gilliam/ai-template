@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react"
-import { AnimatePresence } from "framer-motion"
 import { Document } from "langchain/document"
 import { File } from "lucide-react"
 import { useDropzone } from "react-dropzone"
@@ -63,8 +62,16 @@ export function FileUpload({ namespace }) {
     onDrop,
     accept: {
       "application/pdf": [".pdf"],
-      // "application/json": [".json"],
-      // "text/plain": [".txt", ".md"],
+      "application/json": [".json"],
+      "text/plain": [".txt", ".md"],
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+        [".pptx"],
+      "application/msword": [".doc"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [".docx"],
+      "image/jpeg": [".jpeg", ".jpg"],
+      "image/png": [".png"],
+      "text/html": [".html"],
     },
     multiple: false,
     maxFiles: 1,
@@ -83,19 +90,28 @@ export function FileUpload({ namespace }) {
       >
         <div className=" flex items-center justify-center">
           {files ? (
-            <p>{files[0].name}</p>
+            <div className="flex flex-col text-center">
+              <p className="text-neutral-700 dark:text-neutral-400/80">
+                Selected File
+              </p>
+              <p>{files[0].name}</p>
+            </div>
           ) : (
-            <div className="flex flex-col items-center justify-center ">
+            <div className="flex flex-col items-center justify-center text-sm ">
               {isDragActive ? (
                 <p>Drop the files here ...</p>
               ) : (
-                <p className="px-6">Drag and drop pdf file here</p>
+                <p className="flex-wrap px-6 text-center">
+                  Supports
+                  <br />
+                  .txt .pdf .docx .md .png .jpg .html
+                </p>
               )}
             </div>
           )}
         </div>
         <div className="flex  cursor-pointer items-center justify-center ">
-          <File className="mt-3 h-8 w-8  stroke-neutral-800 dark:stroke-neutral-500" />
+          <File className="mt-3 h-5 w-5  stroke-neutral-800 dark:stroke-neutral-400/80" />
           <input {...getInputProps()} className="h-full" />
         </div>
       </div>
@@ -104,7 +120,7 @@ export function FileUpload({ namespace }) {
         <LoadingButton
           status={status}
           handleSubmit={handleUpload}
-          disabled={!files || status === "uploading"}
+          disabled={!files || status === "idle"}
         />
       </div>
     </div>

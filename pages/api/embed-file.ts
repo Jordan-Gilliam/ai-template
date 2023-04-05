@@ -48,13 +48,19 @@ async function storeDocumentsInPinecone(docs: any, namespace) {
   for (let i = 0; i < docs.length; i += chunkSize) {
     const chunk = docs.slice(i, i + chunkSize)
 
-    await PineconeStore.fromDocuments(
-      index,
-      chunk,
-      embeddings,
-      "text",
-      namespace
-    )
+    // await PineconeStore.fromDocuments(
+    //   index,
+    //   chunk,
+    //   embeddings,
+    //   "text",
+    //   namespace
+    // )
+
+    await PineconeStore.fromDocuments(chunk, embeddings, {
+      pineconeIndex: index,
+      namespace,
+      textKey: "text",
+    })
   }
 }
 

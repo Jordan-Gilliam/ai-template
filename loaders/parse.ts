@@ -1,7 +1,10 @@
 import type { NextApiRequest } from "next"
 import formidable from "formidable"
+import mammoth from "mammoth"
+import { NodeHtmlMarkdown } from "node-html-markdown"
 import pdfParse from "pdf-parse"
 import { Writable } from "stream"
+import Tesseract from "tesseract.js"
 
 const formidableConfig = {
   keepExtensions: true,
@@ -16,6 +19,15 @@ export const getTextContentFromPDF = async (pdfBuffer) => {
   // TODO: pass metadata
   const { text } = await pdfParse(pdfBuffer)
   return text
+}
+
+export async function extractTextFromImage(imagePath) {
+  return Tesseract.recognize(imagePath, "eng", {
+    logger: (m) => console.log(m),
+  }).then(({ data: { text } }) => {
+    console.log(text)
+    return text
+  })
 }
 
 export const formidablePromise = (
@@ -49,22 +61,50 @@ const convertFileToString = async (file: formidable.File, chunks) => {
   const fileData = Buffer.concat(chunks)
 
   let fileText = ""
+  console.log(file)
 
   switch (file.mimetype) {
-    case "text/plain":
-      fileText = fileData.toString()
-      break
     case "application/pdf":
       fileText = await getTextContentFromPDF(fileData)
+      break
+    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": // i.e. docx file
+      const docxResult = await mammoth.extractRawText({
+        buffer: fileData,
+      })
+      fileText = docxResult.value
+      break
+    // case "application/vnd.openxmlformats-officedocument.presentationml.presentation": // i.e. pptx file
+    //   const pptResult = await extractTextFromPPTX(file.filepath)
+    //   console.log(pptResult)
+    //   fileText = pptResult.toString()
+    //   break
+    case "application/octet-stream":
+      fileText = fileData.toString()
       break
     case "application/json":
       fileText = await fileData.toString()
       break
-    case "application/octet-stream":
+    case "text/markdown":
+      fileText = await fileData.toString()
+      break
+    case "text/csv":
+      break
+    case "image/jpeg":
+      fileText = await extractTextFromImage(fileData)
+      break
+    case "image/png":
+      fileText = await extractTextFromImage(fileData)
+      break
+    case "text/html":
+      const html = fileData.toString()
+      const translatedHtml = NodeHtmlMarkdown.translate(html)
+      fileText = translatedHtml
+      break
+    case "text/plain":
       fileText = fileData.toString()
       break
     default:
-      throw new Error("Unsupported file type.")
+      throw new Error("Unsupported file type")
   }
 
   return { fileText, fileName: file.originalFilename ?? "fallback-filename" }

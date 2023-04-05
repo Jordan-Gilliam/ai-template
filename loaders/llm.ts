@@ -1,4 +1,10 @@
-import { CONDENSE_PROMPT, QA_PROMPT } from "@/loaders/prompts"
+import {
+  CONDENSE_PROMPT,
+  IMPROVED_QA_PROMPT,
+  OPTIMIZED_CONDENSE_PROMPT,
+  OPTIMIZED_QA_PROMPT,
+  QA_PROMPT,
+} from "@/loaders/prompts"
 import { CallbackManager } from "langchain/callbacks"
 import { ChatVectorDBQAChain, LLMChain, loadQAChain } from "langchain/chains"
 import { OpenAIChat } from "langchain/llms"
@@ -6,11 +12,12 @@ import { PineconeStore } from "langchain/vectorstores"
 
 export const makePdfChain = (
   vectorstore: PineconeStore,
-  onTokenStream?: (token: string) => void
+  onTokenStream?: (token: string) => void,
+  sourceCount?: number
 ) => {
   const questionGenerator = new LLMChain({
     llm: new OpenAIChat({ temperature: 0 }),
-    prompt: CONDENSE_PROMPT,
+    prompt: OPTIMIZED_CONDENSE_PROMPT,
   })
   const docChain = loadQAChain(
     new OpenAIChat({
@@ -25,17 +32,15 @@ export const makePdfChain = (
           })
         : undefined,
     }),
-    { prompt: QA_PROMPT }
+    { prompt: IMPROVED_QA_PROMPT }
   )
 
   return new ChatVectorDBQAChain({
     vectorstore,
-    // inputKey: "input",
-    // outputKey: "output",
     combineDocumentsChain: docChain,
     questionGeneratorChain: questionGenerator,
     returnSourceDocuments: true,
-    k: 2, //number of source documents to return
+    k: !!sourceCount ? sourceCount : 2, //number of source documents to return
   })
 }
 

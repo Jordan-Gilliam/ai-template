@@ -6,28 +6,42 @@ import {
   JSONLoader,
   PDFLoader,
   TextLoader,
+  UnstructuredLoader,
 } from "langchain/document_loaders"
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 
 export const splitDocumentsFromFile = async (file) => {
   const { fileText, fileName } = file
 
-  const rawDocs = new Document({
-    pageContent: fileText,
-    metadata: { source: fileName, type: "file" },
-  })
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 2000,
     chunkOverlap: 200,
   })
-  const docs = await textSplitter.splitDocuments([rawDocs])
 
-  return docs
+  const docOutput = await textSplitter.splitDocuments([
+    new Document({
+      pageContent: fileText,
+      metadata: { source: fileName, type: "file" },
+    }),
+  ])
+
+  return docOutput
 }
 
 export const createDocumentsFromUrl = async (url: string) => {
   const loader = new CheerioWebBaseLoader(url)
   const docs = await loader.load()
+  return docs
+}
+
+export const createDocumentsFromPPT = async (
+  webPath?: string | Buffer,
+  file?: string
+) => {
+  // @ts-ignore
+  const loader = new UnstructuredLoader(webPath, file)
+  const docs = await loader.load()
+  console.log(docs)
   return docs
 }
 

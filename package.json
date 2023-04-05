@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@microsoft/fetch-event-source": "^2.0.1",
-
     "@pinecone-database/pinecone": "^0.0.10",
     "@radix-ui/react-accessible-icon": "^1.0.1",
     "@radix-ui/react-accordion": "^1.1.0",
@@ -53,13 +52,18 @@
     "formidable": "^2.1.1",
     "framer-motion": "^10.10.0",
     "gpt3-tokenizer": "^1.1.5",
-    "langchain": "0.0.33",
+    "jszip": "^3.10.1",
+    "langchain": "0.0.48",
     "lucide-react": "0.129.0",
+    "mammoth": "^1.5.1",
     "next": "^13.2.4",
     "next-themes": "^0.2.1",
+    "node-html-markdown": "^1.3.0",
+    "officegen": "^0.6.5",
     "openai": "^3.2.1",
     "parse-numeric-range": "^1.3.0",
     "pdf-parse": "^1.1.1",
+    "pptxgenjs": "^3.12.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -71,7 +75,9 @@
     "swr": "^2.1.1",
     "tailwind-merge": "^1.11.0",
     "tailwindcss-animate": "^1.0.5",
+    "tesseract.js": "^4.0.3",
     "uuid": "^9.0.0",
+    "xml2js": "^0.4.23",
     "zod": "^3.21.4"
   },
   "devDependencies": {

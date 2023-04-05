@@ -3,6 +3,18 @@ import useSWR from "swr"
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
+export const usePineconeStats = () => {
+  const { data, error, isLoading } = useSWR("/api/stats", fetcher, {
+    revalidateOnFocus: true,
+  })
+
+  return {
+    loading: isLoading,
+    data,
+    error,
+  }
+}
+
 interface IndexDescription {
   namespaces: {
     [key: string]: {
@@ -18,14 +30,4 @@ export const getNamespaceKeys = (
   indexDescription: IndexDescription
 ): string[] => {
   return Object.keys(indexDescription.namespaces)
-}
-
-export const usePineconeStats = () => {
-  const { data, error, isLoading } = useSWR("/api/stats", fetcher)
-
-  return {
-    loading: isLoading,
-    data,
-    error,
-  }
 }
