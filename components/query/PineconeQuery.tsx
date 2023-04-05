@@ -89,7 +89,6 @@ export function PineconeQuery({ namespace }) {
   }, [status])
 
   return (
-    // <section className="container flex  flex-col justify-items-stretch gap-6 pb-8 md:pb-10">
     <section className=" container mx-1 pb-8 md:pb-10">
       <div
         className={cn(

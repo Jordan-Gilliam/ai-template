@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react"
+import { AnimatePresence } from "framer-motion"
 import { Document } from "langchain/document"
 import { File } from "lucide-react"
 import { useDropzone } from "react-dropzone"
@@ -16,14 +17,15 @@ export type Message = {
 
 export function FileUpload({ namespace }) {
   const [files, setFiles] = useState(null)
-
-  const [isUploading, setIsUploading] = useState(false)
+  const [status, setStatus] = useState("idle")
 
   const onDrop = useCallback((acceptedFiles) => {
+    setStatus("new-file")
     setFiles(acceptedFiles)
   }, [])
 
   const handleUpload = useCallback(async () => {
+    setStatus("loading")
     if (!namespace) {
       return toast({
         title: "Please enter a pinecone namespace",
@@ -34,15 +36,27 @@ export function FileUpload({ namespace }) {
       formData.append("file", file)
     })
 
-    setIsUploading(true)
-    await fetch("/api/embed-file", {
-      method: "post",
-      body: formData,
-      headers: {
-        namespace: !!namespace ? namespace : "default-namespace",
-      },
-    })
-    setIsUploading(false)
+    try {
+      await fetch("/api/embed-file", {
+        method: "post",
+        body: formData,
+        headers: {
+          namespace: !!namespace ? namespace : "default-namespace",
+        },
+      })
+      setStatus("complete")
+
+      return toast({
+        title: "✅ Success! ",
+        description: `Uploaded ${files[0].name} in namespace: ${namespace}`,
+      })
+    } catch (e) {
+      setStatus("error")
+      return toast({
+        title: "❌ Error! ",
+        description: `${e}`,
+      })
+    }
   }, [files])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -88,25 +102,32 @@ export function FileUpload({ namespace }) {
 
       <div className="mt-auto ">
         <LoadingButton
-          loading={isUploading}
+          status={status}
           handleSubmit={handleUpload}
-          disabled={!files || isUploading}
+          disabled={!files || status === "uploading"}
         />
       </div>
     </div>
   )
 }
 
-function LoadingButton({ loading, handleSubmit, disabled }) {
+function LoadingButton({ handleSubmit, disabled, status }) {
   return (
-    <GlowButton disabled={disabled} onClick={handleSubmit}>
-      <div className="flex items-center px-6 py-1">
-        {!loading ? (
-          <Icons.upload className="mr-2 h-4 w-4" />
+    <GlowButton
+      disabled={disabled}
+      className=""
+      variant="ghost"
+      onClick={handleSubmit}
+    >
+      <div className="flex w-full items-center px-6 py-1">
+        {status === "loading" ? (
+          <Icons.loadingSpinner className="mr-2 h-5 w-5 animate-spin stroke-teal-500/80  dark:stroke-teal-400 " />
+        ) : status === "complete" ? (
+          <Icons.check className="mr-2 h-5 w-5" />
         ) : (
-          <Icons.loading className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.upload className="mr-2 h-5 w-5" aria-hidden="true" />
         )}
-        Upload
+        <span>Upload</span>
       </div>
     </GlowButton>
   )

@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { AnimatePresence } from "framer-motion"
+import { formatLongUrl } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { GlowButton } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,19 +15,15 @@ function UrlScraper({ namespace }: Props) {
   const [urls, setUrls] = useState<string[]>([])
   const [status, setStatus] = useState("idle")
 
-  const api = !!namespace
-    ? "pinecone-scrape-ingest-webpage"
-    : "supabase-scrape-ingest-webpage"
-
-  const { loading, trigger } = useScrapeEmbed(api)
+  const { loading, trigger } = useScrapeEmbed("embed-webpage")
 
   function handleChange(e) {
     setStatus("typing")
     return setUrls(e.target.value.split("\n"))
   }
 
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   const handleSubmit = async (e) => {
+    setStatus("loading")
     if (!urls) {
       return toast({
         title: "Please enter a url",
@@ -37,10 +35,17 @@ function UrlScraper({ namespace }: Props) {
         title: "Please enter a pinecone namespace",
       })
     }
+    setUrls([])
     try {
       const result = await trigger({ urls, namespace })
       setStatus("complete")
-
+      toast({
+        title: "✅ Success! ",
+        description: `Scraped ${formatLongUrl(
+          urls[0],
+          15
+        )} in namespace: ${namespace}`,
+      })
       return result
     } catch (e) {
       setStatus("error")
@@ -52,7 +57,7 @@ function UrlScraper({ namespace }: Props) {
   }
 
   return (
-    <div className="flex  h-48 flex-col items-center justify-between ">
+    <div className="flex h-48 flex-col items-center justify-between ">
       <div className="mt-8 w-80">
         <Input
           placeholder="https://react.dev/"
@@ -64,7 +69,7 @@ function UrlScraper({ namespace }: Props) {
 
       <div className="mt-auto">
         <LoadingButton
-          loading={loading}
+          status={status}
           handleSubmit={handleSubmit}
           disabled={urls.length < 1 || loading}
         />
@@ -73,7 +78,7 @@ function UrlScraper({ namespace }: Props) {
   )
 }
 
-function LoadingButton({ loading, handleSubmit, disabled }) {
+function LoadingButton({ handleSubmit, disabled, status }) {
   return (
     <GlowButton
       disabled={disabled}
@@ -81,13 +86,15 @@ function LoadingButton({ loading, handleSubmit, disabled }) {
       variant="ghost"
       onClick={handleSubmit}
     >
-      <div className="flex items-center px-6 py-1">
-        {!loading ? (
-          <Icons.web className="mr-2 h-4 w-4" />
+      <div className="flex w-full items-center px-6 py-1">
+        {status === "loading" ? (
+          <Icons.loadingSpinner className="mr-2 h-5 w-5 animate-spin stroke-teal-500/80  dark:stroke-teal-400 " />
+        ) : status === "complete" ? (
+          <Icons.check className="mr-2 h-5 w-5" />
         ) : (
-          <Icons.loading className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.web className="mr-2 h-5 w-5" aria-hidden="true" />
         )}
-        Scrape
+        <span>Scrape</span>
       </div>
     </GlowButton>
   )

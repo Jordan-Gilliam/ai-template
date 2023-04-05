@@ -1,9 +1,11 @@
+import { motion } from "framer-motion"
 import {
   ArrowDownRight,
   Globe,
   Laptop,
   LayoutList,
   Link,
+  Loader,
   Loader2,
   type Icon as LucideIcon,
   LucideProps,
@@ -12,8 +14,24 @@ import {
   Twitter,
   UploadCloud,
 } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export type Icon = LucideIcon
+
+let x = 1
+const t = (v) => x * v
+
+let checkIconTransition = {
+  ease: "easeOut",
+  type: "tween",
+  delay: t(0.2),
+  duration: t(0.3),
+}
+let checkIconVariants = {
+  complete: {
+    pathLength: [0, 1],
+  },
+}
 
 export const Icons = {
   sun: SunMedium,
@@ -26,6 +44,7 @@ export const Icons = {
   web: Globe,
   loading: Loader2,
   list: LayoutList,
+  loadingSpinner: Loader,
 
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
@@ -51,6 +70,62 @@ export const Icons = {
         d="M 14.456625,0.0044630784 C -0.25689377,3.3420931 -1.7502908,21.255463 1.3162792,33.468863 C 3.6956699,51.279573 17.106686,68.926373 9.0218199,87.057883 C -3.6356168,112.64337 -2.2623188,143.46795 10.624403,168.67822 C 23.17246,195.43429 47.209701,216.3602 75.297732,225.33506 C 87.612972,231.81909 80.686322,249.48487 66.955952,245.1411 C 54.081552,245.46272 35.84791,244.17577 29.73708,258.33467 C 23.529089,274.04901 42.140506,282.8172 55.017132,283.33294 C 68.829742,282.31642 87.049612,283.86994 81.760692,302.90336 C 82.287312,314.58496 81.709262,333.56426 96.680419,335.91366 C 110.56671,339.06466 118.01385,325.29256 117.81069,313.21016 C 119.06239,302.02256 114.1895,280.43597 132.47949,283.87235 C 145.95367,283.76225 163.96136,283.03934 170.74189,269.28898 C 175.49053,253.64417 158.14737,244.65819 144.87809,245.39849 C 135.82885,244.3699 116.05773,248.83439 118.48618,233.83475 C 124.3543,219.22433 144.67174,221.31388 154.7829,210.22146 C 189.76836,185.08265 210.67872,136.27985 194.08514,94.726473 C 186.69175,81.975503 187.22425,66.898443 193.13303,53.728113 C 197.47342,38.907583 204.60459,21.328723 195.83018,6.7943631 C 186.16079,-7.9576469 168.7184,4.8689031 166.19868,18.090233 C 162.34593,29.740993 161.58023,50.222533 144.55628,38.384783 C 117.21546,25.941423 84.822872,25.290213 57.350792,37.717933 C 47.696329,42.956483 37.027609,43.782883 37.322425,29.779723 C 34.056703,18.278763 29.598244,-0.46608692 14.456625,0.0044630784 z M 111.03847,63.839023 C 142.71746,68.533963 166.26701,99.940933 163.45116,131.53816 C 162.471,159.34504 140.65041,182.99938 114.13875,189.50706 C 90.406072,196.3156 64.088442,184.30613 49.164372,165.66873 C 25.576527,135.98382 36.237279,86.693763 70.553582,70.094533 C 82.926732,63.413093 97.277729,61.986873 111.03847,63.839023 z "
         id="path1374"
       />
+    </svg>
+  ),
+  check: ({ className, ...props }) => (
+    <svg
+      fill="none"
+      viewBox="0 0 24 24"
+      className={cn(
+        "-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400 dark:group-hover:text-teal-300",
+        className
+      )}
+      stroke="currentColor"
+      strokeWidth={3}
+      {...props}
+    >
+      <motion.path
+        variants={checkIconVariants}
+        transition={checkIconTransition}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5 13l4 4L19 7"
+      />
+    </svg>
+  ),
+  plus: ({ className, ...props }) => (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn(
+        "-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400 dark:group-hover:text-teal-300",
+        className
+      )}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <motion.line
+        variants={checkIconVariants}
+        transition={checkIconTransition}
+        x1="12"
+        y1="5"
+        x2="12"
+        y2="19"
+      ></motion.line>
+      <motion.line
+        variants={checkIconVariants}
+        transition={checkIconTransition}
+        x1="5"
+        y1="12"
+        x2="19"
+        y2="12"
+      ></motion.line>
     </svg>
   ),
 }
