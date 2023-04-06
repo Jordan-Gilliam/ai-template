@@ -16,13 +16,33 @@
 
 
 ## Chat with any Document or Website
-
 > Train your own custom GPT
 
-- [Perplexity](https://www.perplexity.ai/) style UI
 - Train on specific websites that you define
 - Train on documents you upload
+- Builds on dialog with Chat History 
 - Cites sources
+- [Perplexity](https://www.perplexity.ai/) style UI
+
+
+
+
+#### Supported Files
+- [x] .pdf
+- [x] .docx
+- [x] .md
+- [x] .txt
+- [x] .png
+- [x] .jpg
+- [x] .html
+- [x] .json
+
+#### Coming Soon
+- [ ] .csv
+- [ ] .pptx
+- [ ] notion
+
+
 
 
 ## Train:
@@ -32,13 +52,13 @@
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-dark-train.png" alt=""></a>
 </h2>
 
-#### 1. Creating and storing the embeddings: `/api/embed-webpage`
+#### 1. Embed and store webpage: `/api/embed-webpage`
 
 - Web pages are scraped using [cheerio](https://github.com/cheeriojs/cheerio), cleaned to plain text, and split into 1000-character documents.
 - OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
 - The embeddings are stored in a Pinecone namespace.
 
-#### 2. Creating embeddings from file: `/api/embed-file`
+#### 2. Embed and store file: `/api/embed-file`
 
 - file is uploaded -> cleaned to plain text, and split into 1000-character documents.
 - OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
@@ -131,7 +151,7 @@ Open http://localhost:3000 in your browser to view the app.
 ## Template Features
 
 - OpenAI API (for generating embeddings and GPT-3 responses)
-- Supabase (using their pgvector implementation as the vector database)
+- Pinecone
 - Nextjs API Routes (Edge runtime) - streaming
 - Tailwind CSS
 - Fonts with `@next/font`
