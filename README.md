@@ -1,6 +1,6 @@
 <h1 align="center">
 
-<a href="https://github.com/Jordan-Gilliam/ai-template"><img width="300" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-indigo.webp" alt=""></a>
+<a href="https://github.com/Jordan-Gilliam/ai-template"><img width="200" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-indigo.webp" alt=""></a>
 
 </h1>
 
@@ -52,17 +52,19 @@
   <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-dark-train.png" alt=""></a>
 </h2>
 
-#### 1. Embed and store webpage: `/api/embed-webpage`
+#### 1. Upload: `/api/embed-file`
+
+- file is uploaded -> cleaned to plain text, and split into 1000-character documents.
+- OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
+- The embeddings are stored in a Pinecone namespace.
+
+#### 2. Scrape: `/api/embed-webpage`
 
 - Web pages are scraped using [cheerio](https://github.com/cheeriojs/cheerio), cleaned to plain text, and split into 1000-character documents.
 - OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
 - The embeddings are stored in a Pinecone namespace.
 
-#### 2. Embed and store file: `/api/embed-file`
 
-- file is uploaded -> cleaned to plain text, and split into 1000-character documents.
-- OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
-- The embeddings are stored in a Pinecone namespace.
 
 ## Query:
 
@@ -84,15 +86,9 @@
 
 
 
-### Set-up Pinecone
 
-- Visit [pinecone](https://pinecone.io/) to create and retrieve your API keys, and also retrieve your environment and index name from the dashboard.
 
-### Set-up OpenAi API
-
-- Visit [openai](https://platform.openai.com/account/api-keys) to create and copy your API key
-
-### Set-up local environment
+### 1. Clone Repo and Install Deps
 
 To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
 
@@ -111,18 +107,31 @@ code .
 npm i
 ```
 
-- create a .env.local file in the root directory to store environment variables:
+
+### 2. Set-up Pinecone
+
+- Visit [pinecone](https://pinecone.io/) to create a free tier account and from the dashboard.
+- Create a new Pinecone Index with Dimensions `1536`
+eg: 
+<h2 align="center">
+  <br>
+<img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-pinecone.png" alt="">
+</h2>
+
+- Copy your API key
+- Record your Enironment name ex: `us-central1-gcp`
+- Record your index name ex: `mercury`
+
+### 3. Set-up OpenAi API
+
+- Visit [openai](https://platform.openai.com/account/api-keys) to create and copy your API key
+> You can find this in the OpenAI web portal under `API Keys`
+
+### 4. Open the `.env.local` file and configure your environment
 
 ```bash
 cp .env.example .env.local
 ```
-
-1. Create Open AI API account
-
-- Add your OPENAI PI key to .env.local. You can find this in the OpenAI web portal under `API Keys`.
-  Example:
-
-2. Create Free Tier Pinecone Account
 
 ```bash
 # OpenAI
@@ -130,17 +139,11 @@ OPENAI_API_KEY="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 # Pinecone
 PINECONE_API_KEY="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxx"
 PINECONE_ENVIRONMENT="us-central1-gcp"
-PINECONE_INDEX_NAME="ai-template"
+PINECONE_INDEX_NAME="mercury"
 ```
 
-3. open the `.env.local` file and configure your environment
 
-- `OPENAI_API_KEY`
-- `PINECONE_API_KEY`
-- `PINECONE_ENVIRONMENT`
-- `PINECONE_INDEX_NAME`
-
-4. Start the app
+### 5. Start the app
 
 ```bash
 npm run dev
