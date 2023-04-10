@@ -1,17 +1,20 @@
-<h1 align="center">
+<h1 align="center">Mercury</h4>
 
-<a href="https://github.com/Jordan-Gilliam/ai-template"><img width="200" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-indigo.webp" alt=""></a>
 
-</h1>
+<h4 align="center">
 
-# Mercury
+<img width="800" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-search.png" alt="">
+</h4>
 
-<i>A Chat GPT Embedding Template</i>
+<h4 align="center">
+<img width="200" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/logo-down-indigo.webp" alt="">
 
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-read-1.png" alt=""></a>
-</h2>
+</h4>
+
+
+
+
+
 
 
 
@@ -23,6 +26,11 @@
 - Builds on dialog with Chat History 
 - Cites sources
 - [Perplexity](https://www.perplexity.ai/) style UI
+
+<h2 align="center">
+  <br>
+<img width="1000" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-read-1.png" alt="">
+</h2>
 
 
 
@@ -45,12 +53,9 @@
 
 
 
-## Train:
+## Train
 
-<h2 align="center">
-  <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-dark-train.png" alt=""></a>
-</h2>
+
 
 #### 1. Upload: `/api/embed-file`
 
@@ -64,9 +69,14 @@
 - OpenAI's embedding API is used to generate embeddings for each document using the "text-embedding-ada-002" model.
 - The embeddings are stored in a Pinecone namespace.
 
+<h4 align="center">
+  <br>
+<img width="1000" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-dark-train.png" alt="">
+</h4>
 
 
-## Query:
+
+## Query
 
 #### Responding to queries: `/api/query`
 
@@ -76,10 +86,10 @@
 - The GTP-3 response is then streamed back to the user.
 
 
-<h2 align="center">
+<h4 align="center">
   <br>
-  <a href="https://github.com/Jordan-Gilliam/ai-template"><img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-2.gif" alt=""></a>
-</h2>
+<img width="1000" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-2.gif" alt="">
+</h4>
 
 
 ## Getting Started
@@ -113,10 +123,10 @@ npm i
 - Visit [pinecone](https://pinecone.io/) to create a free tier account and from the dashboard.
 - Create a new Pinecone Index with Dimensions `1536`
 eg: 
-<h2 align="center">
+<h4 align="">
   <br>
 <img width="700" src="https://github.com/Jordan-Gilliam/readme-assets/blob/master/merc-pinecone.png" alt="">
-</h2>
+</h4>
 
 - Copy your API key
 - Record your Enironment name ex: `us-central1-gcp`
