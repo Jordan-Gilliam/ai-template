@@ -1,4 +1,5 @@
 import type { NextApiRequest } from "next"
+import { createDocumentsFromPDFFile } from "@/loaders/document"
 import formidable from "formidable"
 import mammoth from "mammoth"
 import { NodeHtmlMarkdown } from "node-html-markdown"
@@ -17,7 +18,8 @@ const formidableConfig = {
 
 export const getTextContentFromPDF = async (pdfBuffer) => {
   // TODO: pass metadata
-  const { text } = await pdfParse(pdfBuffer)
+  const { text, metadata } = await pdfParse(pdfBuffer)
+  console.log("metadata", metadata)
   return text
 }
 
@@ -61,11 +63,12 @@ const convertFileToString = async (file: formidable.File, chunks) => {
   const fileData = Buffer.concat(chunks)
 
   let fileText = ""
-  console.log(file)
+  let docs
 
   switch (file.mimetype) {
     case "application/pdf":
       fileText = await getTextContentFromPDF(fileData)
+      // docs = await createDocumentsFromPDFFile(file)
       break
     case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": // i.e. docx file
       const docxResult = await mammoth.extractRawText({
@@ -107,7 +110,11 @@ const convertFileToString = async (file: formidable.File, chunks) => {
       throw new Error("Unsupported file type")
   }
 
-  return { fileText, fileName: file.originalFilename ?? "fallback-filename" }
+  return {
+    fileText,
+    docs,
+    fileName: file.originalFilename ?? "fallback-filename",
+  }
 }
 
 export const getFileText = async (req: NextApiRequest) => {

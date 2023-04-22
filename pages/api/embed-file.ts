@@ -20,8 +20,9 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const docs = await processDocuments(req)
+
     await storeDocumentsInPinecone(docs, namespaceConfig)
-    res.status(200).json({ message: "Success" })
+    res.status(200).json({ res, message: "Success" })
   } catch (error) {
     console.log("error", error)
     throw new Error("Failed to ingest your data")
@@ -31,11 +32,13 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 async function processDocuments(req: NextApiRequest) {
   const fileText = await getFileText(req)
   const rawDocs = await splitDocumentsFromFile(fileText)
+  console.log("RAW_DOCS", rawDocs.length)
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
     chunkOverlap: 200,
   })
   const docs = await textSplitter.splitDocuments(rawDocs)
+  console.log("DOCS", docs.length)
   return docs
 }
 

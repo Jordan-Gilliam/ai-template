@@ -1,7 +1,9 @@
 import * as React from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { useTheme } from "next-themes"
 import { NavHeader } from "@/components/NavHeader"
+import { Switch } from "@/components/Switch"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
@@ -105,7 +107,8 @@ function BackgroundColorBlur() {
 }
 
 function ThemeToggle() {
-  const { setTheme } = useTheme()
+  let { theme, setTheme } = useTheme()
+  let [airplaneMode, setAirplaneMode] = useState(false)
 
   return (
     <DropdownMenu>

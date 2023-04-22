@@ -61,9 +61,27 @@ body,
     );
 }
 
+.animate-caret {
+  animation-name: caret;
+  animation-duration: 1000ms;
+  animation-fill-mode: both;
+  animation-iteration-count: 3;
+  animation-fill-mode: forwards;
+  transition-timing-function: cubic-bezier(0.14, 0, 0.16, 1);
+}
+
+@keyframes caret {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 input,
 textarea {
-  @apply caret-teal-400;
+  @apply caret-indigo-600 dark:caret-teal-400;
 }
 
 .shadow-box {
@@ -99,4 +117,96 @@ textarea {
 
 .border {
   background-clip: padding-box;
+}
+
+.prose a:not(.not-prose) {
+  @apply border-b border-dotted border-neutral-700 font-medium no-underline;
+}
+
+pre {
+  @apply rounded-md bg-transparent text-sm text-white antialiased !important;
+  line-height: 1.7 !important;
+}
+
+.code-small pre {
+  @apply p-3 text-xs antialiased !important;
+  line-height: 1.7 !important;
+}
+
+.code-small-md pre {
+  @apply p-3 text-xs antialiased md:text-sm !important;
+  line-height: 1.7 !important;
+}
+
+.token.plain {
+  @apply text-white !important;
+}
+
+.token.tag,
+.token.class-name,
+.token.selector,
+.token.selector .class,
+.token.function {
+  @apply text-fuchsia-400 !important;
+}
+
+.token.attr-name,
+.token.keyword,
+.token.rule,
+.token.operator,
+.token.pseudo-class,
+.token.important {
+  @apply text-cyan-400 !important;
+}
+
+.token.attr-value,
+.token.class,
+.token.string,
+.token.number,
+.token.unit,
+.token.color {
+  @apply text-lime-300 !important;
+}
+
+.token.punctuation,
+.token.module,
+.token.property {
+  @apply text-sky-200 !important;
+}
+
+.token.atapply .token:not(.rule):not(.important) {
+  color: inherit;
+}
+
+.language-shell .token:not(.comment) {
+  color: inherit;
+}
+
+.language-css .token.function {
+  color: inherit;
+}
+
+.token.comment {
+  @apply text-neutral-400 !important;
+}
+
+.token.deleted:not(.prefix) {
+  @apply relative -mx-4 block px-4 !important;
+}
+
+.token.deleted:not(.prefix)::after {
+  content: "";
+  @apply pointer-events-none absolute inset-0 block bg-rose-400 bg-opacity-25 !important;
+}
+
+.token.deleted.prefix {
+  @apply select-none text-neutral-400 !important;
+}
+
+.token.inserted:not(.prefix) {
+  @apply -mx-4 block bg-emerald-700 bg-opacity-50 px-4 !important;
+}
+
+.token.inserted.prefix {
+  @apply select-none text-emerald-200 text-opacity-75 !important;
 }

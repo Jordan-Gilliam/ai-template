@@ -7,8 +7,8 @@ import {
 } from "@/loaders/prompts"
 import { CallbackManager } from "langchain/callbacks"
 import { ChatVectorDBQAChain, LLMChain, loadQAChain } from "langchain/chains"
-import { OpenAIChat } from "langchain/llms"
-import { PineconeStore } from "langchain/vectorstores"
+import { OpenAIChat } from "langchain/llms/openai"
+import { PineconeStore } from "langchain/vectorstores/pinecone"
 
 export const makePdfChain = (
   vectorstore: PineconeStore,
