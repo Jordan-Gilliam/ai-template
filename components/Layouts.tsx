@@ -3,7 +3,6 @@ import { useState } from "react"
 import Image from "next/image"
 import { useTheme } from "next-themes"
 import { NavHeader } from "@/components/NavHeader"
-import { Switch } from "@/components/Switch"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
