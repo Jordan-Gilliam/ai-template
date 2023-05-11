@@ -14,6 +14,18 @@ module.exports = {
       },
     },
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            "code::before": {
+              content: '""',
+            },
+            "code::after": {
+              content: '""',
+            },
+          },
+        },
+      },
       boxShadow: {
         input:
           "0px 1px 0px -1px var(--tw-shadow-color), 0px 1px 1px -1px var(--tw-shadow-color), 0px 1px 2px -1px var(--tw-shadow-color), 0px 2px 4px -2px var(--tw-shadow-color), 0px 3px 6px -3px var(--tw-shadow-color)",
@@ -49,6 +61,7 @@ module.exports = {
   plugins: [
     require("windy-radix-palette"),
     require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
   ],
   presets: [require("windy-radix-palette")],

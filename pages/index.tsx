@@ -8,7 +8,7 @@ import {
   PageLayout,
 } from "@/components/Layouts"
 import { NamespaceSelector } from "@/components/NamespaceInput"
-import { PineconeQuery } from "@/components/query/PineconeQuery"
+import { DocumentQA } from "@/components/query/DocumentQA"
 import { FileUpload } from "@/components/train/FileUpload"
 import { UrlScraper } from "@/components/train/UrlScraper"
 
@@ -33,8 +33,8 @@ const fadeIn = {
 }
 
 export default function Pinecone() {
-  const [embedding, setEmbedding] = useState("TRAIN")
   const [namespace, setNamespace] = useState("")
+  const [embedding, setEmbedding] = useState("TRAIN")
   const [animateOnce, setAnimateOnce] = useState(true)
   const handleNamespaceSelect = useCallback((selectedNamespace) => {
     console.log("Selected namespace:", selectedNamespace)
@@ -57,28 +57,47 @@ export default function Pinecone() {
       <div className="   flex flex-col items-center  gap-3 px-3">
         <div className="z-30 my-6">
           <div className=" flex items-center justify-center md:gap-3">
-            <ToggleHeading text="TRAIN" embedding={embedding} />
-            <button
-              className="transition duration-150 hover:scale-105"
-              onClick={toggleEmbedding}
-            >
-              <motion.img
-                className={cn(animateOnce ? "animate-pulse" : "")}
-                alt={embedding}
-                src={
+            <div className="flex items-center justify-center ">
+              <button
+                className={cn(
+                  "flex flex-col items-center justify-center",
                   embedding === "TRAIN"
-                    ? "/logo-down-indigo.webp"
-                    : "/merc-logo-down-aqua.webp"
-                }
-                variants={imageVariants}
-                animate={{ rotateX: embedding === "TRAIN" ? 0 : 180 }}
-                height={175}
-                width={175}
-              />
-            </button>
-
-            <div className="flex flex-col items-center justify-center">
-              <ToggleHeading text="QUERY" embedding={embedding} />
+                    ? "cursor-default"
+                    : "transition duration-150 hover:scale-105"
+                )}
+                onClick={() => setEmbedding("TRAIN")}
+              >
+                <ToggleHeading text="TRAIN" embedding={embedding} />
+              </button>
+              <button
+                onClick={toggleEmbedding}
+                className=" transition duration-150 hover:scale-105 md:gap-3"
+              >
+                <motion.img
+                  className={cn(animateOnce ? "animate-pulse" : "")}
+                  alt={embedding}
+                  src={
+                    embedding === "TRAIN"
+                      ? "/logo-down-indigo.webp"
+                      : "/merc-logo-down-aqua.webp"
+                  }
+                  variants={imageVariants}
+                  animate={{ rotateX: embedding === "TRAIN" ? 0 : 180 }}
+                  height={175}
+                  width={175}
+                />
+              </button>
+              <button
+                className={cn(
+                  "flex flex-col items-center justify-center",
+                  embedding === "QUERY"
+                    ? "cursor-default"
+                    : "transition duration-150 hover:scale-105"
+                )}
+                onClick={() => setEmbedding("QUERY")}
+              >
+                <ToggleHeading text="QUERY" embedding={embedding} />
+              </button>
             </div>
           </div>
         </div>
@@ -100,7 +119,6 @@ export default function Pinecone() {
                 className="  flex w-full flex-col items-center"
                 initial="hidden"
                 animate="visible"
-                // layout
                 exit="exit"
                 variants={fadeIn}
               >
@@ -108,7 +126,7 @@ export default function Pinecone() {
                   Set a pinecone <span className="font-bold"> namespace</span>{" "}
                   and create vector embeddings by
                   <span className="font-bold"> uploading</span> files or{" "}
-                  <span className="font-bold"> sraping</span> websites
+                  <span className="font-bold"> scraped</span> websites
                 </p>
                 <div className="flex flex-col items-center justify-between md:mt-6 md:flex-row md:items-start ">
                   <div className="  pt-4 md:mx-4 md:mt-0 md:max-w-2xl">
@@ -142,11 +160,10 @@ export default function Pinecone() {
             ) : (
               <div className=" flex w-full flex-col items-center ">
                 <p className="mb-3 mt-2 max-w-lg text-center text-neutral-800 dark:text-neutral-200 md:text-lg">
-                  Query your newly trained ai. Leverage the embedded knowledge
-                  provided by you.
+                  <b>Query</b> the embedded knowledge provided by you.
                 </p>
 
-                <PineconeQuery namespace={namespace} />
+                <DocumentQA namespace={namespace} />
               </div>
             )}
           </AnimatePresence>
@@ -160,14 +177,3 @@ export default function Pinecone() {
     </PageLayout>
   )
 }
-
-// export async function getServerSideProps() {
-//   const response = await fetch("/api/stats")
-//   const data = await response.json()
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   }
-// }

@@ -1,10 +1,8 @@
 import type { NextApiRequest, NextApiResponse, PageConfig } from "next"
-import { splitDocumentsFromFile } from "@/loaders/document"
-import { getFileText } from "@/loaders/parse"
 import { OpenAIEmbeddings } from "langchain/embeddings"
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 import { PineconeStore } from "langchain/vectorstores"
 import { initPinecone } from "@/config/pinecone"
+import { getFileText, splitDocumentsFromFile } from "@/lib/file"
 
 if (
   !process.env.PINECONE_ENVIRONMENT ||
@@ -19,7 +17,10 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   const namespaceConfig = !!namespace ? namespace : "default-namespace"
 
   try {
-    const docs = await processDocuments(req)
+    // parse file -> text -> Document chunk & metadata -> store in Pinecone Namespace
+    const fileText = await getFileText(req)
+    const docs = await splitDocumentsFromFile(fileText)
+
     await storeDocumentsInPinecone(docs, namespaceConfig)
     res.status(200).json({ message: "Success" })
   } catch (error) {
@@ -28,40 +29,16 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-async function processDocuments(req: NextApiRequest) {
-  const fileText = await getFileText(req)
-  const rawDocs = await splitDocumentsFromFile(fileText)
-  const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 200,
-  })
-  const docs = await textSplitter.splitDocuments(rawDocs)
-  return docs
-}
-
 async function storeDocumentsInPinecone(docs: any, namespace) {
   const pinecone = await initPinecone()
   const embeddings = new OpenAIEmbeddings()
   const index = pinecone.Index(process.env.PINECONE_INDEX_NAME)
 
-  const chunkSize = 50
-  for (let i = 0; i < docs.length; i += chunkSize) {
-    const chunk = docs.slice(i, i + chunkSize)
-
-    // await PineconeStore.fromDocuments(
-    //   index,
-    //   chunk,
-    //   embeddings,
-    //   "text",
-    //   namespace
-    // )
-
-    await PineconeStore.fromDocuments(chunk, embeddings, {
-      pineconeIndex: index,
-      namespace,
-      textKey: "text",
-    })
-  }
+  await PineconeStore.fromDocuments(docs, embeddings, {
+    pineconeIndex: index,
+    namespace,
+    textKey: "text",
+  })
 }
 
 export const config: PageConfig = {
@@ -71,8 +48,3 @@ export const config: PageConfig = {
 }
 
 export default handler
-
-// import { z } from "zod"
-// const ingestSchema = z.object({
-//   namespace: z.string().optional(),
-// })

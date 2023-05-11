@@ -6,7 +6,6 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body className="min-h-screen scroll-smooth font-sans text-zinc-900 antialiased dark:text-zinc-50">
-        {/* <body className="min-h-screen font-sans text-zinc-900 antialiased   dark:text-zinc-50"> */}
         <FancyBackground>
           <Main />
           <NextScript />

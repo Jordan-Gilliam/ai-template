@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { FC, ReactNode } from "react"
 import rangeParser from "parse-numeric-range"
 import ReactMarkdown from "react-markdown"
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter"
@@ -12,6 +12,7 @@ import scss from "react-syntax-highlighter/dist/cjs/languages/prism/scss"
 import tsx from "react-syntax-highlighter/dist/cjs/languages/prism/tsx"
 import typescript from "react-syntax-highlighter/dist/cjs/languages/prism/typescript"
 import { synthwave84 } from "react-syntax-highlighter/dist/cjs/styles/prism"
+import remarkGfm from "remark-gfm"
 
 SyntaxHighlighter.registerLanguage("tsx", tsx)
 SyntaxHighlighter.registerLanguage("typescript", typescript)
@@ -82,13 +83,82 @@ const MarkdownComponents: object = {
 type Props = {
   content: string
   className?: string
+  isCurrent?: boolean
 }
 
-const MarkdownRenderer: React.FC<Props> = ({ content, className }) => {
+const MarkdownRenderer2: React.FC<Props> = ({ content, className }) => {
   return (
     <ReactMarkdown className={className} components={MarkdownComponents}>
       {content}
     </ReactMarkdown>
+    // <SyntaxHighlighter className={className} components={MarkdownComponents}>
+    //   {content}
+    // </SyntaxHighlighter>
+  )
+}
+
+const Caret = () => {
+  return (
+    <i className=" inline-block h-[1px] w-[5px] translate-x-[2px] translate-y-[2px] rounded-[1px] bg-teal-500 shadow-[0_0px_3px_0px_rgba(217,70,219,0.9)]" />
+  )
+}
+
+type WithCaretProps = {
+  Component: string
+  children?: ReactNode
+  isCurrent?: boolean
+} & any
+
+const WithStyle: FC<WithCaretProps> = ({
+  isCurrent,
+  Component,
+  children,
+  ...rest
+}) => {
+  // Sometimes, react-markdown sends props of incorrect type,
+  // causing React errors. To be safe, we normalize them here.
+  const stringifiedProps = Object.keys(rest).reduce((acc, key) => {
+    const value = rest[key]
+    if (value === null || typeof value === "undefined") {
+      return acc
+    }
+    return {
+      ...acc,
+      key: typeof value !== "string" ? value.toString() : value,
+    }
+  }, {})
+
+  return (
+    <Component {...stringifiedProps} className="markdown-node">
+      {children}
+      <Caret />
+    </Component>
+  )
+}
+
+const MarkdownRenderer: React.FC<Props> = ({ content }) => {
+  return (
+    <div className="prose prose-sm max-w-full dark:prose-invert">
+      <ReactMarkdown
+        components={{
+          p: (props) => <WithStyle Component="p" {...props} />,
+          span: (props) => <WithStyle Component="span" {...props} />,
+          h1: (props) => <WithStyle Component="h1" {...props} />,
+          h2: (props) => <WithStyle Component="h2" {...props} />,
+          h3: (props) => <WithStyle Component="h3" {...props} />,
+          h4: (props) => <WithStyle Component="h4" {...props} />,
+          h5: (props) => <WithStyle Component="h5" {...props} />,
+          h6: (props) => <WithStyle Component="h6" {...props} />,
+          pre: (props) => <WithStyle Component="pre" {...props} />,
+          code: (props) => <WithStyle Component="code" {...props} />,
+          td: (props) => <WithStyle Component="td" {...props} />,
+          li: (props) => <WithStyle Component="li" {...props} />,
+        }}
+        remarkPlugins={[remarkGfm]}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
   )
 }
 

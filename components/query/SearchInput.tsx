@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { Loader } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { InputButton } from "@/components/ui/input"
@@ -72,74 +71,3 @@ export function SearchInput({
     </div>
   )
 }
-
-// function CheckIcon(props) {
-//   return (
-//     <svg
-//       {...props}
-//       fill="none"
-//       viewBox="0 0 24 24"
-//       className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400 dark:group-hover:text-teal-300"
-//       stroke="currentColor"
-//       strokeWidth={3}
-//     >
-//       <motion.path
-//         variants={checkIconVariants}
-//         transition={checkIconTransition}
-//         strokeLinecap="round"
-//         strokeLinejoin="round"
-//         d="M5 13l4 4L19 7"
-//       />
-//     </svg>
-//   )
-// }
-
-// function PlusIcon(props) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       className="-ml-0.5 h-7 w-7 text-teal-400/80 group-hover:text-teal-500  dark:text-teal-400 dark:group-hover:text-teal-300"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <motion.line
-//         variants={checkIconVariants}
-//         transition={checkIconTransition}
-//         x1="12"
-//         y1="5"
-//         x2="12"
-//         y2="19"
-//       ></motion.line>
-//       <motion.line
-//         variants={checkIconVariants}
-//         transition={checkIconTransition}
-//         x1="5"
-//         y1="12"
-//         x2="19"
-//         y2="12"
-//       ></motion.line>
-//     </svg>
-//   )
-// }
-
-// let x = 1
-// const t = (v) => x * v
-
-// let checkIconTransition = {
-//   ease: "easeOut",
-//   type: "tween",
-//   delay: t(0.2),
-//   duration: t(0.3),
-// }
-// let checkIconVariants = {
-//   complete: {
-//     pathLength: [0, 1],
-//   },
-// }

@@ -105,7 +105,7 @@ function BackgroundColorBlur() {
 }
 
 function ThemeToggle() {
-  const { setTheme } = useTheme()
+  let { theme, setTheme } = useTheme()
 
   return (
     <DropdownMenu>

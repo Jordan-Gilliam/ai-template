@@ -1,5 +1,7 @@
 import type { NextApiRequest } from "next"
 import formidable from "formidable"
+import { Document } from "langchain/document"
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 import mammoth from "mammoth"
 import { NodeHtmlMarkdown } from "node-html-markdown"
 import pdfParse from "pdf-parse"
@@ -17,7 +19,8 @@ const formidableConfig = {
 
 export const getTextContentFromPDF = async (pdfBuffer) => {
   // TODO: pass metadata
-  const { text } = await pdfParse(pdfBuffer)
+  const { text, metadata } = await pdfParse(pdfBuffer)
+  console.log("metadata", metadata)
   return text
 }
 
@@ -61,11 +64,12 @@ const convertFileToString = async (file: formidable.File, chunks) => {
   const fileData = Buffer.concat(chunks)
 
   let fileText = ""
-  console.log(file)
+  let docs
 
   switch (file.mimetype) {
     case "application/pdf":
       fileText = await getTextContentFromPDF(fileData)
+      // docs = await createDocumentsFromPDFFile(file)
       break
     case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": // i.e. docx file
       const docxResult = await mammoth.extractRawText({
@@ -107,7 +111,11 @@ const convertFileToString = async (file: formidable.File, chunks) => {
       throw new Error("Unsupported file type")
   }
 
-  return { fileText, fileName: file.originalFilename ?? "fallback-filename" }
+  return {
+    fileText,
+    docs,
+    fileName: file.originalFilename ?? "fallback-filename",
+  }
 }
 
 export const getFileText = async (req: NextApiRequest) => {
@@ -121,4 +129,21 @@ export const getFileText = async (req: NextApiRequest) => {
   const { file } = files
 
   return convertFileToString(file as formidable.File, chunks)
+}
+
+export const splitDocumentsFromFile = async (file) => {
+  const { fileText, fileName } = file
+
+  const textSplitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 1000,
+    chunkOverlap: 200,
+  })
+  const docOutput = await textSplitter.splitDocuments([
+    new Document({
+      pageContent: fileText,
+      metadata: { source: fileName, type: "file" },
+    }),
+  ])
+
+  return docOutput
 }
