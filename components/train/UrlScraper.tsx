@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { AnimatePresence } from "framer-motion"
-import { formatLongUrl } from "@/lib/utils"
+import { truncateLongUrl } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { GlowButton } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -41,7 +41,7 @@ function UrlScraper({ namespace }: Props) {
       setStatus("complete")
       toast({
         title: "✅ Success! ",
-        description: `Scraped ${formatLongUrl(
+        description: `Scraped ${truncateLongUrl(
           urls[0],
           15
         )} in namespace: ${namespace}`,

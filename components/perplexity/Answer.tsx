@@ -2,6 +2,7 @@ import * as React from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import MarkdownRenderer from "@/components/MarkdownRenderer"
+import { FadeIn } from "@/components/animations/FadeIn"
 import { ResizablePanel } from "@/components/animations/ResizablePanel"
 import { Icons } from "@/components/icons"
 import { Sources } from "@/components/perplexity/Sources"
@@ -18,7 +19,7 @@ export function AnswerCard({ answer, isCurrentAnswer, status }) {
     <div className=" py-10">
       <div
         className={cn(
-          "border-neutral-focus  overflow-x-auto rounded-xl border bg-neutral-100/50 p-4 shadow-md backdrop-blur ",
+          "border-neutral-focus   rounded-xl border bg-neutral-100/50 p-4 shadow-md backdrop-blur ",
           "hover:border-accent-focus text-left transition",
           "dark:border-black/30 dark:bg-black/50",
 

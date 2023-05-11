@@ -1,6 +1,7 @@
 import type { NextApiRequest } from "next"
-import { createDocumentsFromPDFFile } from "@/loaders/document"
 import formidable from "formidable"
+import { Document } from "langchain/document"
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter"
 import mammoth from "mammoth"
 import { NodeHtmlMarkdown } from "node-html-markdown"
 import pdfParse from "pdf-parse"
@@ -128,4 +129,21 @@ export const getFileText = async (req: NextApiRequest) => {
   const { file } = files
 
   return convertFileToString(file as formidable.File, chunks)
+}
+
+export const splitDocumentsFromFile = async (file) => {
+  const { fileText, fileName } = file
+
+  const textSplitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 1000,
+    chunkOverlap: 200,
+  })
+  const docOutput = await textSplitter.splitDocuments([
+    new Document({
+      pageContent: fileText,
+      metadata: { source: fileName, type: "file" },
+    }),
+  ])
+
+  return docOutput
 }

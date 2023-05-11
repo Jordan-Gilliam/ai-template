@@ -1,5 +1,4 @@
 import type { AppProps } from "next/app"
-// import { Work_Sans as FontSans } from "@next/font/google"
 import { Aboreto, Work_Sans as FontSans, Space_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import { ThemeProvider } from "next-themes"
@@ -7,13 +6,6 @@ import { SWRConfig } from "swr"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import "@/styles/globals.css"
-
-// const fontSans = FontSans({
-//   subsets: ["latin"],
-//   variable: "--font-sans",
-//   display: "swap",
-//   preload: true,
-// })
 
 const fontSans = Space_Grotesk({
   subsets: ["latin"],

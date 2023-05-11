@@ -1,6 +1,12 @@
 import * as React from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { cn, formatLongUrl, pluralize } from "@/lib/utils"
+import { motion } from "framer-motion"
+import {
+  cn,
+  pluralize,
+  truncateLongFileName,
+  truncateLongUrl,
+} from "@/lib/utils"
+import { FadeIn } from "@/components/animations/FadeIn"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
@@ -9,12 +15,6 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { useToggle } from "@/hooks/use-toggle"
-
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.5 } },
-  exit: { opacity: 0, transition: { duration: 0.02 } },
-}
 
 const animateList = {
   hidden: { opacity: 1, scale: 0 },
@@ -55,7 +55,9 @@ export function Sources({ sources }) {
           </CollapsibleTrigger>
         </div>
         <PillList sources={sources} />
-        <ContentList sources={sources} isOpen={isOpen} />
+        <FadeIn>
+          <ContentList sources={sources} isOpen={isOpen} />
+        </FadeIn>
       </Collapsible>
     </div>
   )
@@ -96,12 +98,11 @@ function PillList({ sources }) {
 }
 
 function PillListItem({ order, source }) {
-  const maxPathLength = 15
-
+  const srcLength = 15
   const formattedSource =
     source.metadata.type === "scrape"
-      ? formatLongUrl(source.metadata.source, maxPathLength)
-      : source.metadata.source
+      ? truncateLongUrl(source.metadata.source, srcLength)
+      : truncateLongFileName(source.metadata.source, srcLength)
 
   if (source.metadata.type === "scrape") {
     return (
@@ -156,25 +157,18 @@ function ContentList({ sources, isOpen }) {
   return (
     <CollapsibleContent className="pt-3">
       <ul className="my-2 flex flex-col gap-3">
-        <AnimatePresence>
+        <FadeIn>
           {sources.map((source, i) => (
-            <motion.li
-              key={`document-${i}`}
-              variants={fadeIn}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="max-w-3xl"
-            >
+            <li key={`document-${i}`} className="max-w-[750px]">
               <Content
                 key={`document-${i}`}
                 order={i}
                 isOpen={isOpen}
                 sourceContent={source.pageContent}
               />
-            </motion.li>
+            </li>
           ))}
-        </AnimatePresence>
+        </FadeIn>
       </ul>
     </CollapsibleContent>
   )
@@ -201,24 +195,20 @@ function Content({ order, sourceContent, isOpen }) {
 
 function AnimatedParagraph({ content }) {
   const [isClamped, toggleIsClamped] = useToggle()
-  return (
-    <AnimatePresence>
-      {content && (
-        <motion.p
-          key={content}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={fadeIn}
-          onClick={toggleIsClamped}
-          className={cn(
-            "  max-w-2xl font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-violet-9 dark:group-hover:text-violet-11 md:max-w-full  ",
-            isClamped ? "" : "line-clamp-5"
-          )}
-        >
-          {content}
-        </motion.p>
-      )}
-    </AnimatePresence>
-  )
+
+  if (content) {
+    return (
+      <p
+        key={content}
+        onClick={toggleIsClamped}
+        className={cn(
+          "  max-w-2xl font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-violet-9 dark:group-hover:text-violet-11 md:max-w-full  ",
+          isClamped ? "" : "line-clamp-5"
+        )}
+      >
+        {content}
+      </p>
+    )
+  }
+  return null
 }

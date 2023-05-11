@@ -50,7 +50,10 @@ function shortenLastPathPart(pathPart: string, maxLength: number): string {
     : pathPart
 }
 
-export function formatLongUrl(longUrl: string, maxLength: number = 15): string {
+export function truncateLongUrl(
+  longUrl: string,
+  maxLength: number = 15
+): string {
   if (!isValidUrl(longUrl)) return "Invalid URL"
 
   const cleanUrl = removeLeadingDash(longUrl)
@@ -65,6 +68,22 @@ export function formatLongUrl(longUrl: string, maxLength: number = 15): string {
   const shortUrl = `${hostname}${lastPathPart ? "/" : ""}${lastPathPart}`
   //   return shortUrl
   return shortUrl.replace(/-/g, "")
+}
+
+export function truncateLongFileName(
+  fileName: string,
+  maxLength: number = 15
+): string {
+  const fileBaseName = fileName.replace(/\.[^/.]+$/, "") // Remove file extension
+  const hyphenatedName = fileBaseName.replace(/\W+/g, "-") // Replace non-word characters with hyphens
+  const truncatedName = hyphenatedName.slice(0, maxLength) // Truncate to the specified maxLength
+  const cleanTruncatedName = truncatedName.replace(/-$/, "") // Remove trailing hyphen if present
+
+  // Add back the file extension
+  const fileExtension = fileName.match(/\.[^/.]+$/) || [""]
+  const truncatedFileName = `${cleanTruncatedName}${fileExtension[0]}`
+
+  return truncatedFileName
 }
 
 // A function that takes a file name and a string and returns true if the file name is contained in the string

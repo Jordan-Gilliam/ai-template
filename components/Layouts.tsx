@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useState } from "react"
 import Image from "next/image"
 import { useTheme } from "next-themes"
 import { NavHeader } from "@/components/NavHeader"
@@ -107,7 +106,6 @@ function BackgroundColorBlur() {
 
 function ThemeToggle() {
   let { theme, setTheme } = useTheme()
-  let [airplaneMode, setAirplaneMode] = useState(false)
 
   return (
     <DropdownMenu>

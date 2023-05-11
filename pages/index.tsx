@@ -57,7 +57,6 @@ export default function Pinecone() {
       <div className="   flex flex-col items-center  gap-3 px-3">
         <div className="z-30 my-6">
           <div className=" flex items-center justify-center md:gap-3">
-            {/* <ToggleHeading text="TRAIN" embedding={embedding} /> */}
             <div className="flex items-center justify-center ">
               <button
                 className={cn(
@@ -120,7 +119,6 @@ export default function Pinecone() {
                 className="  flex w-full flex-col items-center"
                 initial="hidden"
                 animate="visible"
-                // layout
                 exit="exit"
                 variants={fadeIn}
               >
@@ -179,14 +177,3 @@ export default function Pinecone() {
     </PageLayout>
   )
 }
-
-// export async function getServerSideProps() {
-//   const response = await fetch("/api/stats")
-//   const data = await response.json()
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   }
-// }

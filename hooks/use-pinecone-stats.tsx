@@ -1,7 +1,7 @@
 import useSWR from "swr"
 
-// @ts-ignore
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
+export const fetcher = (...args: Parameters<typeof fetch>) =>
+  fetch(...args).then((res) => res.json())
 
 export const usePineconeStats = () => {
   const { data, error, isLoading } = useSWR("/api/stats", fetcher, {

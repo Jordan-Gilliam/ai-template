@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react"
 import { Document } from "langchain/document"
 import { File } from "lucide-react"
 import { useDropzone } from "react-dropzone"
-import { cn } from "@/lib/utils"
+import { cn, truncateLongFileName } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { GlowButton } from "@/components/ui/button"
 import { toast } from "@/hooks/use-toast"
@@ -94,7 +94,7 @@ export function FileUpload({ namespace }) {
               <p className="text-neutral-700 dark:text-neutral-400/80">
                 Selected File
               </p>
-              <p>{files[0].name}</p>
+              <p>{truncateLongFileName(files[0].name) ?? "file name error"}</p>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center text-sm ">
