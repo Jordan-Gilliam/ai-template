@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useMemo, useRef } from "react"
+import { useChat } from "ai/react"
 import { LayoutGroup, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { AnswerCard } from "@/components/perplexity/Answer"
@@ -6,80 +7,101 @@ import { SearchInput } from "@/components/query/SearchInput"
 import { usePineconeQuery } from "@/hooks/use-query"
 
 export function DocumentQA({ namespace }) {
-  const {
-    status,
-    setStatus,
-    userQuestion,
-    setUserQuestion,
-    pendingSourceDocs,
-    generateAnswer,
-    answerStream,
-    messages,
-  } = usePineconeQuery(namespace)
+  // const {
+  //   status,
+  //   setStatus,
+  //   userQuestion,
+  //   setUserQuestion,
+  //   pendingSourceDocs,
+  //   generateAnswer,
+  //   answerStream,
+  // } = usePineconeQuery(namespace)
+
+  console.log(namespace)
+  const { messages, input, isLoading, handleInputChange, handleSubmit } =
+    useChat({
+      api: "/api/query",
+      body: {
+        namespace: namespace,
+      },
+      sendExtraMessageFields: true,
+      onResponse: (res) => {
+        // trigger something when the response starts streaming in
+        // e.g. if the user is rate limited, you can show a toast
+        console.log("RESPONSE", res.body)
+      },
+      onFinish: (res) => {
+        // do something with the completion result
+        console.log("FINISH", res)
+      },
+    })
+  // const { messages, isLoading, input, handleInputChange, handleSubmit } =
+  //   useChat({})
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  function handleChange(e) {
-    setStatus("typing")
-    return setUserQuestion(e.target.value)
-  }
+  // function handleChange(e) {
+  //   setStatus("typing")
+  //   return setUserQuestion(e.target.value)
+  // }
 
-  function handleSubmit(e) {
-    setUserQuestion("")
-    return generateAnswer(e)
-  }
+  // function handleSubmit(e) {
+  //   setUserQuestion("")
+  //   return generateAnswer(e)
+  // }
 
   function scrollToBottom() {
     return messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  const chatMessages = useMemo(() => {
-    return [
-      ...messages,
-      ...(answerStream
-        ? [
-            {
-              type: "apiMessage",
-              question: userQuestion,
-              message: answerStream,
-              sourceDocs: pendingSourceDocs,
-            },
-          ]
-        : []),
-    ]
-  }, [messages, answerStream, pendingSourceDocs])
+  // const chatMessages = useMemo(() => {
+  //   return [
+  //     ...messages,
+  //     ...(answerStream
+  //       ? [
+  //           {
+  //             type: "apiMessage",
+  //             question: userQuestion,
+  //             message: answerStream,
+  //             sourceDocs: pendingSourceDocs,
+  //           },
+  //         ]
+  //       : []),
+  //   ]
+  // }, [messages, answerStream, pendingSourceDocs])
 
-  const aiAnswer = chatMessages.filter(
-    (message) => message.type === "apiMessage"
-  )
+  const aiAnswer = messages.filter((m) => m.role !== "user")
+  const question = messages.filter((m) => m.role === "user")
+
+  console.log(messages)
 
   const last = aiAnswer[aiAnswer.length - 1]
 
-  useLayoutEffect(() => {
-    let timeoutId
-    if (
-      status === "complete" &&
-      last?.sourceDocs &&
-      last?.sourceDocs?.length >= 1
-    ) {
-      timeoutId = setTimeout(() => {
-        scrollToBottom()
-      }, 500) // Adjust the timeout duration as needed
+  // useLayoutEffect(() => {
+  //   let timeoutId
+  //   if (
+  //     status === "complete"
+  //     // last?.sourceDocs &&
+  //     // last?.sourceDocs?.length >= 1
+  //   ) {
+  //     timeoutId = setTimeout(() => {
+  //       scrollToBottom()
+  //     }, 500) // Adjust the timeout duration as needed
 
-      return () => clearTimeout(timeoutId)
-    }
-  }, [status, last?.sourceDocs])
+  //     return () => clearTimeout(timeoutId)
+  //   }
+  // }, [isLoading])
 
-  useLayoutEffect(() => {
-    let timeoutId
-    if (status === "streaming") {
-      timeoutId = setTimeout(() => {
-        scrollToBottom()
-      }, 200) // Adjust the timeout duration as needed
-      scrollToBottom()
-    }
-    return () => clearTimeout(timeoutId)
-  }, [status])
+  // useLayoutEffect(() => {
+  //   let timeoutId
+  //   if (status === "streaming") {
+  //     timeoutId = setTimeout(() => {
+  //       scrollToBottom()
+  //     }, 200) // Adjust the timeout duration as needed
+  //     scrollToBottom()
+  //   }
+  //   return () => clearTimeout(timeoutId)
+  // }, [isLoading])
 
   return (
     <section className=" container mx-1 pb-8 md:pb-10">
@@ -87,7 +109,7 @@ export function DocumentQA({ namespace }) {
         className={cn(
           " flex flex-col items-center justify-center",
           // Push search bar to the bottom of the screen with some padding when user answers
-          aiAnswer && aiAnswer.length >= 1 ? "mb-6 pb-20" : ""
+          messages && aiAnswer.length >= 1 ? "mb-6 pb-20" : ""
         )}
       >
         <div className=" w-full max-w-4xl">
@@ -97,10 +119,11 @@ export function DocumentQA({ namespace }) {
                   const isCurrentAnswer = aiAnswer.length - 1 === i
                   return (
                     <AnswerCard
-                      key={`${answer.question}-container-${i}`}
-                      answer={answer}
+                      key={`${question[i].content}-container-${i}`}
+                      answer={answer.content}
+                      question={question[i].content}
                       isCurrentAnswer={isCurrentAnswer}
-                      status={status}
+                      status={isLoading}
                     />
                   )
                 })
@@ -119,9 +142,9 @@ export function DocumentQA({ namespace }) {
           >
             <SearchInput
               status={status}
-              value={userQuestion}
+              value={input}
               handleClick={handleSubmit}
-              handleChange={handleChange}
+              handleChange={handleInputChange}
               loading={status === "loading" || status === "streaming"}
               placeholder="Query Embeddings"
             />

@@ -14,7 +14,7 @@ const fadeIn = {
   exit: { opacity: 0, transition: { duration: 0.02 } },
 }
 
-export function AnswerCard({ answer, isCurrentAnswer, status }) {
+export function AnswerCard({ answer, question, isCurrentAnswer, status }) {
   return (
     <div className=" py-10">
       <div
@@ -28,13 +28,15 @@ export function AnswerCard({ answer, isCurrentAnswer, status }) {
             : ""
         )}
       >
-        <ResizablePanel content={answer.message}>
-          <AnswerMessage
-            isCurrentAnswer={isCurrentAnswer}
-            content={answer.message}
-            error={status === "error"}
-            submittedQ={answer.question}
-          />
+        <ResizablePanel content={answer}>
+          <div className="pb-8">
+            <AnswerMessage
+              isCurrentAnswer={isCurrentAnswer}
+              content={answer}
+              error={status === "error"}
+              submittedQ={question}
+            />
+          </div>
 
           <AnimatePresence>
             {answer.sourceDocs ? <Sources sources={answer.sourceDocs} /> : null}
@@ -57,15 +59,11 @@ export function AnswerMessage({ submittedQ, isCurrentAnswer, content, error }) {
           </p>
         </div>
         <div className="w-full md:w-[750px]">
-          {error || !content ? (
-            <LoadingLine />
-          ) : (
-            <MarkdownRenderer
-              isCurrent={isCurrentAnswer}
-              content={content}
-              className=" min-w-full"
-            />
-          )}
+          <MarkdownRenderer
+            isCurrent={isCurrentAnswer}
+            content={content}
+            className=" min-w-full"
+          />
         </div>
       </div>
     </>

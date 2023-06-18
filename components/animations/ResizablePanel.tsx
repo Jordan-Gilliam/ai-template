@@ -10,7 +10,7 @@ export function ResizablePanel({ content, children }) {
     <MotionConfig transition={transition}>
       <motion.div
         animate={{ height: bounds.height > 0 ? bounds.height : null }}
-        transition={{ type: "spring", bounce: 0.2, duration: 0.8 }}
+        transition={{ type: "spring", bounce: 0.2, duration: 0.1 }}
       >
         <div ref={ref}>
           <AnimatePresence mode="popLayout">

@@ -4,6 +4,7 @@ import { truncateLongUrl } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { GlowButton } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Switch } from "@/components/ui/switch"
 import { useScrapeEmbed } from "@/hooks/use-scrape-embed"
 import { toast } from "@/hooks/use-toast"
 
@@ -12,10 +13,13 @@ type Props = {
 }
 
 function UrlScraper({ namespace }: Props) {
+  const [crawlMultiple, setCrawlMultiple] = useState(false)
   const [urls, setUrls] = useState<string[]>([])
   const [status, setStatus] = useState("idle")
 
-  const { loading, trigger } = useScrapeEmbed("embed-webpage")
+  const { loading, trigger } = useScrapeEmbed(
+    crawlMultiple ? "embed-web" : "embed-webpage"
+  )
 
   function handleChange(e) {
     setStatus("typing")
@@ -58,6 +62,10 @@ function UrlScraper({ namespace }: Props) {
 
   return (
     <div className="flex h-48 flex-col items-center justify-between ">
+      <Switch isSelected={crawlMultiple} onChange={setCrawlMultiple}>
+        Scrape Full Site
+      </Switch>
+
       <div className="mt-8 w-80">
         <Input
           placeholder="https://react.dev/"
