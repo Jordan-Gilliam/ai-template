@@ -1,20 +1,22 @@
-import * as React from "react"
-import { motion } from "framer-motion"
+'use client'
+
+import * as React from 'react'
+import { motion } from 'framer-motion'
 import {
   cn,
   pluralize,
   truncateLongFileName,
-  truncateLongUrl,
-} from "@/lib/utils"
-import { FadeIn } from "@/components/animations/FadeIn"
-import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
+  truncateLongUrl
+} from '@/lib/utils'
+import { FadeIn } from '@/components/animations/FadeIn'
+import { Icons } from '@/components/icons'
+import { Button } from '@/components/ui/button'
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { useToggle } from "@/hooks/use-toggle"
+  CollapsibleTrigger
+} from '@/components/ui/collapsible'
+import { useToggle } from '@/hooks/use-toggle'
 
 const animateList = {
   hidden: { opacity: 1, scale: 0 },
@@ -23,17 +25,17 @@ const animateList = {
     scale: 1,
     transition: {
       delayChildren: 1.1,
-      staggerChildren: 0.2,
-    },
-  },
+      staggerChildren: 0.2
+    }
+  }
 }
 
 const animateItem = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
-    opacity: 1,
-  },
+    opacity: 1
+  }
 }
 
 export function Sources({ sources }) {
@@ -64,7 +66,7 @@ export function Sources({ sources }) {
 }
 
 function Header({ sources }) {
-  const sourceCount = `${sources.length} ${pluralize("SOURCE", sources.length)}`
+  const sourceCount = `${sources.length} ${pluralize('SOURCE', sources.length)}`
 
   return (
     <div className="flex items-center justify-between space-x-4 pr-4">
@@ -100,11 +102,11 @@ function PillList({ sources }) {
 function PillListItem({ order, source }) {
   const srcLength = 15
   const formattedSource =
-    source.metadata.type === "scrape"
+    source.metadata.type === 'scrape'
       ? truncateLongUrl(source.metadata.source, srcLength)
       : truncateLongFileName(source.metadata.source, srcLength)
 
-  if (source.metadata.type === "scrape") {
+  if (source.metadata.type === 'scrape') {
     return (
       <motion.li
         variants={animateItem}
@@ -202,8 +204,8 @@ function AnimatedParagraph({ content }) {
         key={content}
         onClick={toggleIsClamped}
         className={cn(
-          "  max-w-2xl font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-violet-9 dark:group-hover:text-violet-11 md:max-w-full  ",
-          isClamped ? "" : "line-clamp-5"
+          '  max-w-2xl font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-violet-9 dark:group-hover:text-violet-11 md:max-w-full  ',
+          isClamped ? '' : 'line-clamp-5'
         )}
       >
         {content}

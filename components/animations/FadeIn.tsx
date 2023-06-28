@@ -1,5 +1,7 @@
-import type { PropsWithChildren } from "react"
-import { motion } from "framer-motion"
+'use client'
+
+import type { PropsWithChildren } from 'react'
+import { motion } from 'framer-motion'
 
 interface MotionProps extends PropsWithChildren {
   className?: string
@@ -10,12 +12,12 @@ const FadeIn = (props: MotionProps) => (
   <motion.div
     initial={{ opacity: 0, y: -30 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, type: "spring", delay: props.delay ?? 0.3 }}
+    transition={{ duration: 0.5, type: 'spring', delay: props.delay ?? 0.3 }}
     {...props}
   >
     {props.children}
   </motion.div>
 )
 
-FadeIn.displayName = "FadeOut"
+FadeIn.displayName = 'FadeOut'
 export { FadeIn }

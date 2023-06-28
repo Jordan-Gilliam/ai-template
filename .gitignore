@@ -34,3 +34,5 @@ yarn-error.log*
 
 .contentlayer
 .env
+.vercel
+.vscode

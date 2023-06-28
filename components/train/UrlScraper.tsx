@@ -1,12 +1,14 @@
-import { useState } from "react"
-import { AnimatePresence } from "framer-motion"
-import { truncateLongUrl } from "@/lib/utils"
-import { Icons } from "@/components/icons"
-import { GlowButton } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Switch } from "@/components/ui/switch"
-import { useScrapeEmbed } from "@/hooks/use-scrape-embed"
-import { toast } from "@/hooks/use-toast"
+'use client'
+
+import { useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
+import { truncateLongUrl } from '@/lib/utils'
+import { Icons } from '@/components/icons'
+import { GlowButton } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
+import { useScrapeEmbed } from '@/hooks/use-scrape-embed'
+import { toast } from '@/hooks/use-toast'
 
 type Props = {
   namespace?: string
@@ -15,47 +17,47 @@ type Props = {
 function UrlScraper({ namespace }: Props) {
   const [crawlMultiple, setCrawlMultiple] = useState(false)
   const [urls, setUrls] = useState<string[]>([])
-  const [status, setStatus] = useState("idle")
+  const [status, setStatus] = useState('idle')
 
   const { loading, trigger } = useScrapeEmbed(
-    crawlMultiple ? "embed-web" : "embed-webpage"
+    crawlMultiple ? 'embed-web' : 'embed-webpage'
   )
 
   function handleChange(e) {
-    setStatus("typing")
-    return setUrls(e.target.value.split("\n"))
+    setStatus('typing')
+    return setUrls(e.target.value.split('\n'))
   }
 
-  const handleSubmit = async (e) => {
-    setStatus("loading")
+  const handleSubmit = async e => {
+    setStatus('loading')
     if (!urls) {
       return toast({
-        title: "Please enter a url",
+        title: 'Please enter a url'
       })
     }
 
     if (!namespace) {
       return toast({
-        title: "Please enter a pinecone namespace",
+        title: 'Please enter a pinecone namespace'
       })
     }
     setUrls([])
     try {
       const result = await trigger({ urls, namespace })
-      setStatus("complete")
+      setStatus('complete')
       toast({
-        title: "✅ Success! ",
+        title: '✅ Success! ',
         description: `Scraped ${truncateLongUrl(
           urls[0],
           15
-        )} in namespace: ${namespace}`,
+        )} in namespace: ${namespace}`
       })
       return result
     } catch (e) {
-      setStatus("error")
+      setStatus('error')
       return toast({
-        title: "Uh oh! Something went wrong.",
-        description: e,
+        title: 'Uh oh! Something went wrong.',
+        description: e
       })
     }
   }
@@ -69,7 +71,7 @@ function UrlScraper({ namespace }: Props) {
       <div className="mt-8 w-80">
         <Input
           placeholder="https://react.dev/"
-          value={urls.join("\n")}
+          value={urls.join('\n')}
           onChange={handleChange}
           className="w-full"
         />
@@ -95,9 +97,9 @@ function LoadingButton({ handleSubmit, disabled, status }) {
       onClick={handleSubmit}
     >
       <div className="flex w-full items-center px-6 py-1">
-        {status === "loading" ? (
+        {status === 'loading' ? (
           <Icons.loadingSpinner className="mr-2 h-5 w-5 animate-spin stroke-teal-500/80  dark:stroke-teal-400 " />
-        ) : status === "complete" ? (
+        ) : status === 'complete' ? (
           <Icons.check className="mr-2 h-5 w-5" />
         ) : (
           <Icons.web className="mr-2 h-5 w-5" aria-hidden="true" />

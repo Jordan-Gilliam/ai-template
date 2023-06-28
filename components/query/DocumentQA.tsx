@@ -1,10 +1,12 @@
-import React, { useLayoutEffect, useMemo, useRef } from "react"
-import { useChat } from "ai/react"
-import { LayoutGroup, motion } from "framer-motion"
-import { cn } from "@/lib/utils"
-import { AnswerCard } from "@/components/perplexity/Answer"
-import { SearchInput } from "@/components/query/SearchInput"
-import { usePineconeQuery } from "@/hooks/use-query"
+'use client'
+
+import React, { useLayoutEffect, useMemo, useRef } from 'react'
+import { useChat } from 'ai/react'
+import { LayoutGroup, motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
+import { AnswerCard } from '@/components/perplexity/Answer'
+import { SearchInput } from '@/components/query/SearchInput'
+import { usePineconeQuery } from '@/hooks/use-query'
 
 export function DocumentQA({ namespace }) {
   // const {
@@ -20,20 +22,20 @@ export function DocumentQA({ namespace }) {
   console.log(namespace)
   const { messages, input, isLoading, handleInputChange, handleSubmit } =
     useChat({
-      api: "/api/query",
+      api: '/api/query',
       body: {
-        namespace: namespace,
+        namespace: namespace
       },
       sendExtraMessageFields: true,
-      onResponse: (res) => {
+      onResponse: res => {
         // trigger something when the response starts streaming in
         // e.g. if the user is rate limited, you can show a toast
-        console.log("RESPONSE", res.body)
+        console.log('RESPONSE', res.body)
       },
-      onFinish: (res) => {
+      onFinish: res => {
         // do something with the completion result
-        console.log("FINISH", res)
-      },
+        console.log('FINISH', res)
+      }
     })
   // const { messages, isLoading, input, handleInputChange, handleSubmit } =
   //   useChat({})
@@ -51,7 +53,7 @@ export function DocumentQA({ namespace }) {
   // }
 
   function scrollToBottom() {
-    return messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    return messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   // const chatMessages = useMemo(() => {
@@ -70,8 +72,8 @@ export function DocumentQA({ namespace }) {
   //   ]
   // }, [messages, answerStream, pendingSourceDocs])
 
-  const aiAnswer = messages.filter((m) => m.role !== "user")
-  const question = messages.filter((m) => m.role === "user")
+  const aiAnswer = messages.filter(m => m.role !== 'user')
+  const question = messages.filter(m => m.role === 'user')
 
   console.log(messages)
 
@@ -107,9 +109,9 @@ export function DocumentQA({ namespace }) {
     <section className=" container mx-1 pb-8 md:pb-10">
       <div
         className={cn(
-          " flex flex-col items-center justify-center",
+          ' flex flex-col items-center justify-center',
           // Push search bar to the bottom of the screen with some padding when user answers
-          messages && aiAnswer.length >= 1 ? "mb-6 pb-20" : ""
+          messages && aiAnswer.length >= 1 ? 'mb-6 pb-20' : ''
         )}
       >
         <div className=" w-full max-w-4xl">
@@ -132,8 +134,8 @@ export function DocumentQA({ namespace }) {
         </div>
         <div
           className={cn(
-            "min-w-screen md:min-w-[850px]",
-            aiAnswer.length >= 1 ? "fixed bottom-[20px]" : ""
+            'min-w-screen md:min-w-[850px]',
+            aiAnswer.length >= 1 ? 'fixed bottom-[20px]' : ''
           )}
         >
           <motion.div
@@ -145,7 +147,7 @@ export function DocumentQA({ namespace }) {
               value={input}
               handleClick={handleSubmit}
               handleChange={handleInputChange}
-              loading={status === "loading" || status === "streaming"}
+              loading={status === 'loading' || status === 'streaming'}
               placeholder="Query Embeddings"
             />
           </motion.div>

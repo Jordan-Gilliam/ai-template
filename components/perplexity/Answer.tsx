@@ -1,17 +1,19 @@
-import * as React from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { cn } from "@/lib/utils"
-import MarkdownRenderer from "@/components/MarkdownRenderer"
-import { FadeIn } from "@/components/animations/FadeIn"
-import { ResizablePanel } from "@/components/animations/ResizablePanel"
-import { Icons } from "@/components/icons"
-import { Sources } from "@/components/perplexity/Sources"
+'use client'
+
+import * as React from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
+import MarkdownRenderer from '@/components/MarkdownRenderer'
+import { FadeIn } from '@/components/animations/FadeIn'
+import { ResizablePanel } from '@/components/animations/ResizablePanel'
+import { Icons } from '@/components/icons'
+import { Sources } from '@/components/perplexity/Sources'
 
 // Animation properties
 const fadeIn = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 2.5 } },
-  exit: { opacity: 0, transition: { duration: 0.02 } },
+  exit: { opacity: 0, transition: { duration: 0.02 } }
 }
 
 export function AnswerCard({ answer, question, isCurrentAnswer, status }) {
@@ -19,13 +21,13 @@ export function AnswerCard({ answer, question, isCurrentAnswer, status }) {
     <div className=" py-10">
       <div
         className={cn(
-          "border-neutral-focus   rounded-xl border bg-neutral-100/50 p-4 shadow-md backdrop-blur ",
-          "hover:border-accent-focus text-left transition",
-          "dark:border-black/30 dark:bg-black/50",
+          'border-neutral-focus   rounded-xl border bg-neutral-100/50 p-4 shadow-md backdrop-blur ',
+          'hover:border-accent-focus text-left transition',
+          'dark:border-black/30 dark:bg-black/50',
 
           isCurrentAnswer
-            ? "border border-teal-200 ring-1 ring-inset transition duration-150 dark:border-teal-400/80 dark:ring-indigo-500/40 "
-            : ""
+            ? 'border border-teal-200 ring-1 ring-inset transition duration-150 dark:border-teal-400/80 dark:ring-indigo-500/40 '
+            : ''
         )}
       >
         <ResizablePanel content={answer}>
@@ -33,7 +35,7 @@ export function AnswerCard({ answer, question, isCurrentAnswer, status }) {
             <AnswerMessage
               isCurrentAnswer={isCurrentAnswer}
               content={answer}
-              error={status === "error"}
+              error={status === 'error'}
               submittedQ={question}
             />
           </div>

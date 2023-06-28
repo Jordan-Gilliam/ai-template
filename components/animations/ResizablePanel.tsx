@@ -1,7 +1,9 @@
-import { AnimatePresence, MotionConfig, motion } from "framer-motion"
-import useMeasure from "react-use-measure"
+'use client'
 
-let transition = { type: "ease", ease: "easeInOut", duration: 0.4 }
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
+import useMeasure from 'react-use-measure'
+
+let transition = { type: 'ease', ease: 'easeInOut', duration: 0.4 }
 
 export function ResizablePanel({ content, children }) {
   let [ref, bounds] = useMeasure()
@@ -10,7 +12,7 @@ export function ResizablePanel({ content, children }) {
     <MotionConfig transition={transition}>
       <motion.div
         animate={{ height: bounds.height > 0 ? bounds.height : null }}
-        transition={{ type: "spring", bounce: 0.2, duration: 0.1 }}
+        transition={{ type: 'spring', bounce: 0.2, duration: 0.1 }}
       >
         <div ref={ref}>
           <AnimatePresence mode="popLayout">
@@ -19,7 +21,7 @@ export function ResizablePanel({ content, children }) {
                 exit={{ opacity: 0 }}
                 transition={{
                   ...transition,
-                  duration: transition.duration / 2,
+                  duration: transition.duration / 2
                 }}
                 key="form"
               >
@@ -32,7 +34,7 @@ export function ResizablePanel({ content, children }) {
                 transition={{
                   ...transition,
                   duration: transition.duration / 2,
-                  delay: transition.duration / 2,
+                  delay: transition.duration / 2
                 }}
               >
                 {children}
