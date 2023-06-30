@@ -49,6 +49,8 @@
 - [ ] .csv
 - [ ] .pptx
 - [ ] notion
+- [ ] next 13 app dir
+- [ ] vercel ai sdk
 
 
 
