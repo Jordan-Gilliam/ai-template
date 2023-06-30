@@ -40,7 +40,7 @@ export function Sources({ sources }) {
   const [isOpen, toggleIsOpen] = useToggle()
 
   return (
-    <div className="my-2 border-t border-neutral-400/30">
+    <div className="my-2 border-t border-neutral-400/30 pb-4">
       <Collapsible
         open={isOpen}
         onOpenChange={toggleIsOpen}

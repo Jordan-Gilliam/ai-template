@@ -53,33 +53,37 @@ export function DocumentQA({ namespace }) {
     (message) => message.type === "apiMessage"
   )
 
+  const userQuestions = chatMessages.filter(
+    (message) => message.type !== "apiMessage"
+  )
+
   const last = aiAnswer[aiAnswer.length - 1]
 
-  useLayoutEffect(() => {
-    let timeoutId
-    if (
-      status === "complete" &&
-      last?.sourceDocs &&
-      last?.sourceDocs?.length >= 1
-    ) {
-      timeoutId = setTimeout(() => {
-        scrollToBottom()
-      }, 500) // Adjust the timeout duration as needed
+  // useLayoutEffect(() => {
+  //   let timeoutId
+  //   if (
+  //     status === "complete" &&
+  //     last?.sourceDocs &&
+  //     last?.sourceDocs?.length >= 1
+  //   ) {
+  //     timeoutId = setTimeout(() => {
+  //       scrollToBottom()
+  //     }, 500) // Adjust the timeout duration as needed
 
-      return () => clearTimeout(timeoutId)
-    }
-  }, [status, last?.sourceDocs])
+  //     return () => clearTimeout(timeoutId)
+  //   }
+  // }, [status, last?.sourceDocs])
 
-  useLayoutEffect(() => {
-    let timeoutId
-    if (status === "streaming") {
-      timeoutId = setTimeout(() => {
-        scrollToBottom()
-      }, 200) // Adjust the timeout duration as needed
-      scrollToBottom()
-    }
-    return () => clearTimeout(timeoutId)
-  }, [status])
+  // useLayoutEffect(() => {
+  //   let timeoutId
+  //   if (status === "streaming") {
+  //     timeoutId = setTimeout(() => {
+  //       scrollToBottom()
+  //     }, 200) // Adjust the timeout duration as needed
+  //     scrollToBottom()
+  //   }
+  //   return () => clearTimeout(timeoutId)
+  // }, [status])
 
   return (
     <section className=" container mx-1 pb-8 md:pb-10">
@@ -95,10 +99,12 @@ export function DocumentQA({ namespace }) {
             {aiAnswer
               ? aiAnswer.map((answer, i) => {
                   const isCurrentAnswer = aiAnswer.length - 1 === i
+                  console.log(userQuestions[i])
                   return (
                     <AnswerCard
                       key={`${answer.question}-container-${i}`}
                       answer={answer}
+                      question={userQuestions[i].message}
                       isCurrentAnswer={isCurrentAnswer}
                       status={status}
                     />
