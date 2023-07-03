@@ -1,24 +1,25 @@
-"use client"
+'use client'
 
-import Image from "next/image"
-import { type Session } from "next-auth"
-import { signOut } from "next-auth/react"
-import { Button } from "@/components/ui/button"
+import Image from 'next/image'
+import { type Session } from 'next-auth'
+import { signOut } from 'next-auth/react'
+
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { IconExternalLink } from "@/components/ui/icons"
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { IconExternalLink } from '@/components/ui/icons'
 
 export interface UserMenuProps {
-  user: Session["user"]
+  user: Session['user']
 }
 
 function getUserInitials(name: string) {
-  const [firstName, lastName] = name.split(" ")
+  const [firstName, lastName] = name.split(' ')
   return lastName ? `${firstName[0]}${lastName[0]}` : firstName.slice(0, 2)
 }
 
@@ -30,13 +31,15 @@ export function UserMenu({ user }: UserMenuProps) {
           <Button variant="ghost" className="pl-0">
             {user?.image ? (
               <Image
-                className="h-6 w-6 select-none rounded-full ring-1 ring-zinc-100/10 transition-opacity duration-300 hover:opacity-80"
-                src={user?.image ? `${user.image}&s=60` : ""}
-                alt={user.name ?? "Avatar"}
+                className="w-6 h-6 transition-opacity duration-300 rounded-full select-none ring-1 ring-zinc-100/10 hover:opacity-80"
+                src={user?.image ? `${user.image}&s=60` : ''}
+                alt={user.name ?? 'Avatar'}
               />
             ) : (
-              <div className="bg-muted/50 text-muted-foreground flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-full text-xs font-medium uppercase">
+              <div className="flex items-center justify-center text-xs font-medium uppercase rounded-full select-none h-7 w-7 shrink-0 bg-gradient-to-br from-emerald-300 to-indigo-800 text-white transition-opacity duration-300 rounded-full select-none ring-1 ring-emerald-300/70 hover:opacity-80 ">
+                {/* <span className="w-8 h-8 transition-opacity duration-300 rounded-full select-none ring-1 ring-emerald-300/70 hover:opacity-80"> */}
                 {user?.name ? getUserInitials(user?.name) : null}
+                {/* </span> */}
               </div>
             )}
             <span className="ml-2">{user?.name}</span>
@@ -53,16 +56,16 @@ export function UserMenu({ user }: UserMenuProps) {
               href="https://vercel.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-between text-xs"
+              className="inline-flex items-center justify-between w-full text-xs"
             >
               Vercel Homepage
-              <IconExternalLink className="ml-auto h-3 w-3" />
+              <IconExternalLink className="w-3 h-3 ml-auto" />
             </a>
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
               signOut({
-                callbackUrl: "/",
+                callbackUrl: '/'
               })
             }
             className="text-xs"

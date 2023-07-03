@@ -1,27 +1,33 @@
-import NextAuth from 'next-auth'
+import NextAuth, { type DefaultSession } from 'next-auth'
 import GitHub from 'next-auth/providers/github'
+import { NextResponse } from 'next/server'
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      /** The user's id. */
+      id: string
+    } & DefaultSession['user']
+  }
+}
 
 export const {
   handlers: { GET, POST },
   auth,
   CSRF_experimental
-  // @ts-ignore
 } = NextAuth({
-  // @ts-ignore
   providers: [GitHub],
   callbacks: {
-    // @ts-ignore
-    jwt: async ({ token, profile }) => {
-      if (profile?.id) {
+    jwt({ token, profile }) {
+      if (profile) {
         token.id = profile.id
         token.image = profile.picture
       }
       return token
+    },
+    authorized({ auth }) {
+      return !!auth?.user
     }
-    // @TODO
-    // authorized({ request, auth }) {
-    //   return !!auth?.user
-    // }
   },
   pages: {
     signIn: '/sign-in'

@@ -1,7 +1,5 @@
-'use client'
-
 import * as React from 'react'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import {
   cn,
   pluralize,
@@ -16,9 +14,31 @@ import {
   CollapsibleContent,
   CollapsibleTrigger
 } from '@/components/ui/collapsible'
-import { useToggle } from '@/hooks/use-toggle'
 
-const animateList = {
+type ToggleFunction = () => void
+export const useToggle = (
+  initialState: boolean = false
+): [boolean, ToggleFunction] => {
+  // Initialize the state
+  const [state, setState] = React.useState<boolean>(initialState)
+  // Define and memoize toggler function in case we pass down the component,
+  const toggle = React.useCallback((): void => setState(state => !state), [])
+  return [state, toggle]
+}
+
+type Source = {
+  metadata: {
+    type: string
+    source: string
+  }
+  pageContent?: string
+}
+
+type SourcesProps = {
+  sources: Source[]
+}
+
+const animateList: Variants = {
   hidden: { opacity: 1, scale: 0 },
   visible: {
     opacity: 1,
@@ -30,7 +50,7 @@ const animateList = {
   }
 }
 
-const animateItem = {
+const animateItem: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
@@ -38,7 +58,7 @@ const animateItem = {
   }
 }
 
-export function Sources({ sources }) {
+export function Sources({ sources }: SourcesProps): React.ReactElement {
   const [isOpen, toggleIsOpen] = useToggle()
 
   return (
@@ -65,14 +85,18 @@ export function Sources({ sources }) {
   )
 }
 
-function Header({ sources }) {
+type HeaderProps = {
+  sources: Source[]
+}
+
+function Header({ sources }: HeaderProps): React.ReactElement {
   const sourceCount = `${sources.length} ${pluralize('SOURCE', sources.length)}`
 
   return (
     <div className="flex items-center justify-between space-x-4 pr-4">
       <div className="flex gap-2">
-        <Icons.link className="h-4 w-4  stroke-indigo-600 dark:stroke-teal-400" />
-        <p className="font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-600 dark:text-teal-400">
+        <Icons.link className="h-4 w-4  stroke-indigo-600 dark:stroke-indigo-400" />
+        <p className="font-aboreto text-sm font-bold leading-tight tracking-wide text-indigo-600 dark:text-indigo-400">
           {sourceCount}
         </p>
       </div>
@@ -80,7 +104,11 @@ function Header({ sources }) {
   )
 }
 
-function PillList({ sources }) {
+type PillListProps = {
+  sources: Source[]
+}
+
+function PillList({ sources }: PillListProps): React.ReactElement {
   return (
     <motion.ul
       variants={animateList}
@@ -99,7 +127,15 @@ function PillList({ sources }) {
   )
 }
 
-function PillListItem({ order, source }) {
+type PillListItemProps = {
+  order: number
+  source: Source
+}
+
+function PillListItem({
+  order,
+  source
+}: PillListItemProps): React.ReactElement {
   const srcLength = 15
   const formattedSource =
     source.metadata.type === 'scrape'
@@ -136,17 +172,22 @@ function PillListItem({ order, source }) {
   )
 }
 
-function Pill({ order, source }) {
+type PillProps = {
+  order: number
+  source: string
+}
+
+function Pill({ order, source }: PillProps): React.ReactElement {
   return (
     <>
       <div className="divide-zinc-200 border-zinc-200 bg-transparent pl-1.5 transition duration-300 md:pl-2 ">
-        <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-neutral-600 transition duration-300 selection:bg-teal-8 selection:text-white group-hover:text-teal-9 dark:text-neutral-400 dark:group-hover:text-teal-500 ">
+        <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-neutral-600 transition duration-300 selection:bg-indigo-8 selection:text-white group-hover:text-indigo-9 dark:text-neutral-400 dark:group-hover:text-indigo-500 ">
           {order + 1}
         </div>
       </div>
       <div className="px-1 md:px-3">
         <div className="flex items-center  divide-mauve-1 border-mauve-6 bg-transparent transition duration-300 ">
-          <div className="font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-teal-9 dark:group-hover:text-teal-10 ">
+          <div className="font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-indigo-8 selection:text-white group-hover:text-indigo-9 dark:group-hover:text-indigo-10 ">
             {source}
           </div>
         </div>
@@ -155,7 +196,15 @@ function Pill({ order, source }) {
   )
 }
 
-function ContentList({ sources, isOpen }) {
+type ContentListProps = {
+  sources: Source[]
+  isOpen: boolean
+}
+
+function ContentList({
+  sources,
+  isOpen
+}: ContentListProps): React.ReactElement {
   return (
     <CollapsibleContent className="pt-3">
       <ul className="my-2 flex flex-col gap-3">
@@ -176,12 +225,22 @@ function ContentList({ sources, isOpen }) {
   )
 }
 
-function Content({ order, sourceContent, isOpen }) {
+type ContentProps = {
+  order: number
+  sourceContent?: string
+  isOpen: boolean
+}
+
+function Content({
+  order,
+  sourceContent,
+  isOpen
+}: ContentProps): React.ReactElement {
   return (
     <div className=" group mb-4 block  cursor-pointer ">
       <div className="group flex items-center gap-x-2 rounded-xl  bg-transparent  transition duration-300 group-hover:border-pink-10">
         <div className=" bg-transparent pr-2 transition duration-300 ">
-          <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-mauve-11 transition duration-300 selection:bg-teal-8 selection:text-white group-hover:text-teal-9 dark:group-hover:text-teal-10 ">
+          <div className=" font-aboreto text-xs font-bold uppercase leading-none tracking-widest text-mauve-11 transition duration-300 selection:bg-indigo-8 selection:text-white group-hover:text-indigo-9 dark:group-hover:text-indigo-10 ">
             {order + 1}
           </div>
         </div>
@@ -195,7 +254,13 @@ function Content({ order, sourceContent, isOpen }) {
   )
 }
 
-function AnimatedParagraph({ content }) {
+type AnimatedParagraphProps = {
+  content?: string
+}
+
+function AnimatedParagraph({
+  content
+}: AnimatedParagraphProps): React.ReactElement | null {
   const [isClamped, toggleIsClamped] = useToggle()
 
   if (content) {
@@ -204,7 +269,7 @@ function AnimatedParagraph({ content }) {
         key={content}
         onClick={toggleIsClamped}
         className={cn(
-          '  max-w-2xl font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-teal-8 selection:text-white group-hover:text-violet-9 dark:group-hover:text-violet-11 md:max-w-full  ',
+          '  max-w-2xl font-sans text-sm text-mauve-12 transition-all duration-300 selection:bg-indigo-8 selection:text-white group-hover:text-violet-9 dark:group-hover:text-violet-11 md:max-w-full  ',
           isClamped ? '' : 'line-clamp-5'
         )}
       >
@@ -212,5 +277,6 @@ function AnimatedParagraph({ content }) {
       </p>
     )
   }
+
   return null
 }

@@ -16,7 +16,7 @@ export function ResizablePanel({ content, children }) {
       >
         <div ref={ref}>
           <AnimatePresence mode="popLayout">
-            {content ? (
+            {content.content ? (
               <motion.div
                 exit={{ opacity: 0 }}
                 transition={{

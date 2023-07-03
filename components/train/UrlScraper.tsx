@@ -7,8 +7,8 @@ import { Icons } from '@/components/icons'
 import { GlowButton } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
-import { useScrapeEmbed } from '@/hooks/use-scrape-embed'
-import { toast } from '@/hooks/use-toast'
+import { useScrapeEmbed } from '@/lib/hooks/use-scrape-embed'
+import { toast } from '@/lib/hooks/use-toast'
 
 type Props = {
   namespace?: string
@@ -20,7 +20,7 @@ function UrlScraper({ namespace }: Props) {
   const [status, setStatus] = useState('idle')
 
   const { loading, trigger } = useScrapeEmbed(
-    crawlMultiple ? 'embed-web' : 'embed-webpage'
+    crawlMultiple ? 'embed-web' : 'embed-website'
   )
 
   function handleChange(e) {
@@ -98,7 +98,7 @@ function LoadingButton({ handleSubmit, disabled, status }) {
     >
       <div className="flex w-full items-center px-6 py-1">
         {status === 'loading' ? (
-          <Icons.loadingSpinner className="mr-2 h-5 w-5 animate-spin stroke-teal-500/80  dark:stroke-teal-400 " />
+          <Icons.loadingSpinner className="mr-2 h-5 w-5 animate-spin stroke-indigo-500/80  dark:stroke-indigo-400 " />
         ) : status === 'complete' ? (
           <Icons.check className="mr-2 h-5 w-5" />
         ) : (

@@ -1,5 +1,7 @@
-import useSWRMutation from "swr/mutation"
-import { toast } from "@/hooks/use-toast"
+'use client'
+
+import useSWRMutation from 'swr/mutation'
+import { toast } from '@/lib/hooks/use-toast'
 
 async function sendRequest(
   url,
@@ -8,18 +10,18 @@ async function sendRequest(
   const { urls, namespace } = arg
 
   const response = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      namespace: !!namespace ? namespace : "default-namespace",
+      'Content-Type': 'application/json',
+      namespace: !!namespace ? namespace : 'default-namespace'
     },
-    body: JSON.stringify({ urls }),
+    body: JSON.stringify({ urls })
   })
 
   if (!response.ok) {
     toast({
-      title: "You need to configure API Keys to use this app",
-      description: response.statusText,
+      title: 'You need to configure API Keys to use this app',
+      description: response.statusText
     })
   }
 
@@ -39,6 +41,6 @@ export const useScrapeEmbed = (url: string) => {
   return {
     loading: isMutating,
     error,
-    trigger,
+    trigger
   }
 }

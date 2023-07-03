@@ -1,17 +1,20 @@
-import { PineconeClient } from "@pinecone-database/pinecone"
+import { PineconeClient } from '@pinecone-database/pinecone'
 
 export async function initPinecone() {
   try {
     const pinecone = new PineconeClient()
 
+    console.log(process.env.PINECONE_ENVIRONMENT)
+    console.log(process.env.PINECONE_API_KEY)
+
     await pinecone.init({
-      environment: process.env.PINECONE_ENVIRONMENT ?? "", //this is in the dashboard
-      apiKey: process.env.PINECONE_API_KEY ?? "",
+      environment: process.env.PINECONE_ENVIRONMENT ?? '', //this is in the dashboard
+      apiKey: process.env.PINECONE_API_KEY ?? ''
     })
 
     return pinecone
   } catch (error) {
-    console.log("error", error)
-    throw new Error("Failed to initialize Pinecone Client")
+    console.log('error', error)
+    throw new Error('Failed to initialize Pinecone Client')
   }
 }

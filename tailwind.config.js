@@ -59,8 +59,10 @@ module.exports = {
     }
   },
   plugins: [
+    require('windy-radix-palette'),
     require('tailwindcss-animate'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms')
-  ]
+  ],
+  presets: [require('windy-radix-palette')]
 }

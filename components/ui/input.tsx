@@ -14,9 +14,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           'w-full',
           ' input-shadow-glow relative before:pointer-events-none before:absolute before:-inset-1 before:rounded-[11px] ',
           'before:border before:border-indigo-500/40 before:opacity-0 before:ring-2 before:ring-indigo-300/20  before:transition ',
-          'dark:before:border-teal-400/40 dark:before:ring-teal-900/20',
+          'dark:before:border-indigo-400/40 dark:before:ring-indigo-900/20',
           ' after:pointer-events-none after:absolute after:inset-px after:rounded-[7px] after:shadow-white/5 after:transition',
-          'focus-within:before:opacity-100 focus-within:after:shadow-indigo-500/100 dark:after:shadow-white/5 dark:focus-within:after:shadow-teal-500/20'
+          'focus-within:before:opacity-100 focus-within:after:shadow-indigo-500/100 dark:after:shadow-white/5 dark:focus-within:after:shadow-indigo-500/20'
         )}
       >
         <input
@@ -42,9 +42,9 @@ const InputButton = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="mt-2 flex w-full rounded-md ">
         <div
           className={cn(
-            ' relative w-full before:pointer-events-none before:absolute before:-inset-1 before:rounded-[9991px] before:border before:border-indigo-500/20 before:opacity-0 before:transition dark:before:border-teal-400/80 dark:before:ring-2 dark:before:ring-indigo-900/40',
+            ' relative w-full before:pointer-events-none before:absolute before:-inset-1 before:rounded-[9991px] before:border before:border-indigo-500/20 before:opacity-0 before:transition dark:before:border-indigo-400/80 dark:before:ring-2 dark:before:ring-indigo-900/40',
             ' input-shadow-glow after:pointer-events-none after:absolute after:inset-px after:rounded-[9987px] after:shadow-white/5 after:transition',
-            'focus-within:before:opacity-100 focus-within:after:shadow-indigo-500/100 dark:after:shadow-white/5 dark:focus-within:after:shadow-teal-500/30'
+            'focus-within:before:opacity-100 focus-within:after:shadow-indigo-500/100 dark:after:shadow-white/5 dark:focus-within:after:shadow-indigo-500/30'
           )}
         >
           <input

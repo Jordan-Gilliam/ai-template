@@ -1,15 +1,15 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import { PineconeClient, Vector } from "@pinecone-database/pinecone"
-import Bottleneck from "bottleneck"
-import { OpenAIEmbeddings } from "langchain/embeddings"
-import { PineconeStore } from "langchain/vectorstores"
-import { initPinecone } from "@/config/pinecone"
-import { splitDocumentsFromUrl } from "@/lib/webpage"
-import { Crawler, Page } from "@/lib/webpage-crawler"
+import { NextApiRequest, NextApiResponse } from 'next'
+import { PineconeClient, Vector } from '@pinecone-database/pinecone'
+import Bottleneck from 'bottleneck'
+import { OpenAIEmbeddings } from 'langchain/embeddings'
+import { PineconeStore } from 'langchain/vectorstores'
+import { initPinecone } from '@/config/pinecone'
+import { splitDocumentsFromUrl } from '@/lib/webpage'
+import { Crawler, Page } from '@/lib/webpage-crawler'
 
 // Rate limiter to prevent overloading the server
 const rateLimiter = new Bottleneck({
-  minTime: 2000,
+  minTime: 2000
 })
 
 let pineconeClient: PineconeClient | null = null
@@ -17,10 +17,10 @@ let pineconeClient: PineconeClient | null = null
 // Initialize Pinecone client
 const initializePineconeClient = async () => {
   pineconeClient = new PineconeClient()
-  console.log("Pinecone client initialized")
+  console.log('Pinecone client initialized')
   await pineconeClient.init({
     environment: process.env.PINECONE_ENVIRONMENT!,
-    apiKey: process.env.PINECONE_API_KEY!,
+    apiKey: process.env.PINECONE_API_KEY!
   })
 }
 
@@ -40,7 +40,7 @@ export default async function handleRequest(
   res: NextApiResponse<ApiResponse>
 ) {
   if (!process.env.PINECONE_INDEX_NAME) {
-    res.status(500).json({ message: "PINECONE_INDEX_NAME not set" })
+    res.status(500).json({ message: 'PINECONE_INDEX_NAME not set' })
     return
   }
 
@@ -48,7 +48,7 @@ export default async function handleRequest(
   const { urls, limit } = body
 
   const { namespace } = headers
-  const namespaceConfig = !!namespace ? namespace : "default-namespace"
+  const namespaceConfig = !!namespace ? namespace : 'default-namespace'
 
   const crawlLimit = parseInt(limit as string) || 5
 
@@ -62,7 +62,7 @@ export default async function handleRequest(
 
   // Split text into chunks
   const generateDocuments = await Promise.all(
-    crawledPages.map((page) => {
+    crawledPages.map(page => {
       const documents = splitDocumentsFromUrl(page.text, page.url)
 
       return documents
@@ -72,7 +72,7 @@ export default async function handleRequest(
   // Generate embeddings for the documents
   const flattenDocs = async () => {
     return await Promise.all(
-      generateDocuments.flat().map(async (doc) => {
+      generateDocuments.flat().map(async doc => {
         return doc
       })
     )
@@ -91,22 +91,22 @@ export default async function handleRequest(
 
   // Insert or update the vectors in the Pinecone index
   await Promise.all(
-    vectorChunks.map(async (chunk) => {
+    vectorChunks.map(async chunk => {
       await storeDocumentsInPinecone(chunk, namespaceConfig)
     })
   )
 
-  res.status(200).json({ message: "Done" })
+  res.status(200).json({ message: 'Done' })
 }
 
 async function storeDocumentsInPinecone(docs: any, namespace) {
   const pinecone = await initPinecone()
   const embeddings = new OpenAIEmbeddings()
-  const index = pinecone.Index(process.env.PINECONE_INDEX_NAME)
+  const index = pinecone.Index(process.env.PINECONE_INDEX_NAME ?? 'mercury')
 
   await PineconeStore.fromDocuments(docs, embeddings, {
     pineconeIndex: index,
     namespace,
-    textKey: "text",
+    textKey: 'text'
   })
 }

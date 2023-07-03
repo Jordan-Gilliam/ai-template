@@ -3,11 +3,19 @@ import { Metadata } from 'next'
 import { Toaster } from 'react-hot-toast'
 
 import '@/app/globals.css'
+import { Aboreto, Work_Sans as FontSans, Space_Grotesk } from 'next/font/google'
 import { fontMono, fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
+
+const fontAboretoSans = Aboreto({
+  weight: '400',
+  subsets: ['latin'],
+  preload: true,
+  variable: '--font-aboreto'
+})
 
 export const metadata: Metadata = {
   title: {
@@ -38,7 +46,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={cn(
           'font-sans antialiased',
           fontSans.variable,
-          fontMono.variable
+          fontAboretoSans.variable
         )}
       >
         <Toaster />

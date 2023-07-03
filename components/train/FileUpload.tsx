@@ -7,7 +7,7 @@ import { useDropzone } from 'react-dropzone'
 import { cn, truncateLongFileName } from '@/lib/utils'
 import { Icons } from '@/components/icons'
 import { GlowButton } from '@/components/ui/button'
-import { toast } from '@/hooks/use-toast'
+import { toast } from '@/lib/hooks/use-toast'
 
 export type Message = {
   type: 'apiMessage' | 'userMessage'
@@ -139,7 +139,7 @@ function LoadingButton({ handleSubmit, disabled, status }) {
     >
       <div className="flex w-full items-center px-6 py-1">
         {status === 'loading' ? (
-          <Icons.loadingSpinner className="mr-2 h-5 w-5 animate-spin stroke-teal-500/80  dark:stroke-teal-400 " />
+          <Icons.loadingSpinner className="mr-2 h-5 w-5 animate-spin stroke-indigo-500/80  dark:stroke-indigo-400 " />
         ) : status === 'complete' ? (
           <Icons.check className="mr-2 h-5 w-5" />
         ) : (
