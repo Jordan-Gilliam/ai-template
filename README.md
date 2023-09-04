@@ -131,7 +131,7 @@ eg:
 </h4>
 
 - Copy your API key
-- Record your Enironment name ex: `us-central1-gcp`
+- Record your Environment name ex: `us-central1-gcp`
 - Record your index name ex: `mercury`
 
 ### 3. Set-up OpenAi API
